@@ -1,6 +1,6 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class User {
     private final String uuid;
@@ -10,7 +10,7 @@ public class User {
     private String email;
     private boolean isVerified;
     private String phone;
-    private final List<UserPermission> permissions;
+    private final ArrayList<UserPermission> permissions;
 
     public User(
         String uuid,
@@ -20,7 +20,7 @@ public class User {
         String email,
         boolean isVerified,
         String phone,
-        List<UserPermission> permissions
+        ArrayList<UserPermission> permissions
     ) {
         this.uuid = uuid;
         this.name = name;
@@ -65,7 +65,7 @@ public class User {
     void setIsVerified(boolean isVerified) { this.isVerified = isVerified; }
     String getPhone() { return this.phone; }
     void setPhone(String phone) { this.phone = phone; }
-    List<UserPermission> getPermissions() { return this.permissions; }
+    ArrayList<UserPermission> getPermissions() { return this.permissions; }
     String getEmail() { return this.email; }
 
     void setEmail(String email) {
