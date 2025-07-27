@@ -46,7 +46,9 @@ public class GetUserByUuidUseCaseTests {
             true,
             "1234567890",
             permissions,
-            LocalDateTime.now()
+            LocalDateTime.now(),
+            null,
+            null
         );
     }
 

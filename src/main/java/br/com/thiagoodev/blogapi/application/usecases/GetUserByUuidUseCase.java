@@ -3,6 +3,8 @@ package br.com.thiagoodev.blogapi.application.usecases;
 import br.com.thiagoodev.blogapi.domain.entities.User;
 import br.com.thiagoodev.blogapi.domain.services.UserService;
 
+import java.util.Optional;
+
 public class GetUserByUuidUseCase {
     private final UserService userService;
 
@@ -10,7 +12,7 @@ public class GetUserByUuidUseCase {
         this.userService = userService;
     }
 
-    User call(String uuid) {
+    Optional<User> call(String uuid) {
         return userService.getByUuid(uuid);
     }
 }

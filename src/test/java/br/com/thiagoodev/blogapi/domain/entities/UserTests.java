@@ -53,7 +53,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         assertNotNull(user);
@@ -85,7 +87,7 @@ public class UserTests {
             LocalDateTime createdAtArg
     ) {
         assertThrows(IllegalArgumentException.class, () -> {
-            new User(uuidArg, nameArg, usernameArg, passwordArg, emailArg, isVerified, phoneArg, permissionsArg, createdAtArg);
+            new User(uuidArg, nameArg, usernameArg, passwordArg, emailArg, isVerified, phoneArg, permissionsArg, createdAtArg, null, null);
         });
     }
 
@@ -124,7 +126,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         String newName = "New Name";
@@ -144,7 +148,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         String newUsername = "newusername";
@@ -164,7 +170,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         String newPassword = "newpassword";
@@ -184,7 +192,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         user.setIsVerified(false);
@@ -203,7 +213,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
         String newPhone = "0987654321";
         user.setPhone(newPhone);
@@ -222,7 +234,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
         String newEmail = "new@example.com";
         user.setEmail(newEmail);
@@ -242,7 +256,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
         assertTrue(user.getPermissions().contains(UserPermission.USER));
         assertEquals(1, user.getPermissions().size());
@@ -266,7 +282,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         user.addPermission(UserPermission.MODERATOR);
@@ -289,7 +307,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         user.removePermission(UserPermission.USER);
@@ -309,7 +329,9 @@ public class UserTests {
                 isVerified,
                 phone,
                 permissions,
-                createdAt
+                createdAt,
+                null,
+                null
         );
 
         user.removePermission(UserPermission.ADMIN);
@@ -321,14 +343,14 @@ public class UserTests {
     @DisplayName("isAdmin should return true when ADMIN permission is present")
     void isAdminShouldReturnTrueWhenAdminPermissionIsPresent() {
         permissions.add(UserPermission.ADMIN);
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null);
         assertTrue(user.isAdmin());
     }
 
     @Test
     @DisplayName("isAdmin should return false when ADMIN permission is not present")
     void isAdminShouldReturnFalseWhenAdminPermissionIsNotPresent() {
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null);
         assertFalse(user.isAdmin());
     }
 
@@ -336,14 +358,14 @@ public class UserTests {
     @DisplayName("isModerator should return true when MODERATOR permission is present")
     void isModeratorShouldReturnTrueWhenModeratorPermissionIsPresent() {
         permissions.add(UserPermission.MODERATOR);
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null);
         assertTrue(user.isModerator());
     }
 
     @Test
     @DisplayName("isModerator should return false when MODERATOR permission is not present")
     void isModeratorShouldReturnFalseWhenModeratorPermissionIsNotPresent() {
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null);
         assertFalse(user.isModerator());
     }
 
@@ -351,7 +373,7 @@ public class UserTests {
     @DisplayName("Should set and get updatedAt correctly")
     void shouldSetAndGetUpdatedAtCorrectly() {
         User user = new User(
-                uuid, name, username, password, email, isVerified, phone, permissions, createdAt
+                uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null
         );
         LocalDateTime now = LocalDateTime.now();
         user.setUpdatedAt(now);
@@ -362,7 +384,7 @@ public class UserTests {
     @DisplayName("Should set and get deletedAt correctly")
     void shouldSetAndGetDeletedAtCorrectly() {
         User user = new User(
-                uuid, name, username, password, email, isVerified, phone, permissions, createdAt
+                uuid, name, username, password, email, isVerified, phone, permissions, createdAt, null, null
         );
         LocalDateTime now = LocalDateTime.now();
         user.setDeletedAt(now);

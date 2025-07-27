@@ -27,7 +27,9 @@ public class User {
         boolean isVerified,
         String phone,
         List<UserPermission> permissions,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
+        LocalDateTime deletedAt
     ) {
         if(uuid == null || uuid.isEmpty()) {
             throw new IllegalArgumentException("UUID cannot be empty");
@@ -63,6 +65,8 @@ public class User {
         this.phone = phone;
         this.permissions = new ArrayList<>(permissions);
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public String getUuid() { return this.uuid; }
