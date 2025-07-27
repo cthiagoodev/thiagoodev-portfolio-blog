@@ -7,12 +7,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
 
 @DisplayName("User Entity Tests")
 public class UserTests {
@@ -25,6 +25,7 @@ public class UserTests {
     private boolean isVerified;
     private String phone;
     private ArrayList<UserPermission> permissions;
+    private LocalDateTime createdAt;
 
     @BeforeEach
     void setUp() {
@@ -37,20 +38,22 @@ public class UserTests {
         phone = "1234567890";
         permissions = new ArrayList<>();
         permissions.add(UserPermission.USER);
+        createdAt = LocalDateTime.now();
     }
 
     @Test
     @DisplayName("Should create a new user with valid arguments")
     void shouldCreateUserSuccessfullyWithValidArguments() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         assertNotNull(user);
@@ -62,23 +65,27 @@ public class UserTests {
         assertEquals(isVerified, user.getIsVerified());
         assertEquals(phone, user.getPhone());
         assertEquals(permissions, user.getPermissions());
+        assertEquals(createdAt, user.getCreatedAt());
+        assertNull(user.getUpdatedAt());
+        assertNull(user.getDeletedAt());
     }
 
-    @ParameterizedTest(name = "{0} should throw IllegalArgumentException when empty")
+    @ParameterizedTest(name = "{0} should throw IllegalArgumentException when empty/null")
     @MethodSource("provideEmptyConstructorArguments")
-    @DisplayName("Should throw IllegalArgumentException for empty constructor arguments")
+    @DisplayName("Should throw IllegalArgumentException for empty/null constructor arguments")
     void shouldThrowIllegalArgumentExceptionForEmptyConstructorArguments(
-        String fieldName,
-        String uuidArg,
-        String nameArg,
-        String usernameArg,
-        String passwordArg,
-        String emailArg,
-        String phoneArg,
-        ArrayList<UserPermission> permissionsArg
+            String fieldName,
+            String uuidArg,
+            String nameArg,
+            String usernameArg,
+            String passwordArg,
+            String emailArg,
+            String phoneArg,
+            ArrayList<UserPermission> permissionsArg,
+            LocalDateTime createdAtArg
     ) {
         assertThrows(IllegalArgumentException.class, () -> {
-            new User(uuidArg, nameArg, usernameArg, passwordArg, emailArg, isVerified, phoneArg, permissionsArg);
+            new User(uuidArg, nameArg, usernameArg, passwordArg, emailArg, isVerified, phoneArg, permissionsArg, createdAtArg);
         });
     }
 
@@ -91,15 +98,17 @@ public class UserTests {
         String basePhone = "1234567890";
         ArrayList<UserPermission> basePermissions = new ArrayList<>();
         basePermissions.add(UserPermission.USER);
+        LocalDateTime baseCreatedAt = LocalDateTime.now();
 
         return Stream.of(
-            Arguments.of("UUID", "", baseName, baseUsername, basePassword, baseEmail, basePhone, basePermissions),
-            Arguments.of("Name", baseUuid, "", baseUsername, basePassword, baseEmail, basePhone, basePermissions),
-            Arguments.of("Username", baseUuid, baseName, "", basePassword, baseEmail, basePhone, basePermissions),
-            Arguments.of("Password", baseUuid, baseName, baseUsername, "", baseEmail, basePhone, basePermissions),
-            Arguments.of("Email", baseUuid, baseName, baseUsername, basePassword, "", basePhone, basePermissions),
-            Arguments.of("Phone", baseUuid, baseName, baseUsername, basePassword, baseEmail, "", basePermissions),
-            Arguments.of("Permissions", baseUuid, baseName, baseUsername, basePassword, baseEmail, basePhone, new ArrayList<>())
+                Arguments.of("UUID", "", baseName, baseUsername, basePassword, baseEmail, basePhone, basePermissions, baseCreatedAt),
+                Arguments.of("Name", baseUuid, "", baseUsername, basePassword, baseEmail, basePhone, basePermissions, baseCreatedAt),
+                Arguments.of("Username", baseUuid, baseName, "", basePassword, baseEmail, basePhone, basePermissions, baseCreatedAt),
+                Arguments.of("Password", baseUuid, baseName, baseUsername, "", baseEmail, basePhone, basePermissions, baseCreatedAt),
+                Arguments.of("Email", baseUuid, baseName, baseUsername, basePassword, "", basePhone, basePermissions, baseCreatedAt),
+                Arguments.of("Phone", baseUuid, baseName, baseUsername, basePassword, baseEmail, "", basePermissions, baseCreatedAt),
+                Arguments.of("Permissions", baseUuid, baseName, baseUsername, basePassword, baseEmail, basePhone, new ArrayList<>(), baseCreatedAt),
+                Arguments.of("CreatedAt", baseUuid, baseName, baseUsername, basePassword, baseEmail, basePhone, basePermissions, null)
         );
     }
 
@@ -107,14 +116,15 @@ public class UserTests {
     @DisplayName("Should update Name correctly")
     void shouldUpdateNameCorrectly() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         String newName = "New Name";
@@ -126,14 +136,15 @@ public class UserTests {
     @DisplayName("Should update Username correctly")
     void shouldUpdateUsernameCorrectly() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         String newUsername = "newusername";
@@ -145,14 +156,15 @@ public class UserTests {
     @DisplayName("Should update Password correctly")
     void shouldUpdatePasswordCorrectly() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         String newPassword = "newpassword";
@@ -164,32 +176,34 @@ public class UserTests {
     @DisplayName("Should update IsVerified status correctly")
     void shouldUpdateIsVerifiedCorrectly() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         user.setIsVerified(false);
-        assertFalse(null, user.getIsVerified());
+        assertFalse(user.getIsVerified());
     }
 
     @Test
     @DisplayName("Should update Phone correctly")
     void shouldUpdatePhoneCorrectly() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
         String newPhone = "0987654321";
         user.setPhone(newPhone);
@@ -200,33 +214,35 @@ public class UserTests {
     @DisplayName("Should update Email and set IsVerified to false")
     void shouldUpdateEmailAndSetIsVerifiedToFalse() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
         String newEmail = "new@example.com";
         user.setEmail(newEmail);
         assertEquals(newEmail, user.getEmail());
-        assertFalse(null, user.getIsVerified());
+        assertFalse(user.getIsVerified());
     }
 
     @Test
     @DisplayName("Should add a new permission")
     void shouldAddNewPermission() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
         assertTrue(user.getPermissions().contains(UserPermission.USER));
         assertEquals(1, user.getPermissions().size());
@@ -242,14 +258,15 @@ public class UserTests {
         permissions.add(UserPermission.MODERATOR);
 
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         user.addPermission(UserPermission.MODERATOR);
@@ -264,18 +281,19 @@ public class UserTests {
         permissions.add(UserPermission.MODERATOR);
 
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         user.removePermission(UserPermission.USER);
-        assertFalse(null, user.getPermissions().contains(UserPermission.USER));
+        assertFalse(user.getPermissions().contains(UserPermission.USER));
         assertEquals(1, user.getPermissions().size());
     }
 
@@ -283,14 +301,15 @@ public class UserTests {
     @DisplayName("Should not remove a non-existing permission")
     void shouldNotRemoveNonExistingPermission() {
         User user = new User(
-            uuid,
-            name,
-            username,
-            password,
-            email,
-            isVerified,
-            phone,
-            permissions
+                uuid,
+                name,
+                username,
+                password,
+                email,
+                isVerified,
+                phone,
+                permissions,
+                createdAt
         );
 
         user.removePermission(UserPermission.ADMIN);
@@ -302,29 +321,51 @@ public class UserTests {
     @DisplayName("isAdmin should return true when ADMIN permission is present")
     void isAdminShouldReturnTrueWhenAdminPermissionIsPresent() {
         permissions.add(UserPermission.ADMIN);
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
         assertTrue(user.isAdmin());
     }
 
     @Test
     @DisplayName("isAdmin should return false when ADMIN permission is not present")
     void isAdminShouldReturnFalseWhenAdminPermissionIsNotPresent() {
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions);
-        assertFalse(null, user.isAdmin());
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        assertFalse(user.isAdmin());
     }
 
     @Test
     @DisplayName("isModerator should return true when MODERATOR permission is present")
     void isModeratorShouldReturnTrueWhenModeratorPermissionIsPresent() {
         permissions.add(UserPermission.MODERATOR);
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions);
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
         assertTrue(user.isModerator());
     }
 
     @Test
     @DisplayName("isModerator should return false when MODERATOR permission is not present")
     void isModeratorShouldReturnFalseWhenModeratorPermissionIsNotPresent() {
-        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions);
-        assertFalse(null, user.isModerator());
+        User user = new User(uuid, name, username, password, email, isVerified, phone, permissions, createdAt);
+        assertFalse(user.isModerator());
+    }
+
+    @Test
+    @DisplayName("Should set and get updatedAt correctly")
+    void shouldSetAndGetUpdatedAtCorrectly() {
+        User user = new User(
+                uuid, name, username, password, email, isVerified, phone, permissions, createdAt
+        );
+        LocalDateTime now = LocalDateTime.now();
+        user.setUpdatedAt(now);
+        assertEquals(now, user.getUpdatedAt());
+    }
+
+    @Test
+    @DisplayName("Should set and get deletedAt correctly")
+    void shouldSetAndGetDeletedAtCorrectly() {
+        User user = new User(
+                uuid, name, username, password, email, isVerified, phone, permissions, createdAt
+        );
+        LocalDateTime now = LocalDateTime.now();
+        user.setDeletedAt(now);
+        assertEquals(now, user.getDeletedAt());
     }
 }

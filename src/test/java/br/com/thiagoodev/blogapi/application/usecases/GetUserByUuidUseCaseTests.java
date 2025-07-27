@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -44,7 +45,8 @@ public class GetUserByUuidUseCaseTests {
             "test@example.com",
             true,
             "1234567890",
-            permissions
+            permissions,
+            LocalDateTime.now()
         );
     }
 

@@ -1,6 +1,9 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class User {
     private final String uuid;
@@ -10,7 +13,10 @@ public class User {
     private String email;
     private boolean isVerified;
     private String phone;
-    private final ArrayList<UserPermission> permissions;
+    private final List<UserPermission> permissions;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     public User(
         String uuid,
@@ -20,8 +26,34 @@ public class User {
         String email,
         boolean isVerified,
         String phone,
-        ArrayList<UserPermission> permissions
+        List<UserPermission> permissions,
+        LocalDateTime createdAt
     ) {
+        if(uuid == null || uuid.isEmpty()) {
+            throw new IllegalArgumentException("UUID cannot be empty");
+        }
+        if(name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        if(username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if(password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if(phone == null || phone.isEmpty()) {
+            throw new IllegalArgumentException("Phone cannot be empty");
+        }
+        if(permissions == null || permissions.isEmpty()) {
+            throw new IllegalArgumentException("Permissions cannot be empty");
+        }
+        if(createdAt == null) {
+            throw new IllegalArgumentException("CreatedAt cannot be null");
+        }
+
         this.uuid = uuid;
         this.name = name;
         this.username = username;
@@ -29,65 +61,49 @@ public class User {
         this.email = email;
         this.isVerified = isVerified;
         this.phone = phone;
-        this.permissions = permissions;
-
-        if(this.uuid.isEmpty()) {
-            throw new IllegalArgumentException("UUID cannot be empty");
-        }
-        if(this.name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        if(this.username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if(this.password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty");
-        }
-        if(this.email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
-        }
-        if(this.phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be empty");
-        }
-        if(this.permissions.isEmpty()) {
-            throw new IllegalArgumentException("Permissions cannot be empty");
-        }
+        this.permissions = new ArrayList<>(permissions);
+        this.createdAt = createdAt;
     }
 
-    String getUuid() { return this.uuid; }
-    String getName() { return this.name; }
-    void setName(String name) { this.name = name; }
-    String getUsername() { return this.username; }
-    void setUsername(String username) { this.username = username; }
-    String getPassword() { return this.password; }
-    void setPassword(String password) { this.password = password; }
-    boolean getIsVerified() { return this.isVerified; }
-    void setIsVerified(boolean isVerified) { this.isVerified = isVerified; }
-    String getPhone() { return this.phone; }
-    void setPhone(String phone) { this.phone = phone; }
-    ArrayList<UserPermission> getPermissions() { return this.permissions; }
-    String getEmail() { return this.email; }
+    public String getUuid() { return this.uuid; }
+    public String getName() { return this.name; }
+    public void setName(String name) { this.name = name; }
+    public String getUsername() { return this.username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return this.password; }
+    public void setPassword(String password) { this.password = password; }
+    public boolean getIsVerified() { return this.isVerified; }
+    public void setIsVerified(boolean isVerified) { this.isVerified = isVerified; }
+    public String getPhone() { return this.phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public List<UserPermission> getPermissions() { return Collections.unmodifiableList(this.permissions); }
+    public LocalDateTime getCreatedAt() { return this.createdAt; }
+    public LocalDateTime getUpdatedAt() { return this.updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public LocalDateTime getDeletedAt() { return this.deletedAt; }
+    public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
+    public String getEmail() { return this.email; }
 
-    void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
         setIsVerified(false);
     }
 
-    void addPermission(UserPermission permission) {
+    public void addPermission(UserPermission permission) {
         if(!this.permissions.contains(permission)) {
             this.permissions.add(permission);
         }
     }
 
-    void removePermission(UserPermission permission) {
+    public void removePermission(UserPermission permission) {
         this.permissions.remove(permission);
     }
 
-    boolean isAdmin() {
+    public boolean isAdmin() {
         return this.permissions.contains(UserPermission.ADMIN);
     }
 
-    boolean isModerator() {
+    public boolean isModerator() {
         return this.permissions.contains(UserPermission.MODERATOR);
     }
 }
