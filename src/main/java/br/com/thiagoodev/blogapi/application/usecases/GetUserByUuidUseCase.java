@@ -1,10 +1,10 @@
-package br.com.thiagoodev.blogapi.domain.usecases;
+package br.com.thiagoodev.blogapi.application.usecases;
 
 import br.com.thiagoodev.blogapi.domain.entities.User;
 import br.com.thiagoodev.blogapi.domain.services.UserService;
 
 public class GetUserByUuidUseCase {
-    final UserService userService;
+    private final UserService userService;
 
     GetUserByUuidUseCase(UserService userService) {
         this.userService = userService;
