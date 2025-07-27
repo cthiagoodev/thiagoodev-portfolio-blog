@@ -28,7 +28,7 @@ public class UserModel implements UserDetails {
     private String email;
     @Column(nullable = false)
     private boolean isVerified;
-    @Column(unique = false)
+    @Column(unique = true)
     private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_permissions", joinColumns = @JoinColumn(name = "user_uuid"), inverseJoinColumns = @JoinColumn(name = "permission_uuid"))
