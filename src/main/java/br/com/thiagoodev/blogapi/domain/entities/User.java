@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class User {
     private final String uuid;
@@ -67,6 +68,40 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
+    }
+
+    public User(
+        String name,
+        String username,
+        String password,
+        String email,
+        String phone
+    ) {
+        if(name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        if(username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if(password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if(phone == null || phone.isEmpty()) {
+            throw new IllegalArgumentException("Phone cannot be empty");
+        }
+
+        this.uuid = UUID.randomUUID().toString();
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isVerified = false;
+        this.phone = phone;
+        this.permissions = new ArrayList<>(List.of(UserPermission.USER));
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getUuid() { return this.uuid; }
