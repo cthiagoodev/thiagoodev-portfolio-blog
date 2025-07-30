@@ -5,12 +5,12 @@ import br.com.thiagoodev.blogapi.domain.services.UserService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetUserByUuidUseCase {
+public class CreateNewUserUseCase {
     private final UserService userService;
 
-    public GetUserByUuidUseCase(UserService userService) {
+    public CreateNewUserUseCase(UserService userService) {
         this.userService = userService;
     }
 
-    public User call(String uuid) { return userService.getByUuid(uuid); }
+    public User call(User newUser) { return userService.create(newUser); }
 }
