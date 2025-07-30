@@ -8,5 +8,5 @@ public interface UserService {
     User getByPhone(String phone);
     User create(User newUser);
     User update(User user);
-    boolean delete();
+    boolean delete(String uuid);
 }

@@ -124,8 +124,8 @@ public class User {
     public String getEmail() { return this.email; }
 
     public void setEmail(String email) {
+        setIsVerified(email.equals(this.email));
         this.email = email;
-        setIsVerified(false);
     }
 
     public void addPermission(UserPermission permission) {

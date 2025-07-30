@@ -9,8 +9,10 @@ import br.com.thiagoodev.blogapi.infrastructure.data.models.PermissionModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.models.UserModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -24,14 +26,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public User getByUuid(String uuid) {
-        UUID id;
-
-        try {
-            id = UUID.fromString(uuid);
-        } catch (IllegalArgumentException error) {
-            throw new InvalidUuidFormatException(uuid + " is not a valid UUID");
-        }
-
+        UUID id = this.validateAndParseUuidFormat(uuid);
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
@@ -41,10 +36,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public User getByEmail(String email) {
-        if(email == null ||
-            !email.contains("@")) {
-            throw new InvalidEmailFormatException(email + " is not a valid E-mail");
-        }
+        this.validateEmailFormat(email);
 
         UserModel userModel = usersRepository.findByEmail(email)
                 .orElseThrow(UserNotExistsException::new);
@@ -55,9 +47,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public User getByPhone(String phone) {
-        if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new InvalidEmailFormatException(phone + " is not a valid phone");
-        }
+        this.validatePhoneFormat(phone);
 
         UserModel userModel = usersRepository.findByPhone(phone)
                 .orElseThrow(UserNotExistsException::new);
@@ -68,52 +58,133 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public User create(User newUser) {
-        if(usersRepository.findByUuid(UUID.fromString(newUser.getUuid())).isPresent()) {
-            throw new UserAlreadyExistsException(newUser.getUuid() + " already exists");
-        }
+        UUID uuid = validateAndParseUuidFormat(newUser.getUuid());
+        this.checkUuidAvailability(uuid);
 
-        String username = newUser.getUsername();
-        if(username == null || username.isEmpty()) {
-            throw new InvalidUsernameFormatException(username + " is not a valid username");
-        }
+        this.validateUsernameFormat(newUser.getUsername());
+        this.checkUsernameAvailability(newUser.getUsername());
 
-        if(usersRepository.findByUsername(username).isPresent()) {
-            throw new UserAlreadyExistsException(username + " already exists");
-        }
+        this.validateEmailFormat(newUser.getEmail());
+        this.checkEmailAvailability(newUser.getEmail());
 
-        String email = newUser.getEmail();
-        if(email == null || email.isEmpty()) {
-            throw new InvalidEmailFormatException(email + " is not a valid email");
-        }
+        this.validatePhoneFormat(newUser.getPhone());
+        this.checkPhoneAvailability(newUser.getPhone());
 
-        if(usersRepository.findByEmail(email).isPresent()) {
-            throw new UserAlreadyExistsException(email + " already exists");
-        }
-
-        String phone = newUser.getPhone();
-        if(phone == null || phone.isEmpty()) {
-            throw new InvalidPhoneFormatException(email + " is not a valid phone");
-        }
-
-        if(usersRepository.findByPhone(phone).isPresent()) {
-            throw new UserAlreadyExistsException(phone + " already exists");
-        }
-
-
-
-        return null;
+        newUser.setPassword(this.encryptPassword(newUser.getPassword()));
+        UserModel createdUser = usersRepository.save(this.toDataModel(newUser));
+        return this.fromDataModel(createdUser);
     }
 
     @Override
     @Transactional
-    public User update(User user) {
-        return null;
+    public User update(User updatedUser) {
+        UUID uuid = this.validateAndParseUuidFormat(updatedUser.getUuid());
+
+        UserModel userModel = usersRepository.findByUuid(uuid)
+                .orElseThrow(UserNotExistsException::new);
+
+        if(!userModel.isEnabled()) {
+            throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+        }
+
+        if(!updatedUser.getUsername().equals(userModel.getUsername())) {
+            this.validateUsernameFormat(updatedUser.getUsername());
+            this.checkUsernameAvailability(updatedUser.getUsername());
+        }
+
+        if(!updatedUser.getEmail().equals(userModel.getEmail())) {
+            this.validateEmailFormat(updatedUser.getEmail());
+            this.checkEmailAvailability(updatedUser.getEmail());
+        }
+
+        if(!updatedUser.getPhone().equals(userModel.getPhone())) {
+            this.validatePhoneFormat(updatedUser.getPhone());
+            this.checkPhoneAvailability(updatedUser.getPhone());
+        }
+
+        userModel.setName(updatedUser.getName());
+        userModel.setUsername(updatedUser.getUsername());
+        userModel.setEmail(updatedUser.getEmail());
+        userModel.setPhone(updatedUser.getPhone());
+        userModel.setUpdatedAt(LocalDateTime.now());
+
+        UserModel updatedUserModel = usersRepository.save(userModel);
+        return this.fromDataModel(updatedUserModel);
     }
 
     @Override
     @Transactional
-    public boolean delete() {
-        return false;
+    public boolean delete(String uuid) {
+        UUID id = this.validateAndParseUuidFormat(uuid);
+
+        UserModel userModel = usersRepository.findByUuid(id)
+                .orElseThrow(UserNotExistsException::new);
+
+        if(!userModel.isEnabled())
+            throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+
+        usersRepository.deleteById(id);
+
+        return true;
+    }
+
+    private String encryptPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    private UUID validateAndParseUuidFormat(String uuidString) {
+        if (uuidString == null || uuidString.isEmpty()) {
+            throw new InvalidUuidFormatException("UUID cannot be null or empty.");
+        }
+        try {
+            return UUID.fromString(uuidString);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidUuidFormatException(uuidString + " is not a valid UUID format.");
+        }
+    }
+
+    private void checkUuidAvailability(UUID uuid) {
+        if (usersRepository.findByUuid(uuid).isPresent()) {
+            throw new UserAlreadyExistsException("User with UUID '" + uuid + "' already exists.");
+        }
+    }
+
+    private void validateUsernameFormat(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new InvalidUsernameFormatException("Username cannot be null or empty.");
+        }
+    }
+
+    private void checkUsernameAvailability(String username) {
+        Optional<UserModel> existingUser = usersRepository.findByUsername(username);
+        if (existingUser.isPresent()) {
+            throw new UserAlreadyExistsException("Username '" + username + "' is already in use.");
+        }
+    }
+
+    private void validateEmailFormat(String email) {
+        if(email == null || email.isEmpty()) throw new InvalidEmailFormatException("Email cannot be null or empty.");
+        if(!email.contains("@")) throw new InvalidEmailFormatException("Email '" + email + "' is not a valid email.");
+    }
+
+    private void checkEmailAvailability(String email) {
+        Optional<UserModel> existingUser = usersRepository.findByEmail(email);
+        if (existingUser.isPresent()) {
+            throw new UserAlreadyExistsException("Email '" + email + "' is already in use.");
+        }
+    }
+
+    private void validatePhoneFormat(String phone) {
+        if (PhoneValidator.isValidPhoneNumber(phone)) {
+            throw new InvalidPhoneFormatException("Phone cannot be null or empty.");
+        }
+    }
+
+    private void checkPhoneAvailability(String phone) {
+        Optional<UserModel> existingUser = usersRepository.findByPhone(phone);
+        if (existingUser.isPresent()) {
+            throw new UserAlreadyExistsException("Phone '" + phone + "' is already in use.");
+        }
     }
 
     private User fromDataModel(UserModel model) {

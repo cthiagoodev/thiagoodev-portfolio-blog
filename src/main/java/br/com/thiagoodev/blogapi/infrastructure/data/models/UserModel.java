@@ -49,28 +49,18 @@ public class UserModel implements UserDetails {
         return this.password;
     }
 
+    public void setEmail(String email) {
+        setVerified(email.equals(this.email));
+        this.email = email;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.permissions;
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.isVerified;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
     public boolean isEnabled() {
-        return this.isVerified;
+        return this.isVerified && deletedAt != null;
     }
 }
