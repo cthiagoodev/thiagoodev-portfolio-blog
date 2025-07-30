@@ -61,6 +61,6 @@ public class UserModel implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.isVerified && deletedAt != null;
+        return this.isVerified && deletedAt == null;
     }
 }
