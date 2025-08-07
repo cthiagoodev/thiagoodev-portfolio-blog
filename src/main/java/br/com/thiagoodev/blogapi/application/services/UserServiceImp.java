@@ -120,8 +120,9 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
-        if(!userModel.isEnabled())
+        if(!userModel.isEnabled()) {
             throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+        }
 
         usersRepository.deleteById(id);
 
