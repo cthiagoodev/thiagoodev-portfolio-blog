@@ -1,5 +1,6 @@
 package br.com.thiagoodev.blogapi.presentation.controllers;
 
+import br.com.thiagoodev.blogapi.application.usecases.GetUserByUuidUseCase;
 import br.com.thiagoodev.blogapi.domain.entities.User;
 import br.com.thiagoodev.blogapi.domain.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/api/users")
 public class UsersController {
-    private final UserService userService;
+    private final GetUserByUuidUseCase getUserByUuidUseCase;
 
-    public UsersController(UserService userService) {
-        this.userService = userService;
+    public UsersController(GetUserByUuidUseCase getUserByUuidUseCase) {
+        this.getUserByUuidUseCase = getUserByUuidUseCase;
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<User> getUserByUuid(@PathVariable("uuid") String uuid) {
-        User user = userService.getByUuid(uuid);
+        User user = getUserByUuidUseCase.call(uuid);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
