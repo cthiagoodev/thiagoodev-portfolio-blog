@@ -16,35 +16,33 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("GetUserByUuidUseCase Tests")
-public class GetUserByUuidUseCaseTests {
+@DisplayName("CreateNewUserUseCase Tests")
+public class CreateNewUserUseCaseTests {
     @Mock
     private UserService userService;
     @InjectMocks
-    private GetUserByUuidUseCase getUserByUuidUseCase;
+    private CreateNewUserUseCase createNewUserUseCase;
 
-    private String uuid;
-    private User mockUser;
+    private User newUser;
 
     @BeforeEach
     void setUp() {
-        uuid = UUID.randomUUID().toString();
         ArrayList<UserPermission> permissions = new ArrayList<>();
         permissions.add(UserPermission.USER);
 
-        mockUser = new User(
-            uuid,
-            "Test User",
-            "testuser",
-            "password123",
-            "test@example.com",
+        newUser = new User(
+            UUID.randomUUID().toString(),
+            "New User",
+            "newuser",
+            "plainPassword",
+            "new@example.com",
             true,
-            "1234567890",
+            "99999999999",
             permissions,
             LocalDateTime.now(),
             null,
@@ -53,14 +51,14 @@ public class GetUserByUuidUseCaseTests {
     }
 
     @Test
-    @DisplayName("Should return a user by UUID")
-    void shouldReturnAUserBydUuid() {
-        when(userService.getByUuid(uuid)).thenReturn(mockUser);
+    @DisplayName("Should delegate to UserService.create and return created user")
+    void shouldDelegateToService() {
+        when(userService.create(newUser)).thenReturn(newUser);
 
-        User user = getUserByUuidUseCase.call(uuid);
+        User result = createNewUserUseCase.call(newUser);
 
-        assertNotNull("The user should not be null", user);
-        assertEquals(mockUser, user, "The returned user should match the expected user");
-        verify(userService).getByUuid(uuid);
+        assertNotNull("Result should not be null", result);
+        assertEquals(newUser, result);
+        verify(userService).create(newUser);
     }
 }

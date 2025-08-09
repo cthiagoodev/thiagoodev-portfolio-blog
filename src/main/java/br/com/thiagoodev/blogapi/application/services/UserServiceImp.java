@@ -176,7 +176,7 @@ public class UserServiceImp implements UserService {
     }
 
     private void validatePhoneFormat(String phone) {
-        if (PhoneValidator.isValidPhoneNumber(phone)) {
+        if (!PhoneValidator.isValidPhoneNumber(phone)) {
             throw new InvalidPhoneFormatException("Phone cannot be null or empty.");
         }
     }
