@@ -1,5 +1,13 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
+import br.com.thiagoodev.blogapi.domain.exceptions.InvalidEmailFormatException;
+import br.com.thiagoodev.blogapi.domain.exceptions.InvalidPhoneFormatException;
+import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUsernameFormatException;
+import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUuidFormatException;
+import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
+import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
+import br.com.thiagoodev.blogapi.domain.helpers.UUIDValidator;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,22 +41,31 @@ public class User {
         LocalDateTime deletedAt
     ) {
         if(uuid == null || uuid.isEmpty()) {
-            throw new IllegalArgumentException("UUID cannot be empty");
+            throw new InvalidUuidFormatException("UUID cannot be empty");
+        }
+        if(!UUIDValidator.isValidUUID(uuid)) {
+            throw new InvalidUuidFormatException("UUID '" + uuid + "' is not a valid UUID format.");
         }
         if(name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         if(username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
+            throw new InvalidUsernameFormatException("Username cannot be empty");
         }
         if(password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");
         }
         if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
+            throw new InvalidEmailFormatException("Email cannot be empty");
+        }
+        if(!EmailValidator.isValidEmail(email)) {
+            throw new InvalidEmailFormatException("Email '" + email + "' is not a valid email.");
         }
         if(phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be empty");
+            throw new InvalidPhoneFormatException("Phone cannot be empty");
+        }
+        if(!PhoneValidator.isValidPhoneNumber(phone)) {
+            throw new InvalidPhoneFormatException("Phone '" + phone + "' is not a valid phone number.");
         }
         if(permissions == null || permissions.isEmpty()) {
             throw new IllegalArgumentException("Permissions cannot be empty");
@@ -81,7 +98,7 @@ public class User {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         if(username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
+            throw new InvalidUsernameFormatException("Username cannot be empty");
         }
         if(password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");
@@ -89,8 +106,14 @@ public class User {
         if(email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
+        if(!EmailValidator.isValidEmail(email)) {
+            throw new InvalidEmailFormatException("Email '" + email + "' is not a valid email.");
+        }
         if(phone == null || phone.isEmpty()) {
             throw new IllegalArgumentException("Phone cannot be empty");
+        }
+        if(!PhoneValidator.isValidPhoneNumber(phone)) {
+            throw new InvalidPhoneFormatException("Phone '" + phone + "' is not a valid phone number.");
         }
 
         this.uuid = UUID.randomUUID().toString();

@@ -34,3 +34,18 @@ ALTER TABLE user_permissions
 
 ALTER TABLE user_permissions
     ADD CONSTRAINT fk_useper_on_user_model FOREIGN KEY (user_uuid) REFERENCES users (uuid);
+
+ALTER TABLE users
+    ADD CONSTRAINT chk_users_name_not_empty CHECK (TRIM(name) <> '');
+
+ALTER TABLE users
+    ADD CONSTRAINT chk_users_username_not_empty CHECK (TRIM(username) <> '');
+
+ALTER TABLE users
+    ADD CONSTRAINT chk_users_password_not_empty CHECK (TRIM(password) <> '');
+
+ALTER TABLE users
+    ADD CONSTRAINT chk_users_email_not_empty CHECK (TRIM(email) <> '');
+
+ALTER TABLE users
+    ADD CONSTRAINT chk_users_phone_not_empty CHECK (TRIM(phone) <> '');

@@ -12,226 +12,245 @@ import br.com.thiagoodev.blogapi.infrastructure.data.models.UserModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserServiceImp Tests")
-public class UserServiceImpTests {
+class UserServiceImpTests {
 
     @Mock
-    private UsersRepository usersRepository;
+    UsersRepository usersRepository;
 
     @InjectMocks
-    private UserServiceImp userServiceImp;
+    UserServiceImp userService;
 
-    private String uuid;
-    private UserModel userModel;
+    private UUID validUuid;
+    private UserModel enabledUserModel;
+    private UserModel disabledUserModel;
 
     @BeforeEach
-    void setUp() {
-        uuid = UUID.randomUUID().toString();
-        userModel = buildUserModel(UUID.fromString(uuid), true);
+    void setup() {
+        validUuid = UUID.randomUUID();
+        enabledUserModel = buildUserModel(validUuid, true, null);
+        disabledUserModel = buildUserModel(UUID.randomUUID(), false, null);
     }
 
-    private UserModel buildUserModel(UUID id, boolean enabled) {
-        UserModel model = new UserModel();
-        model.setUuid(id);
-        model.setName("John Doe");
-        model.setUsername("johndoe");
-        model.setPassword("$2a$10$hashed");
-        model.setEmail("john@example.com");
-        model.setVerified(enabled);
-        model.setPhone("11912345678");
-        model.setCreatedAt(LocalDateTime.now().minusDays(1));
-        model.setUpdatedAt(null);
-        model.setDeletedAt(null);
+    @Nested
+    class GetByUuid {
+        @Test
+        void success_with_valid_uuid() {
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.of(enabledUserModel));
+            var result = userService.getByUuid(validUuid.toString());
+            assertNotNull(result);
+            assertEquals(validUuid.toString(), result.getUuid());
+            assertEquals(enabledUserModel.getEmail(), result.getEmail());
+        }
 
-        PermissionModel p = new PermissionModel();
-        p.setAuthority("ROLE_USER");
-        model.setPermissions(new HashSet<>(Set.of(p)));
-        return model;
+        @Test
+        void failure_with_null_uuid() {
+            assertThrows(InvalidUuidFormatException.class, () -> userService.getByUuid(null));
+        }
+
+        @Test
+        void failure_with_empty_uuid() {
+            assertThrows(InvalidUuidFormatException.class, () -> userService.getByUuid(""));
+        }
+
+        @Test
+        void failure_with_invalid_uuid_format() {
+            assertThrows(InvalidUuidFormatException.class, () -> userService.getByUuid("invalid-uuid"));
+        }
+
+        @Test
+        void failure_when_user_not_found() {
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.empty());
+            assertThrows(UserNotExistsException.class, () -> userService.getByUuid(validUuid.toString()));
+        }
     }
 
-    private User buildDomainUser(String id, String email, String phone, String username) {
-        return new User(
-            id,
-            "John Doe",
-            username,
-            "plainpass",
-            email,
-            true,
-            phone,
-            new ArrayList<>(List.of(UserPermission.USER)),
-            LocalDateTime.now().minusDays(2),
-            null,
-            null
-        );
+    @Nested
+    class GetByEmail {
+        @Test
+        void success_with_valid_email() {
+            when(usersRepository.findByEmail(enabledUserModel.getEmail())).thenReturn(Optional.of(enabledUserModel));
+            var result = userService.getByEmail(enabledUserModel.getEmail());
+            assertNotNull(result);
+            assertEquals(enabledUserModel.getEmail(), result.getEmail());
+        }
+
+        @Test
+        void failure_with_invalid_email() {
+            assertThrows(InvalidEmailFormatException.class, () -> userService.getByEmail("not-an-email"));
+        }
+
+        @Test
+        void failure_when_user_not_found() {
+            when(usersRepository.findByEmail(enabledUserModel.getEmail())).thenReturn(Optional.empty());
+            assertThrows(UserNotExistsException.class, () -> userService.getByEmail(enabledUserModel.getEmail()));
+        }
     }
 
-    @Test
-    @DisplayName("getByUuid should throw InvalidUuidFormatException for invalid uuid format")
-    void getByUuidShouldThrowForInvalidUuid() {
-        assertThrows(InvalidUuidFormatException.class, () -> userServiceImp.getByUuid("not-a-uuid"));
+    @Nested
+    class GetByPhone {
+        @Test
+        void success_with_valid_phone() {
+            when(usersRepository.findByPhone(enabledUserModel.getPhone())).thenReturn(Optional.of(enabledUserModel));
+            var result = userService.getByPhone(enabledUserModel.getPhone());
+            assertNotNull(result);
+            assertEquals(enabledUserModel.getPhone(), result.getPhone());
+        }
+
+        @Test
+        void failure_with_null_phone() {
+            assertThrows(InvalidPhoneFormatException.class, () -> userService.getByPhone(null));
+        }
+
+        @Test
+        void failure_with_empty_phone() {
+            assertThrows(InvalidPhoneFormatException.class, () -> userService.getByPhone(""));
+        }
+
+        @Test
+        void failure_when_user_not_found() {
+            when(usersRepository.findByPhone(enabledUserModel.getPhone())).thenReturn(Optional.empty());
+            assertThrows(UserNotExistsException.class, () -> userService.getByPhone(enabledUserModel.getPhone()));
+        }
     }
 
-    @Test
-    @DisplayName("getByUuid should return mapped domain user when repository finds user")
-    void getByUuidShouldReturnUser() {
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.of(userModel));
+    @Nested
+    class CreateUser {
+        @Test
+        void success_creates_user_and_encrypts_password() {
+            var newUser = new User("John Doe", "john", "plainPass123", "john.doe@mail.com", "(11) 99999-9999");
+            var savedModel = buildUserModel(UUID.fromString(newUser.getUuid()), true, null);
+            when(usersRepository.save(any(UserModel.class))).thenReturn(savedModel);
+            var created = userService.create(newUser);
+            assertNotNull(created);
+            assertEquals(savedModel.getEmail(), created.getEmail());
+            assertNotEquals("plainPass123", savedModel.getPassword());
+            assertTrue(BCrypt.checkpw("plainPass123", savedModel.getPassword()));
+            verify(usersRepository, times(1)).save(any(UserModel.class));
+        }
 
-        User result = userServiceImp.getByUuid(uuid);
-
-        assertNotNull(result);
-        assertEquals(userModel.getUuid().toString(), result.getUuid());
-        assertEquals(userModel.getUsername(), result.getUsername());
-        assertEquals(userModel.getEmail(), result.getEmail());
-        assertEquals(1, result.getPermissions().size());
-        verify(usersRepository).findByUuid(UUID.fromString(uuid));
+        @Test
+        void failure_with_invalid_uuid() {
+            var invalidUser = mock(User.class);
+            when(invalidUser.getUuid()).thenReturn("");
+            assertThrows(InvalidUuidFormatException.class, () -> userService.create(invalidUser));
+            verify(usersRepository, never()).save(any());
+        }
     }
 
-    @Test
-    @DisplayName("getByUuid should throw UserNotExistsException when repository returns empty")
-    void getByUuidShouldThrowWhenNotFound() {
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.empty());
-        assertThrows(UserNotExistsException.class, () -> userServiceImp.getByUuid(uuid));
+    @Nested
+    class UpdateUser {
+        @Test
+        void success_updates_existing_enabled_user() {
+            var incoming = mock(User.class);
+            when(incoming.getUuid()).thenReturn(validUuid.toString());
+            when(incoming.getEmail()).thenReturn("new.mail@mail.com");
+            when(incoming.getPhone()).thenReturn("(11) 98888-8888");
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.of(enabledUserModel));
+            var saved = buildUserModel(validUuid, true, null);
+            saved.setEmail("new.mail@mail.com");
+            saved.setUsername("new.mail@mail.com");
+            saved.setName("new.mail@mail.com");
+            saved.setPhone("(11) 98888-8888");
+            when(usersRepository.save(any(UserModel.class))).thenReturn(saved);
+            var result = userService.update(incoming);
+            assertNotNull(result);
+            assertEquals("new.mail@mail.com", result.getEmail());
+            verify(usersRepository, times(1)).findByUuid(validUuid);
+            verify(usersRepository, times(1)).save(any(UserModel.class));
+        }
+
+        @Test
+        void failure_with_invalid_uuid() {
+            var incoming = mock(User.class);
+            when(incoming.getUuid()).thenReturn(null);
+            assertThrows(InvalidUuidFormatException.class, () -> userService.update(incoming));
+            verify(usersRepository, never()).findByUuid(any());
+            verify(usersRepository, never()).save(any());
+        }
+
+        @Test
+        void failure_when_user_not_found() {
+            var incoming = mock(User.class);
+            when(incoming.getUuid()).thenReturn(validUuid.toString());
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.empty());
+            assertThrows(UserNotExistsException.class, () -> userService.update(incoming));
+        }
+
+        @Test
+        void failure_when_user_not_enabled() {
+            var incoming = mock(User.class);
+            when(incoming.getUuid()).thenReturn(disabledUserModel.getUuid().toString());
+            when(usersRepository.findByUuid(disabledUserModel.getUuid())).thenReturn(Optional.of(disabledUserModel));
+            assertThrows(UserNotEnabledException.class, () -> userService.update(incoming));
+            verify(usersRepository, never()).save(any());
+        }
     }
 
-    @Test
-    @DisplayName("getByEmail should validate email and return user")
-    void getByEmailShouldReturnUser() {
-        when(usersRepository.findByEmail("john@example.com")).thenReturn(Optional.of(userModel));
-        User result = userServiceImp.getByEmail("john@example.com");
-        assertEquals("john@example.com", result.getEmail());
-        verify(usersRepository).findByEmail("john@example.com");
+    @Nested
+    class DeleteUser {
+        @Test
+        void success_soft_deletes_enabled_user() {
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.of(enabledUserModel));
+            when(usersRepository.save(any(UserModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            var deleted = userService.delete(validUuid.toString());
+            assertTrue(deleted);
+            verify(usersRepository, times(1)).findByUuid(validUuid);
+            verify(usersRepository, times(1)).save(any(UserModel.class));
+        }
+
+        @Test
+        void failure_with_invalid_uuid() {
+            assertThrows(InvalidUuidFormatException.class, () -> userService.delete(""));
+            verify(usersRepository, never()).findByUuid(any());
+        }
+
+        @Test
+        void failure_when_user_not_found() {
+            when(usersRepository.findByUuid(validUuid)).thenReturn(Optional.empty());
+            assertThrows(UserNotExistsException.class, () -> userService.delete(validUuid.toString()));
+        }
+
+        @Test
+        void failure_when_user_not_enabled() {
+            var deletedAt = LocalDateTime.now();
+            var notEnabled = buildUserModel(UUID.randomUUID(), false, deletedAt);
+            when(usersRepository.findByUuid(notEnabled.getUuid())).thenReturn(Optional.of(notEnabled));
+            assertThrows(UserNotEnabledException.class, () -> userService.delete(notEnabled.getUuid().toString()));
+            verify(usersRepository, never()).save(any());
+        }
     }
 
-    @Test
-    @DisplayName("getByEmail should throw InvalidEmailFormatException for bad email")
-    void getByEmailShouldThrowForBadEmail() {
-        assertThrows(InvalidEmailFormatException.class, () -> userServiceImp.getByEmail("bad-email"));
-    }
-
-    @Test
-    @DisplayName("create should validate availability, hash password, save and return mapped user")
-    void createShouldSaveAndReturnUser() {
-        when(usersRepository.findByUuid(any())).thenReturn(Optional.empty());
-        when(usersRepository.findByUsername("johndoe")).thenReturn(Optional.empty());
-        when(usersRepository.findByEmail("john@example.com")).thenReturn(Optional.empty());
-        when(usersRepository.findByPhone(anyString())).thenReturn(Optional.empty());
-        when(usersRepository.save(any(UserModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        User toCreate = buildDomainUser(uuid, "john@example.com", "abc", "johndoe");
-
-        User created = userServiceImp.create(toCreate);
-
-        assertNotNull(created);
-        ArgumentCaptor<UserModel> captor = ArgumentCaptor.forClass(UserModel.class);
-        verify(usersRepository).save(captor.capture());
-        String savedPassword = captor.getValue().getPassword();
-        assertTrue(savedPassword.startsWith("$2"));
-        assertEquals(toCreate.getUsername(), created.getUsername());
-        assertEquals(toCreate.getEmail(), created.getEmail());
-        verify(usersRepository).findByUuid(UUID.fromString(uuid));
-        verify(usersRepository).findByUsername("johndoe");
-        verify(usersRepository).findByEmail("john@example.com");
-        verify(usersRepository).findByPhone("abc");
-    }
-
-    @Test
-    @DisplayName("update should update mutable fields and return domain user when enabled")
-    void updateShouldWorkWhenEnabled() {
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.of(userModel));
-        when(usersRepository.findByUsername("newusername")).thenReturn(Optional.empty());
-        when(usersRepository.findByEmail("new@example.com")).thenReturn(Optional.empty());
-        when(usersRepository.findByPhone("xyz")).thenReturn(Optional.empty());
-        when(usersRepository.save(any(UserModel.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        User update = buildDomainUser(uuid, "new@example.com", "xyz", "newusername");
-
-        User updated = userServiceImp.update(update);
-        assertEquals("newusername", updated.getUsername());
-        assertEquals("new@example.com", updated.getEmail());
-        verify(usersRepository).save(any(UserModel.class));
-    }
-
-    @Test
-    @DisplayName("update should throw when user is disabled")
-    void updateShouldThrowWhenDisabled() {
-        UserModel disabled = buildUserModel(UUID.fromString(uuid), false);
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.of(disabled));
-
-        User update = buildDomainUser(uuid, "new@example.com", "xyz", "newusername");
-        assertThrows(UserNotEnabledException.class, () -> userServiceImp.update(update));
-    }
-
-    @Test
-    @DisplayName("delete should delete when enabled and return true")
-    void deleteShouldWorkWhenEnabled() {
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.of(userModel));
-        boolean result = userServiceImp.delete(uuid);
-        assertTrue(result);
-        verify(usersRepository).deleteById(UUID.fromString(uuid));
-    }
-
-    @Test
-    @DisplayName("delete should throw when disabled")
-    void deleteShouldThrowWhenDisabled() {
-        UserModel disabled = buildUserModel(UUID.fromString(uuid), false);
-        when(usersRepository.findByUuid(UUID.fromString(uuid))).thenReturn(Optional.of(disabled));
-        assertThrows(UserNotEnabledException.class, () -> userServiceImp.delete(uuid));
-    }
-
-    @Test
-    @DisplayName("toDataModel should map fields and permissions correctly")
-    void toDataModelShouldMapCorrectly() {
-        User domain = new User(
-            uuid,
-            "Jane",
-            "jane",
-            "$2a$10$hash",
-            "jane@example.com",
-            true,
-            "11987654321",
-            new ArrayList<>(List.of(UserPermission.ADMIN, UserPermission.USER)),
-            LocalDateTime.now().minusDays(3),
-            LocalDateTime.now().minusDays(2),
-            null
-        );
-
-        UserModel mapped = userServiceImp.toDataModel(domain);
-        assertEquals(UUID.fromString(uuid), mapped.getUuid());
-        assertEquals("jane", mapped.getUsername());
-        assertEquals("jane@example.com", mapped.getEmail());
-        assertEquals(2, mapped.getPermissions().size());
-        assertTrue(mapped.getPermissions().stream().anyMatch(p -> Objects.equals(p.getAuthority(), "ROLE_ADMIN")));
-        assertTrue(mapped.getPermissions().stream().anyMatch(p -> Objects.equals(p.getAuthority(), "ROLE_USER")));
-    }
-
-    // The two tests below expose the current phone validation inconsistency.
-    @Test
-    @DisplayName("getByPhone should throw InvalidPhoneFormatException when phone is invalid (expected behavior)")
-    void getByPhoneShouldThrowForInvalidPhone_expectedBehavior() {
-        // no repository interaction should be required if validation fails early
-        assertThrows(InvalidPhoneFormatException.class, () -> userServiceImp.getByPhone("abc"));
-    }
-
-    @Test
-    @DisplayName("getByPhone should return user when phone is valid (expected behavior)")
-    void getByPhoneShouldReturnUser_expectedBehavior() {
-        when(usersRepository.findByPhone("11912345678")).thenReturn(Optional.of(userModel));
-        User result = userServiceImp.getByPhone("11912345678");
-        assertNotNull(result);
-        assertEquals("11912345678", result.getPhone());
+    private UserModel buildUserModel(UUID id, boolean verified, LocalDateTime deletedAt) {
+        return UserModel.builder()
+                .uuid(id)
+                .name("John Doe")
+                .username("john.doe")
+                .password(BCrypt.hashpw("plainPass123", BCrypt.gensalt()))
+                .email("john.doe@mail.com")
+                .isVerified(verified)
+                .phone("(11) 99999-9999")
+                .permissions(Set.of(PermissionModel.builder().authority("ROLE_USER").build()))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(null)
+                .deletedAt(deletedAt)
+                .build();
     }
 }

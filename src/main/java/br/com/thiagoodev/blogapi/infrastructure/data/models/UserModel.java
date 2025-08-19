@@ -35,7 +35,11 @@ public class UserModel implements UserDetails {
     @Column(unique = true)
     private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_permissions", joinColumns = @JoinColumn(name = "user_uuid"), inverseJoinColumns = @JoinColumn(name = "permission_uuid"))
+    @JoinTable(
+        name = "user_permissions",
+        joinColumns = @JoinColumn(name = "user_uuid"),
+        inverseJoinColumns = @JoinColumn(name = "permission_uuid")
+    )
     private Set<PermissionModel> permissions = new HashSet<>();
     @Column(nullable = false)
     @CreatedDate
@@ -51,10 +55,4 @@ public class UserModel implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() { return this.permissions; }
     @Override
     public boolean isEnabled() { return this.isVerified && deletedAt == null; }
-    @Override
-    public boolean isAccountNonExpired() { return true; }
-    @Override
-    public boolean isAccountNonLocked() { return true; }
-    @Override
-    public boolean isCredentialsNonExpired() { return true; }
 }

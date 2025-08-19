@@ -79,14 +79,6 @@ public class UserServiceImp implements UserService {
             throw new InvalidUuidFormatException("UUID cannot be null or empty.");
         }
 
-        if(!EmailValidator.isValidEmail(newUser.getEmail())) {
-            throw new InvalidEmailFormatException("Email '" + newUser.getEmail() + "' is not a valid email.");
-        }
-
-        if(!PhoneValidator.isValidPhoneNumber(newUser.getEmail())) {
-            throw new InvalidEmailFormatException("Email '" + newUser.getEmail() + "' is not a valid email.");
-        }
-
         newUser.setPassword(this.encryptPassword(newUser.getPassword()));
         UserMapper mapper = UserMapper.INSTANCE;
 
@@ -114,14 +106,6 @@ public class UserServiceImp implements UserService {
 
         if(!userModel.isEnabled()) {
             throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
-        }
-
-        if(!EmailValidator.isValidEmail(updatedUser.getEmail())) {
-            throw new InvalidEmailFormatException("Email '" + updatedUser.getEmail() + "' is not a valid email.");
-        }
-
-        if(!PhoneValidator.isValidPhoneNumber(updatedUser.getPhone())) {
-            throw new InvalidPhoneFormatException("Phone '" + updatedUser.getPhone() + "' is not a valid phone number.");
         }
 
         userModel.setName(updatedUser.getEmail());
