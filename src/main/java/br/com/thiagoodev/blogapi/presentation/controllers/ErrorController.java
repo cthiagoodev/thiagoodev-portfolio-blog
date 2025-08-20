@@ -16,7 +16,7 @@ public class ErrorController {
                 .timestamp(LocalDateTime.now())
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-                .error(error.toString())
+                .error(error.getMessage())
                 .build();
     }
 }

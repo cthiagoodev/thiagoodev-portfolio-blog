@@ -9,12 +9,11 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserPermissionMapper.class})
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    default User userToUserModel(UserModel model) {
-        UserPermissionMapper permissionMapper = UserPermissionMapper.INSTANCE;
+    default User userToUserModel(UserModel model, UserPermissionMapper permissionMapper) {
         List<UserPermission> permissions = permissionMapper
                 .userPermissionsToUserPermissionsModel(new ArrayList<>(model.getPermissions()));
 

@@ -9,10 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class User {
-    private final String uuid;
+    private String uuid;
     private String name;
     private String username;
     private String password;
@@ -113,7 +112,7 @@ public class User {
             throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
         }
 
-        this.uuid = UUID.randomUUID().toString();
+        this.uuid = null;
         this.name = name;
         this.username = username;
         this.password = password;

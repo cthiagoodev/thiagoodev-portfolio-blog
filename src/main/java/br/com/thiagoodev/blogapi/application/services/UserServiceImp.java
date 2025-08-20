@@ -1,6 +1,7 @@
 package br.com.thiagoodev.blogapi.application.services;
 
 import br.com.thiagoodev.blogapi.application.mappers.UserMapper;
+import br.com.thiagoodev.blogapi.application.mappers.UserPermissionMapper;
 import br.com.thiagoodev.blogapi.domain.entities.User;
 import br.com.thiagoodev.blogapi.domain.exceptions.*;
 import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
@@ -21,9 +22,17 @@ import java.util.*;
 @Service
 public class UserServiceImp implements UserService {
     private final UsersRepository usersRepository;
+    private final UserMapper userMapper;
+    private final UserPermissionMapper permissionMapper;
 
-    public UserServiceImp(UsersRepository usersRepository) {
+    public UserServiceImp(
+        UsersRepository usersRepository,
+        UserMapper userMapper,
+        UserPermissionMapper permissionMapper
+    ) {
         this.usersRepository = usersRepository;
+        this.userMapper = userMapper;
+        this.permissionMapper = permissionMapper;
     }
 
     @Override
@@ -44,7 +53,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
-        return UserMapper.INSTANCE.userToUserModel(userModel);
+        return userMapper.userToUserModel(userModel, permissionMapper);
     }
 
     @Override
@@ -57,7 +66,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByEmail(email)
                 .orElseThrow(UserNotExistsException::new);
 
-        return UserMapper.INSTANCE.userToUserModel(userModel);
+        return userMapper.userToUserModel(userModel, permissionMapper);
     }
 
     @Override
@@ -70,22 +79,22 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByPhone(phone)
                 .orElseThrow(UserNotExistsException::new);
 
-        return UserMapper.INSTANCE.userToUserModel(userModel);
+        return userMapper.userToUserModel(userModel, permissionMapper);
     }
 
     @Override
     @Transactional
     public User create(User newUser) {
         try {
-            if(!UUIDValidator.isValidUUID(newUser.getUuid())) {
-                throw new InvalidUuidFormatException("UUID cannot be null or empty.");
+            if(newUser.getUuid() != null) {
+                throw new InvalidUuidFormatException("UUID has to be null on create");
             }
 
             newUser.setPassword(this.encryptPassword(newUser.getPassword()));
-            UserMapper mapper = UserMapper.INSTANCE;
 
-            UserModel createdUser = usersRepository.save(mapper.userModelToUser(newUser));
-            return mapper.userToUserModel(createdUser);
+            UserModel createdUser = usersRepository.save(userMapper.userModelToUser(newUser));
+
+            return userMapper.userToUserModel(createdUser, permissionMapper);
         } catch(DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, newUser);
         }
@@ -121,8 +130,7 @@ public class UserServiceImp implements UserService {
             userModel.setUpdatedAt(LocalDateTime.now());
 
             userModel = usersRepository.save(userModel);
-            UserMapper mapper = UserMapper.INSTANCE;
-            return mapper.userToUserModel(userModel);
+            return userMapper.userToUserModel(userModel, permissionMapper);
         } catch (DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, updatedUser);
         }
