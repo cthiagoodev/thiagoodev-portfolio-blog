@@ -90,7 +90,7 @@ class UserServiceImpTests {
 
         @Test
         void failure_with_invalid_email() {
-            assertThrows(InvalidEmailFormatException.class, () -> userService.getByEmail("not-an-email"));
+            assertThrows(IllegalArgumentException.class, () -> userService.getByEmail("not-an-email"));
         }
 
         @Test
@@ -112,12 +112,12 @@ class UserServiceImpTests {
 
         @Test
         void failure_with_null_phone() {
-            assertThrows(InvalidPhoneFormatException.class, () -> userService.getByPhone(null));
+            assertThrows(IllegalArgumentException.class, () -> userService.getByPhone(null));
         }
 
         @Test
         void failure_with_empty_phone() {
-            assertThrows(InvalidPhoneFormatException.class, () -> userService.getByPhone(""));
+            assertThrows(IllegalArgumentException.class, () -> userService.getByPhone(""));
         }
 
         @Test

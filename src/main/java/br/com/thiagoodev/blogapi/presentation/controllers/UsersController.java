@@ -2,7 +2,6 @@ package br.com.thiagoodev.blogapi.presentation.controllers;
 
 import br.com.thiagoodev.blogapi.application.usecases.GetUserByUuidUseCase;
 import br.com.thiagoodev.blogapi.domain.entities.User;
-import br.com.thiagoodev.blogapi.domain.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
