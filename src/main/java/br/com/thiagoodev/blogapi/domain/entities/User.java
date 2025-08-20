@@ -47,22 +47,22 @@ public class User {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         if(username == null || username.isEmpty()) {
-            throw new InvalidUsernameFormatException("Username cannot be empty");
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if(password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");
         }
         if(email == null || email.isEmpty()) {
-            throw new InvalidEmailFormatException("Email cannot be empty");
+            throw new IllegalArgumentException("Email cannot be empty");
         }
         if(!EmailValidator.isValidEmail(email)) {
-            throw new InvalidEmailFormatException("Email '" + email + "' is not a valid email.");
+            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
         }
         if(phone == null || phone.isEmpty()) {
-            throw new InvalidPhoneFormatException("Phone cannot be empty");
+            throw new IllegalArgumentException("Phone cannot be empty");
         }
         if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new InvalidPhoneFormatException("Phone '" + phone + "' is not a valid phone number.");
+            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
         }
         if(permissions == null || permissions.isEmpty()) {
             throw new IllegalArgumentException("Permissions cannot be empty");
@@ -95,7 +95,7 @@ public class User {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         if(username == null || username.isEmpty()) {
-            throw new InvalidUsernameFormatException("Username cannot be empty");
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if(password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");
@@ -104,13 +104,13 @@ public class User {
             throw new IllegalArgumentException("Email cannot be empty");
         }
         if(!EmailValidator.isValidEmail(email)) {
-            throw new InvalidEmailFormatException("Email '" + email + "' is not a valid email.");
+            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
         }
         if(phone == null || phone.isEmpty()) {
             throw new IllegalArgumentException("Phone cannot be empty");
         }
         if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new InvalidPhoneFormatException("Phone '" + phone + "' is not a valid phone number.");
+            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
         }
 
         this.uuid = UUID.randomUUID().toString();
