@@ -1,9 +1,6 @@
 package br.com.thiagoodev.blogapi.application.services;
 
 import br.com.thiagoodev.blogapi.domain.entities.User;
-import br.com.thiagoodev.blogapi.domain.entities.UserPermission;
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidEmailFormatException;
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidPhoneFormatException;
 import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUuidFormatException;
 import br.com.thiagoodev.blogapi.domain.exceptions.UserNotEnabledException;
 import br.com.thiagoodev.blogapi.domain.exceptions.UserNotExistsException;
@@ -11,7 +8,6 @@ import br.com.thiagoodev.blogapi.infrastructure.data.models.PermissionModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.models.UserModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

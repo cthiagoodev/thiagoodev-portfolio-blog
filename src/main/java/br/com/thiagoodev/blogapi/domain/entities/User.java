@@ -1,8 +1,5 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidEmailFormatException;
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidPhoneFormatException;
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUsernameFormatException;
 import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUuidFormatException;
 import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
 import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
