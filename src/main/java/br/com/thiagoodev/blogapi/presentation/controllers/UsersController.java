@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
     private final GetUserByUuidUseCase getUserByUuidUseCase;
     private final CreateNewUserUseCase createNewUserUseCase;
+    private final UserDtoMapper userDtoMapper = UserDtoMapper.INSTANCE;
 
     public UsersController(
         GetUserByUuidUseCase getUserByUuidUseCase,
@@ -30,8 +31,7 @@ public class UsersController {
 
     @PostMapping("/create")
     public ResponseEntity<User> create(@RequestBody CreateUserDto dto) {
-        UserDtoMapper mapper = UserDtoMapper.INSTANCE;
-        User user = createNewUserUseCase.call(mapper.userToCreateUserDto(dto));
+        User user = createNewUserUseCase.call(userDtoMapper.userToCreateUserDto(dto));
         return ResponseEntity.status(201).body(user);
     }
 }

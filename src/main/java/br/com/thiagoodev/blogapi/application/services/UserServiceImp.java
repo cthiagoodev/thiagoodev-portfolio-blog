@@ -1,7 +1,6 @@
 package br.com.thiagoodev.blogapi.application.services;
 
 import br.com.thiagoodev.blogapi.application.mappers.UserMapper;
-import br.com.thiagoodev.blogapi.application.mappers.UserPermissionMapper;
 import br.com.thiagoodev.blogapi.domain.entities.User;
 import br.com.thiagoodev.blogapi.domain.exceptions.*;
 import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
@@ -9,7 +8,9 @@ import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
 import br.com.thiagoodev.blogapi.domain.helpers.UUIDValidator;
 import br.com.thiagoodev.blogapi.domain.services.UserService;
 import br.com.thiagoodev.blogapi.infrastructure.data.helpers.PSQLExceptionConstraintDecode;
+import br.com.thiagoodev.blogapi.infrastructure.data.models.PermissionModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.models.UserModel;
+import br.com.thiagoodev.blogapi.infrastructure.data.repositories.PermissionsRepository;
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,17 +23,15 @@ import java.util.*;
 @Service
 public class UserServiceImp implements UserService {
     private final UsersRepository usersRepository;
-    private final UserMapper userMapper;
-    private final UserPermissionMapper permissionMapper;
+    private final PermissionsRepository permissionsRepository;
+    private final UserMapper userMapper = UserMapper.INSTANCE;
 
     public UserServiceImp(
         UsersRepository usersRepository,
-        UserMapper userMapper,
-        UserPermissionMapper permissionMapper
+        PermissionsRepository permissionsRepository
     ) {
         this.usersRepository = usersRepository;
-        this.userMapper = userMapper;
-        this.permissionMapper = permissionMapper;
+        this.permissionsRepository = permissionsRepository;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
-        return userMapper.userToUserModel(userModel, permissionMapper);
+        return userMapper.userToUserModel(userModel);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByEmail(email)
                 .orElseThrow(UserNotExistsException::new);
 
-        return userMapper.userToUserModel(userModel, permissionMapper);
+        return userMapper.userToUserModel(userModel);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByPhone(phone)
                 .orElseThrow(UserNotExistsException::new);
 
-        return userMapper.userToUserModel(userModel, permissionMapper);
+        return userMapper.userToUserModel(userModel);
     }
 
     @Override
@@ -92,9 +91,14 @@ public class UserServiceImp implements UserService {
 
             newUser.setPassword(this.encryptPassword(newUser.getPassword()));
 
-            UserModel createdUser = usersRepository.save(userMapper.userModelToUser(newUser));
+            UserModel userToUserModel = userMapper.userModelToUser(newUser);
+            PermissionModel roleUser = permissionsRepository
+                    .findByAuthority(PermissionModel.ROLE_USER)
+                    .orElseThrow(PermissionNotExistsException::new);
+            userToUserModel.setPermissions(new HashSet<>(Set.of(roleUser)));
 
-            return userMapper.userToUserModel(createdUser, permissionMapper);
+            UserModel createdUser = usersRepository.save(userToUserModel);
+            return userMapper.userToUserModel(createdUser);
         } catch(DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, newUser);
         }
@@ -130,7 +134,7 @@ public class UserServiceImp implements UserService {
             userModel.setUpdatedAt(LocalDateTime.now());
 
             userModel = usersRepository.save(userModel);
-            return userMapper.userToUserModel(userModel, permissionMapper);
+            return userMapper.userToUserModel(userModel);
         } catch (DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, updatedUser);
         }
@@ -139,7 +143,7 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public boolean delete(String uuid) {
-        if(!UUIDValidator.isValidUUID(uuid)) {
+        if (!UUIDValidator.isValidUUID(uuid)) {
             throw new InvalidUuidFormatException("UUID cannot be null or empty.");
         }
 
@@ -154,7 +158,7 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
-        if(!userModel.isEnabled()) {
+        if (!userModel.isEnabled()) {
             throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
         }
 
@@ -185,3 +189,4 @@ public class UserServiceImp implements UserService {
         };
     }
 }
+

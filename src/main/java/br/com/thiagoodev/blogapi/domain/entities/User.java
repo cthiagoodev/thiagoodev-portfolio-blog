@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class User {
-    private String uuid;
+    private final String uuid;
     private String name;
     private String username;
     private String password;
@@ -119,7 +119,7 @@ public class User {
         this.email = email;
         this.isVerified = false;
         this.phone = phone;
-        this.permissions = new ArrayList<>(List.of(UserPermission.USER));
+        this.permissions = new ArrayList<>();
         this.createdAt = LocalDateTime.now();
     }
 
