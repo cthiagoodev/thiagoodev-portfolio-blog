@@ -91,14 +91,14 @@ public class UserServiceImp implements UserService {
 
             newUser.setPassword(this.encryptPassword(newUser.getPassword()));
 
-            UserModel userToUserModel = userMapper.userModelToUser(newUser);
+            UserModel userModel = userMapper.userModelToUser(newUser);
             PermissionModel roleUser = permissionsRepository
                     .findByAuthority(PermissionModel.ROLE_USER)
                     .orElseThrow(PermissionNotExistsException::new);
-            userToUserModel.setPermissions(new HashSet<>(Set.of(roleUser)));
+            userModel.setPermissions(new HashSet<>(Set.of(roleUser)));
 
-            UserModel createdUser = usersRepository.save(userToUserModel);
-            return userMapper.userToUserModel(createdUser);
+            userModel = usersRepository.saveAndFlush(userModel);
+            return userMapper.userToUserModel(userModel);
         } catch(DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, newUser);
         }
@@ -133,7 +133,7 @@ public class UserServiceImp implements UserService {
             userModel.setPhone(updatedUser.getPhone());
             userModel.setUpdatedAt(LocalDateTime.now());
 
-            userModel = usersRepository.save(userModel);
+            userModel = usersRepository.saveAndFlush(userModel);
             return userMapper.userToUserModel(userModel);
         } catch (DataIntegrityViolationException error) {
             throw this.handleDataIntegrityViolationException(error, updatedUser);
