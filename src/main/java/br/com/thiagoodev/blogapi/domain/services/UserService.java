@@ -9,4 +9,5 @@ public interface UserService {
     User create(User newUser);
     User update(User user);
     boolean delete(String uuid);
+    User verify(String uuid);
 }

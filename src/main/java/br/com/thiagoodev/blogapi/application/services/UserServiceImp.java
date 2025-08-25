@@ -181,6 +181,37 @@ public class UserServiceImp implements UserService {
         return true;
     }
 
+    @Override
+    @Transactional
+    public User verify(String uuid) {
+        if (!UUIDValidator.isValidUUID(uuid)) {
+            throw new InvalidUuidFormatException("UUID cannot be null or empty.");
+        }
+
+        UUID id;
+
+        try {
+            id = UUID.fromString(uuid);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidUuidFormatException(uuid + " is not a valid UUID format.");
+        }
+
+        UserModel userModel = usersRepository.findByUuid(id)
+                .orElseThrow(UserNotExistsException::new);
+
+        if (userModel.isVerified()) {
+            throw new UserAlreadyEnabledException("User " + userModel.getName() + " already enabled");
+        }
+
+        userModel.setVerified(true);
+
+        if (userModel.getDeletedAt() != null) {
+            throw new UserNotEnabledException("User " + userModel.getName() + " already deleted");
+        }
+
+        return userMapper.userToUserModel(usersRepository.saveAndFlush(userModel));
+    }
+
     private String encryptPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }

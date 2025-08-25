@@ -31,6 +31,7 @@ public class ErrorController {
     @ExceptionHandler({
         InvalidUuidFormatException.class,
         IllegalArgumentException.class,
+        UserAlreadyEnabledException.class,
     })
     public ResponseEntity<ApiError> handleBadRequestException(RuntimeException error) {
         ApiError err = buildApiError(HttpStatus.BAD_REQUEST, error.getMessage());
