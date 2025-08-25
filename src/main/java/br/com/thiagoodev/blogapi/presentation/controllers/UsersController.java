@@ -1,6 +1,7 @@
 package br.com.thiagoodev.blogapi.presentation.controllers;
 
 import br.com.thiagoodev.blogapi.application.usecases.CreateNewUserUseCase;
+import br.com.thiagoodev.blogapi.application.usecases.DeleteUserUseCase;
 import br.com.thiagoodev.blogapi.application.usecases.GetUserByUuidUseCase;
 import br.com.thiagoodev.blogapi.application.usecases.UpdateUserUseCase;
 import br.com.thiagoodev.blogapi.domain.entities.User;
@@ -16,16 +17,19 @@ public class UsersController {
     private final GetUserByUuidUseCase getUserByUuidUseCase;
     private final CreateNewUserUseCase createNewUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
     private final UserDtoMapper userDtoMapper = UserDtoMapper.INSTANCE;
 
     public UsersController(
         GetUserByUuidUseCase getUserByUuidUseCase,
         CreateNewUserUseCase createNewUserUseCase,
-        UpdateUserUseCase updateUserUseCase
+        UpdateUserUseCase updateUserUseCase,
+        DeleteUserUseCase deleteUserUseCase
     ) {
         this.getUserByUuidUseCase = getUserByUuidUseCase;
         this.createNewUserUseCase = createNewUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
+        this.deleteUserUseCase = deleteUserUseCase;
     }
 
     @GetMapping("/{uuid}")
@@ -45,5 +49,14 @@ public class UsersController {
         dto.setUuid(uuid);
         User updatedUser = updateUserUseCase.call(userDtoMapper.userToUpdateUserDto(dto));
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/delete/{uuid}")
+    public ResponseEntity<String> delete(@PathVariable String uuid) {
+        boolean deleted = deleteUserUseCase.call(uuid);
+
+        if(!deleted) return ResponseEntity.status(404).body("User not deleted.");
+
+        return ResponseEntity.status(204).body("User deleted.");
     }
 }
