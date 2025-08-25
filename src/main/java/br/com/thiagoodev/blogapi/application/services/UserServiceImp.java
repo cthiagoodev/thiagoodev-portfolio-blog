@@ -52,6 +52,10 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByUuid(id)
                 .orElseThrow(UserNotExistsException::new);
 
+        if (!userModel.isEnabled()) {
+            throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+        }
+
         return userMapper.userToUserModel(userModel);
     }
 
@@ -65,6 +69,10 @@ public class UserServiceImp implements UserService {
         UserModel userModel = usersRepository.findByEmail(email)
                 .orElseThrow(UserNotExistsException::new);
 
+        if (!userModel.isEnabled()) {
+            throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+        }
+
         return userMapper.userToUserModel(userModel);
     }
 
@@ -77,6 +85,10 @@ public class UserServiceImp implements UserService {
 
         UserModel userModel = usersRepository.findByPhone(phone)
                 .orElseThrow(UserNotExistsException::new);
+
+        if (!userModel.isEnabled()) {
+            throw new UserNotEnabledException("User " + userModel.getName() + " not enabled");
+        }
 
         return userMapper.userToUserModel(userModel);
     }
