@@ -15,31 +15,16 @@ public class ErrorController {
         UserNotEnabledException.class,
     })
     public ResponseEntity<ApiError> handleForbiddenException(RuntimeException error) {
-        ApiError err = ApiError
-                .builder()
-                .timestamp(LocalDateTime.now())
-                .code(HttpStatus.FORBIDDEN.value())
-                .status(HttpStatus.FORBIDDEN.name())
-                .error(error.getMessage())
-                .build();
-
+        ApiError err = buildApiError(HttpStatus.FORBIDDEN, error.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
-
 
     @ExceptionHandler({
         UserNotExistsException.class,
         PermissionNotExistsException.class,
     })
     public ResponseEntity<ApiError> handleNotFoundException(RuntimeException error) {
-        ApiError err = ApiError
-                .builder()
-                .timestamp(LocalDateTime.now())
-                .code(HttpStatus.NOT_FOUND.value())
-                .status(HttpStatus.NOT_FOUND.name())
-                .error(error.getMessage())
-                .build();
-
+        ApiError err = buildApiError(HttpStatus.NOT_FOUND, error.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
@@ -47,44 +32,30 @@ public class ErrorController {
         InvalidUuidFormatException.class,
         IllegalArgumentException.class,
     })
-
     public ResponseEntity<ApiError> handleBadRequestException(RuntimeException error) {
-        ApiError err = ApiError
-                .builder()
-                .timestamp(LocalDateTime.now())
-                .code(HttpStatus.BAD_REQUEST.value())
-                .status(HttpStatus.BAD_REQUEST.name())
-                .error(error.getMessage())
-                .build();
-
+        ApiError err = buildApiError(HttpStatus.BAD_REQUEST, error.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleConflictException(RuntimeException error) {
-        ApiError err = ApiError
-                .builder()
-                .timestamp(LocalDateTime.now())
-                .code(HttpStatus.CONFLICT.value())
-                .status(HttpStatus.CONFLICT.name())
-                .error(error.getMessage())
-                .build();
-
+        ApiError err = buildApiError(HttpStatus.CONFLICT, error.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception error) {
-        ApiError err = ApiError
+        ApiError err = buildApiError(HttpStatus.INTERNAL_SERVER_ERROR, error.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+
+    private ApiError buildApiError(HttpStatus status, String message) {
+        return ApiError
                 .builder()
                 .timestamp(LocalDateTime.now())
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-                .error(error.getMessage())
+                .code(status.value())
+                .status(status.name())
+                .error(message)
                 .build();
-
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(err);
     }
 }
