@@ -123,6 +123,47 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
+    public User(
+        String uuid,
+        String name,
+        String username,
+        String password,
+        String email,
+        String phone
+    ) {
+        if(uuid == null || uuid.isEmpty()) {
+            throw new InvalidUuidFormatException("UUID cannot be empty");
+        }
+        if(name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        if(username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if(!EmailValidator.isValidEmail(email)) {
+            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
+        }
+        if(phone == null || phone.isEmpty()) {
+            throw new IllegalArgumentException("Phone cannot be empty");
+        }
+        if(!PhoneValidator.isValidPhoneNumber(phone)) {
+            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
+        }
+
+        this.uuid = uuid;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isVerified = false;
+        this.phone = phone;
+        this.permissions = new ArrayList<>();
+        this.createdAt = LocalDateTime.now();
+    }
+
     public String getUuid() { return this.uuid; }
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
