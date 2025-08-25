@@ -163,7 +163,7 @@ public class UserServiceImp implements UserService {
         }
 
         userModel.setDeletedAt(LocalDateTime.now());
-        usersRepository.save(userModel);
+        usersRepository.saveAndFlush(userModel);
 
         return true;
     }
