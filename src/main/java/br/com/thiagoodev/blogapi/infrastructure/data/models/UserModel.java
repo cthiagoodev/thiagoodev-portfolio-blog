@@ -48,7 +48,7 @@ public class UserModel implements UserDetails {
     private LocalDateTime deletedAt;
 
     @Override
-    public String getUsername() { return username; }
+    public String getUsername() { return email; }
     @Override
     public String getPassword() { return password; }
     @Override
