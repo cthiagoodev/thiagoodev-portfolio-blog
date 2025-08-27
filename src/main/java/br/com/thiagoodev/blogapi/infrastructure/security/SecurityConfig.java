@@ -32,8 +32,8 @@ public class SecurityConfig {
                     session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize ->
                     authorize
-                            .requestMatchers(HttpMethod.POST, "**/login", "**/users/create").permitAll()
-                            .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "**/auth/**", "**/users/create").permitAll()
+                        .anyRequest().authenticated()
             )
             .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

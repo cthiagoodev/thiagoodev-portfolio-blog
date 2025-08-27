@@ -8,13 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Service
 public class JwtTokenService {
     private static final String SECRET_KEY = "4Z^XrroxR@dWxqf$mTTKwW$!@#qGr4P";
-    private static final String ISSUER = "pizzurg-api";
+    private static final String ISSUER = "thiagoodev.com.br";
 
     public String generateToken(UserDetails user) {
         try {
@@ -28,6 +29,11 @@ public class JwtTokenService {
         } catch (JWTCreationException exception){
             throw new JWTCreationException("Error on generate.", exception);
         }
+    }
+
+    public LocalDateTime getExpirationDateFromToken(String token) {
+        return LocalDateTime.ofInstant(
+                JWT.decode(token).getExpiresAt().toInstant(), ZoneId.of("America/Recife"));
     }
 
     public String getSubjectFromToken(String token) {
