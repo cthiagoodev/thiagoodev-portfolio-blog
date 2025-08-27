@@ -4,6 +4,7 @@ import br.com.thiagoodev.blogapi.domain.exceptions.JwtAuthenticationException;
 import br.com.thiagoodev.blogapi.infrastructure.data.models.UserModel;
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import br.com.thiagoodev.blogapi.infrastructure.security.JwtTokenService;
+import br.com.thiagoodev.blogapi.infrastructure.security.SecurityConfig;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,5 +62,15 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) return null;
         return header.replace("Bearer ", "");
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return SecurityConfig.PUBLIC_URLS.stream().anyMatch(url ->
+          url.endsWith("/**")
+            ? path.startsWith(url.substring(0, url.length() - 3))
+            : path.equals(url)
+        );
     }
 }

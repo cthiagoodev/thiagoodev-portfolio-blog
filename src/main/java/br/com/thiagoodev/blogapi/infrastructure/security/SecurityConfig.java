@@ -15,6 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,6 +28,11 @@ public class SecurityConfig {
         this.userAuthenticationFilter = userAuthenticationFilter;
     }
 
+    public static final List<String> PUBLIC_URLS = new ArrayList<>(List.of(
+        "/api/auth/**",
+        "/api/users/create"
+    ));
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -32,7 +41,7 @@ public class SecurityConfig {
                     session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize ->
                     authorize
-                        .requestMatchers(HttpMethod.POST, "**/auth/**", "**/users/create").permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_URLS.toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
             )
             .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
