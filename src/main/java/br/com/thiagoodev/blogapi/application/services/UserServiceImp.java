@@ -14,7 +14,7 @@ import br.com.thiagoodev.blogapi.infrastructure.data.repositories.PermissionsRep
 import br.com.thiagoodev.blogapi.infrastructure.data.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,14 +24,17 @@ import java.util.*;
 public class UserServiceImp implements UserService {
     private final UsersRepository usersRepository;
     private final PermissionsRepository permissionsRepository;
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
     public UserServiceImp(
         UsersRepository usersRepository,
-        PermissionsRepository permissionsRepository
+        PermissionsRepository permissionsRepository,
+        PasswordEncoder passwordEncoder
     ) {
         this.usersRepository = usersRepository;
         this.permissionsRepository = permissionsRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -213,7 +216,8 @@ public class UserServiceImp implements UserService {
     }
 
     private String encryptPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
+        passwordEncoder.encode(password);
+        return passwordEncoder.encode(password);
     }
 
     private RuntimeException handleDataIntegrityViolationException(DataIntegrityViolationException error, User user) {
