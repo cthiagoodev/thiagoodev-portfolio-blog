@@ -3,7 +3,6 @@ package br.com.thiagoodev.blogapi.infrastructure.security;
 import br.com.thiagoodev.blogapi.infrastructure.auth.UserAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,7 +28,9 @@ public class SecurityConfig {
 
     public static final List<String> PUBLIC_URLS = new ArrayList<>(List.of(
         "/api/auth/**",
-        "/api/users/create"
+        "/api/users/create",
+        "/oauth2/**",
+        "/login/oauth2/code/"
     ));
 
     @Bean
@@ -40,9 +41,11 @@ public class SecurityConfig {
                     session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize ->
                     authorize
-                        .requestMatchers(HttpMethod.POST, PUBLIC_URLS.toArray(new String[0])).permitAll()
+                        .requestMatchers(PUBLIC_URLS.toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
             )
+            .oauth2Login(auth ->
+                    auth.defaultSuccessUrl("/api/auth/github/callback", true))
             .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
