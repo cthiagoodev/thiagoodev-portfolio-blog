@@ -33,4 +33,16 @@ public class Permission implements GrantedAuthority {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_MODERATOR = "ROLE_MODERATOR";
+
+    public static Permission userRole() {
+        return Permission.builder().authority(ROLE_USER).build();
+    }
+
+    public static Permission adminRole() {
+        return Permission.builder().authority(ROLE_ADMIN).build();
+    }
+
+    public static Permission moderatorRole() {
+        return Permission.builder().authority(ROLE_MODERATOR).build();
+    }
 }
