@@ -1,5 +1,7 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
+import br.com.thiagoodev.blogapi.domain.exceptions.UserAlreadyEnabledException;
+import br.com.thiagoodev.blogapi.domain.exceptions.UserNotEnabledException;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -55,4 +57,15 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() { return this.permissions; }
     @Override
     public boolean isEnabled() { return this.isVerified && deletedAt == null; }
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
+        this.isVerified = false;
+    }
+
+    public void verify() {
+        if (deletedAt != null) throw new UserNotEnabledException("User already deleted");
+        if (isVerified) throw new UserAlreadyEnabledException("User already verified");
+        this.isVerified = true;
+    }
 }
