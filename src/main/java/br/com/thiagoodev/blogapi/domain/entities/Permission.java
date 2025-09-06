@@ -1,4 +1,4 @@
-package br.com.thiagoodev.blogapi.infrastructure.data.models;
+package br.com.thiagoodev.blogapi.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class PermissionModel implements GrantedAuthority {
+public class Permission implements GrantedAuthority {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

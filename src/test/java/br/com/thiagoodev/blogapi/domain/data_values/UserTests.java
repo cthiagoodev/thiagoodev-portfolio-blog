@@ -1,4 +1,4 @@
-package br.com.thiagoodev.blogapi.domain.entities;
+package br.com.thiagoodev.blogapi.domain.data_values;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

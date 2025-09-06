@@ -1,8 +1,6 @@
 package br.com.thiagoodev.blogapi.application.usecases;
 
-import br.com.thiagoodev.blogapi.domain.entities.User;
-import br.com.thiagoodev.blogapi.domain.entities.UserPermission;
-import br.com.thiagoodev.blogapi.domain.services.UserService;
+import br.com.thiagoodev.blogapi.application.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package br.com.thiagoodev.blogapi.domain.services;
+package br.com.thiagoodev.blogapi.application.services;
 
 import br.com.thiagoodev.blogapi.domain.entities.User;
 
