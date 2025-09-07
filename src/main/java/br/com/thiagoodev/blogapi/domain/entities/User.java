@@ -22,7 +22,7 @@ import java.util.*;
 public class User implements UserDetails {
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy =  GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     @Column(nullable = false)
     private String name;
@@ -38,9 +38,9 @@ public class User implements UserDetails {
     private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "user_permissions",
-        joinColumns = @JoinColumn(name = "user_uuid"),
-        inverseJoinColumns = @JoinColumn(name = "permission_uuid")
+            name = "user_permissions",
+            joinColumns = @JoinColumn(name = "user_uuid"),
+            inverseJoinColumns = @JoinColumn(name = "permission_uuid")
     )
     private Set<Permission> permissions = new HashSet<>();
     @Column(nullable = false)
@@ -50,13 +50,24 @@ public class User implements UserDetails {
     private LocalDateTime deletedAt;
 
     @Override
-    public String getUsername() { return email; }
+    public String getUsername() {
+        return email;
+    }
+
     @Override
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
+
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() { return this.permissions; }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.permissions;
+    }
+
     @Override
-    public boolean isEnabled() { return this.isVerified && deletedAt == null; }
+    public boolean isEnabled() {
+        return this.isVerified && deletedAt == null;
+    }
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
