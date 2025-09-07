@@ -25,21 +25,21 @@ public class UserService {
         this.usersRepository = usersRepository;
     }
 
-    User getByUuid(String uuid) {
+    public User getByUuid(String uuid) {
         return this.usersRepository
             .findByUuid(this.parseAndValidateUuid(uuid))
             .filter(User::isEnabled)
             .orElseThrow(UserNotExistsException::new);
     }
 
-    User getByEmail(String email) {
+    public User getByEmail(String email) {
         return this.usersRepository
             .findByEmail(this.validateEmail(email))
             .filter(User::isEnabled)
             .orElseThrow(UserNotExistsException::new);
     }
 
-    User getByPhone(String phone) {
+    public User getByPhone(String phone) {
         return this.usersRepository
             .findByPhone(this.validatePhone(phone))
             .filter(User::isEnabled)
@@ -47,7 +47,7 @@ public class UserService {
     }
 
     @Transactional
-    User create(CreateUserDto dto) {
+    public User create(CreateUserDto dto) {
         User user = User.builder()
             .name(dto.name())
             .username(dto.username())
@@ -62,7 +62,7 @@ public class UserService {
     }
 
     @Transactional
-    User update(String uuid, UpdateUserDto dto) {
+    public User update(String uuid, UpdateUserDto dto) {
         User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .filter(User::isEnabled)
                 .orElseThrow(UserNotExistsException::new);
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     @Transactional
-    User delete(String uuid) {
+    public User delete(String uuid) {
         User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .filter(User::isEnabled)
                 .orElseThrow(UserNotExistsException::new);
@@ -87,7 +87,7 @@ public class UserService {
     }
 
     @Transactional
-    User verify(String uuid) {
+    public User verify(String uuid) {
         User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .orElseThrow(UserNotExistsException::new);
 
