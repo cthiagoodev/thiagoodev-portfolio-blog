@@ -11,6 +11,7 @@ import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
 import br.com.thiagoodev.blogapi.domain.helpers.UUIDValidator;
 import br.com.thiagoodev.blogapi.infrastructure.persistence.repositories.UsersRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,9 +21,14 @@ import java.util.UUID;
 @Service
 public class UserService {
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    UserService(UsersRepository usersRepository) {
+    UserService(
+        UsersRepository usersRepository,
+        PasswordEncoder passwordEncoder
+    ) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User getByUuid(String uuid) {
@@ -53,17 +59,17 @@ public class UserService {
             .username(dto.username())
             .permissions(new HashSet<>(Set.of(Permission.userRole())))
             .email(this.validateEmail(dto.email()))
-            .password(dto.password())
+            .password(this.passwordEncoder.encode(dto.password()))
             .phone(this.validatePhone(dto.phone()))
             .isVerified(false)
             .build();
 
-        return usersRepository.saveAndFlush(user);
+        return this.usersRepository.saveAndFlush(user);
     }
 
     @Transactional
     public User update(String uuid, UpdateUserDto dto) {
-        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+        User user = this.usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .filter(User::isEnabled)
                 .orElseThrow(UserNotExistsException::new);
 
@@ -72,28 +78,28 @@ public class UserService {
         user.setEmail(this.validateEmail(dto.email()));
         user.setPhone(this.validatePhone(dto.phone()));
 
-        return usersRepository.saveAndFlush(user);
+        return this.usersRepository.saveAndFlush(user);
     }
 
     @Transactional
     public User delete(String uuid) {
-        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+        User user = this.usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .filter(User::isEnabled)
                 .orElseThrow(UserNotExistsException::new);
 
         user.delete();
 
-        return usersRepository.saveAndFlush(user);
+        return this.usersRepository.saveAndFlush(user);
     }
 
     @Transactional
     public User verify(String uuid) {
-        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+        User user = this.usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
                 .orElseThrow(UserNotExistsException::new);
 
         user.verify();
 
-        return usersRepository.saveAndFlush(user);
+        return this.usersRepository.saveAndFlush(user);
     }
 
     private UUID parseAndValidateUuid(String uuid) {
