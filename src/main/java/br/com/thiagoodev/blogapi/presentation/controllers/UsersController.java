@@ -26,8 +26,8 @@ public class UsersController {
 
     @GetMapping("/{uuid}")
     public ResponseEntity<UserResponseDto> getByUuid(@PathVariable("uuid") String uuid) {
-        User user = userService.getByUuid(uuid);
-        UserResponseDto response = userToUserResponseDtoMapper.map(user);
+        User user = this.userService.getByUuid(uuid);
+        UserResponseDto response = this.userToUserResponseDtoMapper.map(user);
         return ResponseEntity.ok(response);
     }
 }
