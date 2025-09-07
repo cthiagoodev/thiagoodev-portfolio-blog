@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface UserToUserResponseDto {
-    UserToUserResponseDto INSTANCE = Mappers.getMapper(UserToUserResponseDto.class);
+public interface UserToUserResponseDtoMapper {
+    UserToUserResponseDtoMapper INSTANCE = Mappers.getMapper(UserToUserResponseDtoMapper.class);
 
     UserResponseDto map(User user);
 }
