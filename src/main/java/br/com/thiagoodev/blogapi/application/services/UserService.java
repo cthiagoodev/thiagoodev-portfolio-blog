@@ -1,13 +1,122 @@
 package br.com.thiagoodev.blogapi.application.services;
 
+import br.com.thiagoodev.blogapi.application.dto.CreateUserDto;
+import br.com.thiagoodev.blogapi.application.dto.UpdateUserDto;
+import br.com.thiagoodev.blogapi.domain.entities.Permission;
 import br.com.thiagoodev.blogapi.domain.entities.User;
+import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUuidFormatException;
+import br.com.thiagoodev.blogapi.domain.exceptions.UserNotExistsException;
+import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
+import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
+import br.com.thiagoodev.blogapi.domain.helpers.UUIDValidator;
+import br.com.thiagoodev.blogapi.infrastructure.persistence.repositories.UsersRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
-    User getByUuid(String uuid);
-    User getByEmail(String email);
-    User getByPhone(String phone);
-    User create(User newUser);
-    User update(User user);
-    boolean delete(String uuid);
-    User verify(String uuid);
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+@Service
+public class UserService {
+    private final UsersRepository usersRepository;
+
+    UserService(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
+    }
+
+    User getByUuid(String uuid) {
+        return this.usersRepository
+            .findByUuid(this.parseAndValidateUuid(uuid))
+            .filter(User::isEnabled)
+            .orElseThrow(UserNotExistsException::new);
+    }
+
+    User getByEmail(String email) {
+        return this.usersRepository
+            .findByEmail(this.validateEmail(email))
+            .filter(User::isEnabled)
+            .orElseThrow(UserNotExistsException::new);
+    }
+
+    User getByPhone(String phone) {
+        return this.usersRepository
+            .findByPhone(this.validatePhone(phone))
+            .filter(User::isEnabled)
+            .orElseThrow(UserNotExistsException::new);
+    }
+
+    @Transactional
+    User create(CreateUserDto dto) {
+        User user = User.builder()
+            .name(dto.name())
+            .username(dto.username())
+            .permissions(new HashSet<>(Set.of(Permission.userRole())))
+            .email(this.validateEmail(dto.email()))
+            .password(dto.password())
+            .phone(this.validatePhone(dto.phone()))
+            .isVerified(false)
+            .build();
+
+        return usersRepository.saveAndFlush(user);
+    }
+
+    @Transactional
+    User update(String uuid, UpdateUserDto dto) {
+        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+                .filter(User::isEnabled)
+                .orElseThrow(UserNotExistsException::new);
+
+        user.setName(dto.name());
+        user.setUsername(dto.username());
+        user.setEmail(this.validateEmail(dto.email()));
+        user.setPhone(this.validatePhone(dto.phone()));
+
+        return usersRepository.saveAndFlush(user);
+    }
+
+    @Transactional
+    User delete(String uuid) {
+        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+                .filter(User::isEnabled)
+                .orElseThrow(UserNotExistsException::new);
+
+        user.delete();
+
+        return usersRepository.saveAndFlush(user);
+    }
+
+    @Transactional
+    User verify(String uuid) {
+        User user = usersRepository.findByUuid(this.parseAndValidateUuid(uuid))
+                .orElseThrow(UserNotExistsException::new);
+
+        user.verify();
+
+        return usersRepository.saveAndFlush(user);
+    }
+
+    private UUID parseAndValidateUuid(String uuid) {
+        if(!UUIDValidator.isValidUUID(uuid)) {
+            throw new InvalidUuidFormatException("Invalid UUID format");
+        }
+
+        return UUID.fromString(uuid);
+    }
+
+    private String validateEmail(String email) {
+        if(!EmailValidator.isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+        return email;
+    }
+
+    private String validatePhone(String phone) {
+        if(!PhoneValidator.isValidPhoneNumber(phone)) {
+            throw new IllegalArgumentException("Invalid phone format");
+        }
+
+        return phone;
+    }
 }
