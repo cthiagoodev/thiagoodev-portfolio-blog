@@ -1,208 +1,82 @@
 package br.com.thiagoodev.blogapi.domain.entities;
 
-import br.com.thiagoodev.blogapi.domain.exceptions.InvalidUuidFormatException;
-import br.com.thiagoodev.blogapi.domain.helpers.EmailValidator;
-import br.com.thiagoodev.blogapi.domain.helpers.PhoneValidator;
-import br.com.thiagoodev.blogapi.domain.helpers.UUIDValidator;
+import br.com.thiagoodev.blogapi.domain.exceptions.UserAlreadyEnabledException;
+import br.com.thiagoodev.blogapi.domain.exceptions.UserNotEnabledException;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class User {
-    private final String uuid;
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class User implements UserDetails {
+    @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private boolean isVerified;
+    @Column(unique = true)
     private String phone;
-    private final List<UserPermission> permissions;
-    private final LocalDateTime createdAt;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_permissions",
+            joinColumns = @JoinColumn(name = "user_uuid"),
+            inverseJoinColumns = @JoinColumn(name = "permission_uuid")
+    )
+    private Set<Permission> permissions = new HashSet<>();
+    @Column(nullable = false)
+    @CreatedDate
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
-    public User(
-        String uuid,
-        String name,
-        String username,
-        String password,
-        String email,
-        boolean isVerified,
-        String phone,
-        List<UserPermission> permissions,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        LocalDateTime deletedAt
-    ) {
-        if(uuid == null || uuid.isEmpty()) {
-            throw new InvalidUuidFormatException("UUID cannot be empty");
-        }
-        if(!UUIDValidator.isValidUUID(uuid)) {
-            throw new InvalidUuidFormatException("UUID '" + uuid + "' is not a valid UUID format.");
-        }
-        if(name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        if(username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if(password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty");
-        }
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
-        }
-        if(!EmailValidator.isValidEmail(email)) {
-            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
-        }
-        if(phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be empty");
-        }
-        if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
-        }
-        if(permissions == null || permissions.isEmpty()) {
-            throw new IllegalArgumentException("Permissions cannot be empty");
-        }
-        if(createdAt == null) {
-            throw new IllegalArgumentException("CreatedAt cannot be null");
-        }
-
-        this.uuid = uuid;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.isVerified = isVerified;
-        this.phone = phone;
-        this.permissions = new ArrayList<>(permissions);
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public User(
-        String name,
-        String username,
-        String password,
-        String email,
-        String phone
-    ) {
-        if(name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        if(username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if(password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty");
-        }
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
-        }
-        if(!EmailValidator.isValidEmail(email)) {
-            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
-        }
-        if(phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be empty");
-        }
-        if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
-        }
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-        this.uuid = null;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.permissions;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isVerified && deletedAt == null;
+    }
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
         this.isVerified = false;
-        this.phone = phone;
-        this.permissions = new ArrayList<>();
-        this.createdAt = LocalDateTime.now();
     }
 
-    public User(
-        String uuid,
-        String name,
-        String username,
-        String password,
-        String email,
-        String phone
-    ) {
-        if(uuid == null || uuid.isEmpty()) {
-            throw new InvalidUuidFormatException("UUID cannot be empty");
-        }
-        if(name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        if(username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
-        }
-        if(!EmailValidator.isValidEmail(email)) {
-            throw new IllegalArgumentException("Email '" + email + "' is not a valid email.");
-        }
-        if(phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException("Phone cannot be empty");
-        }
-        if(!PhoneValidator.isValidPhoneNumber(phone)) {
-            throw new IllegalArgumentException("Phone '" + phone + "' is not a valid phone number.");
-        }
-
-        this.uuid = uuid;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.isVerified = false;
-        this.phone = phone;
-        this.permissions = new ArrayList<>();
-        this.createdAt = LocalDateTime.now();
-    }
-
-    public String getUuid() { return this.uuid; }
-    public String getName() { return this.name; }
-    public void setName(String name) { this.name = name; }
-    public String getUsername() { return this.username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return this.password; }
-    public void setPassword(String password) { this.password = password; }
-    public boolean getIsVerified() { return this.isVerified; }
-    public void setIsVerified(boolean isVerified) { this.isVerified = isVerified; }
-    public String getPhone() { return this.phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public List<UserPermission> getPermissions() { return Collections.unmodifiableList(this.permissions); }
-    public LocalDateTime getCreatedAt() { return this.createdAt; }
-    public LocalDateTime getUpdatedAt() { return this.updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-    public LocalDateTime getDeletedAt() { return this.deletedAt; }
-    public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
-    public String getEmail() { return this.email; }
-
-    public void setEmail(String email) {
-        setIsVerified(email.equals(this.email));
-        this.email = email;
-    }
-
-    public void addPermission(UserPermission permission) {
-        if(!this.permissions.contains(permission)) {
-            this.permissions.add(permission);
-        }
-    }
-
-    public void removePermission(UserPermission permission) {
-        this.permissions.remove(permission);
-    }
-
-    public boolean isAdmin() {
-        return this.permissions.contains(UserPermission.ADMIN);
-    }
-
-    public boolean isModerator() {
-        return this.permissions.contains(UserPermission.MODERATOR);
+    public void verify() {
+        if (deletedAt != null) throw new UserNotEnabledException("User already deleted");
+        if (isVerified) throw new UserAlreadyEnabledException("User already verified");
+        this.isVerified = true;
     }
 }
