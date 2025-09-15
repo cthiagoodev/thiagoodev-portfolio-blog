@@ -11,11 +11,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    static private final String[] PUBLIC_MATCHERS = {
+        "/api/auth/login",
+        "/api/users/register",
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().permitAll()
+            .authorizeHttpRequests(authorize ->
+                authorize
+                    .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                    .anyRequest().authenticated()
             );
 
         return http.build();
