@@ -33,7 +33,8 @@ public class SecurityConfig {
                 authorize
                     .requestMatchers(PUBLIC_MATCHERS).permitAll()
                     .anyRequest().authenticated()
-            ).addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            )
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

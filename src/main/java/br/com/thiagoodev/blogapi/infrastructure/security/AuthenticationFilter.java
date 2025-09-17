@@ -44,7 +44,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         String token = this.getToken(request);
         String subject = this.jwtService.getSubject(token);
 
-        if(subject == null) throw new JwtAuthenticationException();
+        if(subject == null || subject.isEmpty()) throw new JwtAuthenticationException();
 
         User user = this.usersRepository.findByEmail(subject)
                 .filter(User::isEnabled)
