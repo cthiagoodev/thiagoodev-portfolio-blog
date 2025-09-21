@@ -26,7 +26,7 @@ public class ProjectsSchedule {
         this.repository = repository;
     }
 
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(fixedRate = 5 * 60 * 1000)
     @Transactional
     public void findAndSaveProjects() {
         List<GithubProject> projects = githubService.getProjects().block();
