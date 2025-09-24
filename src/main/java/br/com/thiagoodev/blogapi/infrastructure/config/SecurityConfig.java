@@ -20,12 +20,20 @@ public class SecurityConfig {
         "/portfolio/**",
     };
 
+    public static final String[] STATIC_MATCHERS = {
+        "/css/**",
+        "/js/**",
+        "/images/**",
+        "/favicon.ico"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize ->
                 authorize
+                    .requestMatchers(STATIC_MATCHERS).permitAll()
                     .requestMatchers(PUBLIC_MATCHERS).permitAll()
                     .anyRequest().authenticated()
             );
