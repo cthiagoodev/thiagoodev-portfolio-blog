@@ -1,0 +1,24 @@
+:root {
+    --color-brand-50: rgb(37, 30, 64);
+    --color-brand-100: rgb(44, 34, 80);
+    --color-brand-500: rgb(88, 66, 195);
+    --color-neutral-100: rgb(17, 24, 39);
+    --color-neutral-900: rgb(249, 250, 251);
+
+    --font-body: "Funnel Display", sans-serif;
+    --radius-md: 16px;
+}
+
+@layer base {
+    body {
+        font-family: var(--font-body);
+        background-color: var(--color-neutral-100);
+        color: var(--color-neutral-900);
+    }
+    header {
+        background-color: var(--color-brand-50);
+    }
+    h1, h2, h3 {
+        color: var(--color-brand-500);
+    }
+}
