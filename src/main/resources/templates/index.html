@@ -5,18 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>thiagoodev</title>
 </head>
-<body>
-    <h1>Meu portfolio</h1>
+<body class="bg-gray-100 text-gray-800">
 
-    <button hx-get="/portfolio/clicked" hx-swap="outerHTML">
-        Click Me
-    </button>
+    <!-- Header -->
+    <header class="bg-white shadow-md py-6">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <h1 class="text-3xl font-bold text-blue-600">Thiago Dev</h1>
+            <nav class="space-x-4">
+                <a href="#projects" class="text-gray-700 hover:text-blue-600">Projetos</a>
+                <a href="#about" class="text-gray-700 hover:text-blue-600">Sobre</a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-600">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="text-center py-20 bg-blue-50">
+        <h2 class="text-4xl font-bold mb-4">Bem-vindo ao meu Portfolio!</h2>
+        <p class="text-gray-700 mb-6">Aqui você encontra meus projetos e experimentos de desenvolvimento web.</p>
+        <button hx-get="/portfolio/clicked" hx-target="#hero-msg" hx-swap="innerHTML"
+                class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
+            Clique aqui
+        </button>
+        <div id="hero-msg" class="mt-4 text-lg text-blue-800"></div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="container mx-auto py-20 px-6">
+        <h3 class="text-3xl font-bold mb-10 text-center">Meus Projetos</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
+                <h4 class="text-xl font-semibold mb-2">Projeto 1</h4>
+                <p class="text-gray-600 mb-4">Descrição breve do projeto 1.</p>
+                <button hx-get="/portfolio/clicked" hx-target="#proj1-msg" hx-swap="innerHTML"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    Ver Mais
+                </button>
+                <div id="proj1-msg" class="mt-2 text-sm text-blue-700"></div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
+                <h4 class="text-xl font-semibold mb-2">Projeto 2</h4>
+                <p class="text-gray-600 mb-4">Descrição breve do projeto 2.</p>
+                <button hx-get="/portfolio/clicked" hx-target="#proj2-msg" hx-swap="innerHTML"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    Ver Mais
+                </button>
+                <div id="proj2-msg" class="mt-2 text-sm text-blue-700"></div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
+                <h4 class="text-xl font-semibold mb-2">Projeto 3</h4>
+                <p class="text-gray-600 mb-4">Descrição breve do projeto 3.</p>
+                <button hx-get="/portfolio/clicked" hx-target="#proj3-msg" hx-swap="innerHTML"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    Ver Mais
+                </button>
+                <div id="proj3-msg" class="mt-2 text-sm text-blue-700"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="bg-gray-50 py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold mb-6">Sobre Mim</h3>
+            <p class="text-gray-700 max-w-2xl mx-auto">
+                Sou desenvolvedor full-stack, apaixonado por criar experiências web bonitas e interativas.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container mx-auto py-20 px-6 text-center">
+        <h3 class="text-3xl font-bold mb-6">Contato</h3>
+        <p class="text-gray-700 mb-6">Entre em contato pelo email: <a href="mailto:thiago@dev.com" class="text-blue-600">thiago@dev.com</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-6 shadow-inner text-center">
+        <p class="text-gray-600">&copy; 2025 Thiago Dev. Todos os direitos reservados.</p>
+    </footer>
 
     <script
-        src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"
-        integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ"
-        crossorigin="anonymous">
+            src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"
+            integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ"
+            crossorigin="anonymous">
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 </html>
