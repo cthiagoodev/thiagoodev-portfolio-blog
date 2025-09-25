@@ -1,24 +1,29 @@
 :root {
-    --color-brand-50: rgb(37, 30, 64);
-    --color-brand-100: rgb(44, 34, 80);
-    --color-brand-500: rgb(88, 66, 195);
-    --color-neutral-100: rgb(17, 24, 39);
-    --color-neutral-900: rgb(249, 250, 251);
+    --color-brand-purple-darker: #251e40;
+    --color-brand-purple-dark: #2c2250;
+    --color-brand-purple-light: #5842c3;
 
-    --font-body: "Funnel Display", sans-serif;
+    --color-neutral-dark: #111827;
+    --color-neutral-light: #f9fafa;
+
+    --color-gray-soft: #e5e7eb;
+
+    --font-body: "Plus Jakarta Sans", sans-serif;
     --radius-md: 16px;
 }
 
-@layer base {
-    body {
-        font-family: var(--font-body);
-        background-color: var(--color-neutral-100);
-        color: var(--color-neutral-900);
-    }
-    header {
-        background-color: var(--color-brand-50);
-    }
-    h1, h2, h3 {
-        color: var(--color-brand-500);
-    }
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-neutral-dark);
+    color: var(--color-gray-soft);
+}
+header {
+    background-color: transparent;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-brand-purple-light);
+}
+
+p, a, span {
+    color: var(--color-gray-soft);
 }
