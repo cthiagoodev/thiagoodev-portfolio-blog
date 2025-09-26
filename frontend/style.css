@@ -1,2 +1,32 @@
 @import "tailwindcss";
 @source "../src/main/resources/templates";
+
+@theme {
+    --font-sans: "Plus Jakarta Sans", sans-serif;
+    --radius-default: 16px;
+
+    --color-primary: #5842c3;
+    --color-primary-dark: #251e40;
+    --color-background: #111827;
+    --color-foreground: #f9fafa;
+    --color-neutral: #e5e7eb;
+}
+
+@layer components {
+    .typography {
+        p, a, span {
+            font-size: var(--text-base);
+            color: var(--color-neutral);
+        }
+        h1 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+        h2 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+        }
+    }
+}
