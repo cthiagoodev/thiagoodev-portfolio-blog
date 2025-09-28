@@ -7,12 +7,19 @@
 
     --color-primary: #5842c3;
     --color-primary-dark: #251e40;
+    --color-primary-light: #e3b0ff;
     --color-background: #111827;
     --color-foreground: #f9fafa;
-    --color-neutral: #e5e7eb;
+    --color-neutral: #bdbdbd;
+    --color-accent: #00d9ff;
 }
 
 @layer components {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
     .typography {
         p, a, span {
             font-size: var(--text-base);
@@ -30,8 +37,23 @@
         }
     }
 
-    .button-effect {
-        @apply text-base font-bold transition-colors duration-300 hover:text-purple-300 hover:bg-primary rounded-lg p-3
+    .gradient-background {
+        background:
+            radial-gradient(ellipse at top left, color-mix(in srgb, var(--color-primary), var(--color-background) 60%) 0%, transparent 60%),
+            radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--color-primary-dark), var(--color-background) 50%) 0%, transparent 60%),
+            var(--color-background);
+    }
+
+    .nav-link {
+        @apply text-neutral
+                text-sm
+                font-bold
+                transition-colors
+                duration-300
+                hover:text-primary-light
+                hover:bg-black/20
+                rounded-lg
+                p-3;
     }
 }
 
