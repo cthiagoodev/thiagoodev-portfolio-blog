@@ -47,3 +47,20 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.register<Exec>("npmBuild") {
+    workingDir = file("frontend")
+    commandLine = if (System.getProperty("os.name").lowercase().contains("win")) {
+        listOf("cmd", "/c", "npm", "run", "build")
+    } else {
+        listOf("npm", "run", "build")
+    }
+}
+
+tasks.named("bootJar") {
+    dependsOn("npmBuild")
+}
+
+tasks.named("bootRun") {
+    dependsOn("npmBuild")
+}
