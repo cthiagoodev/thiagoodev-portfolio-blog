@@ -2,11 +2,11 @@ version: "3.9"
 services:
   db:
     image: postgres:17
-    container_name: blogapi_db
+    container_name: portfolio_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_DB: portfolio
     ports:
       - "5432:5432"
     volumes:
@@ -14,9 +14,10 @@ services:
 
   app:
     build: .
-    container_name: blogapi_app
+    container_name: portfolio
+
     environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/postgres
+      DATABASE_URL: jdbc:postgresql://db:5432/portfolio
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       GITHUB_URI: https://api.github.com/users/cthiagoodev/repos?per_page=100

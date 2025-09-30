@@ -3,4 +3,4 @@ pluginManagement {
         kotlin("jvm") version "2.2.10"
     }
 }
-rootProject.name = "blogapi"
+rootProject.name = "portfolio"
