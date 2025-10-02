@@ -55,5 +55,15 @@
                 rounded-lg
                 p-3;
     }
+
+    .primary-button {
+        @apply bg-primary-light
+                text-primary-dark
+                text-sm
+                font-bold
+                rounded-6xl
+                py-4
+                px-6
+    }
 }
 
