@@ -1,0 +1,25 @@
+<div th:fragment="tech-carousel" class="w-full mt-10 py-10 relative">
+    <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+        <ul class="flex items-center justify-center md:justify-start gap-12 animate-infinite-scroll">
+            <th:block th:each="tech : ${techs}">
+                <li class="tech-item flex flex-col items-center justify-center gap-2">
+                    <a th:href="${tech.url}" target="_blank" class="flex flex-col items-center">
+                        <img th:src="${tech.icon}" th:alt="${tech.name}" class="w-16 h-16 transition-transform hover:scale-110" />
+                        <span th:style="'color:' + ${tech.color}" class="mt-2 text-sm opacity-0 hover:opacity-100 transition-opacity text-center" th:text="${tech.name}"></span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+
+        <ul class="flex items-center justify-center md:justify-start gap-12 animate-infinite-scroll" aria-hidden="true">
+            <th:block th:each="tech : ${techs}">
+                <li class="tech-item flex flex-col items-center justify-center gap-2">
+                    <a th:href="${tech.url}" target="_blank" class="flex flex-col items-center">
+                        <img th:src="${tech.icon}" th:alt="${tech.name}" class="w-16 h-16 transition-transform hover:scale-110" />
+                        <span th:style="'color:' + ${tech.color}" class="mt-2 text-sm opacity-0 hover:opacity-100 transition-opacity text-center" th:text="${tech.name}"></span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</div>
