@@ -32,7 +32,7 @@ jobs:
           echo "DATABASE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.prod
           echo "DATABASE_NAME=${{ secrets.DB_NAME }}" >> .env.prod
           echo "DATABASE_URL=${{ secrets.APP_DB_URL }}" >> .env.prod
-          echo "GITHUB_URI=${{ secrets.GITHUB_TOKEN_URI }}" >> .env.prod          
+          echo "GITHUB_URI=${{ secrets.REPOS_TOKEN_URI }}" >> .env.prod          
           docker-compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
 
       - name: Clean up temporary .env file
