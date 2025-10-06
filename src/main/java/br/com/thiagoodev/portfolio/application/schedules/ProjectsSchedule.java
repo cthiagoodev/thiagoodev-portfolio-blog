@@ -1,13 +1,13 @@
 package br.com.thiagoodev.portfolio.application.schedules;
 
+import br.com.thiagoodev.portfolio.application.services.ProjectsService;
 import br.com.thiagoodev.portfolio.domain.entities.Project;
-import br.com.thiagoodev.portfolio.infrastructure.persistence.repositories.ProjectsRepository;
 import br.com.thiagoodev.portfolio.infrastructure.services.github.GithubProject;
 import br.com.thiagoodev.portfolio.infrastructure.services.github.GithubService;
-import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -16,30 +16,39 @@ import java.util.List;
 @Component
 public class ProjectsSchedule {
     private final GithubService githubService;
-    private final ProjectsRepository repository;
+    private final ProjectsService projectsService;
 
     public ProjectsSchedule(
         GithubService githubService,
-        ProjectsRepository repository
+        ProjectsService projectsService
     ) {
         this.githubService = githubService;
-        this.repository = repository;
+        this.projectsService = projectsService;
     }
 
-//    @Scheduled(fixedRate = 5 * 60 * 1000)
-    @Transactional
+    @Scheduled(fixedRate = 5 * 60 * 1000)
     public void findAndSaveProjects() {
-        List<GithubProject> projects = githubService.getProjects().block();
+        try {
+            List<GithubProject> projects = githubService
+                    .getProjects()
+                    .timeout(Duration.ofSeconds(10))
+                    .onErrorReturn(List.of())
+                    .block();
 
-        if(projects == null || projects.isEmpty()) return;
+            if(projects == null || projects.isEmpty()) {
+                System.err.println("No projects found.");
+                return;
+            }
 
-        List<Project> entities = projects.stream()
-            .map(this::mapToEntity)
-            .toList();
+            List<Project> entities = projects.stream()
+                .map(this::mapToEntity)
+                .toList();
 
-        repository.saveAllAndFlush(entities);
+            projectsService.saveAll(entities);
+        } catch (Exception error) {
+
+        }
     }
-
 
     private Project mapToEntity(GithubProject githubProject) {
         return Project.builder()
