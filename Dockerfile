@@ -1,4 +1,8 @@
-FROM openjdk:25-jdk
-ARG JAR_FILE=build/libs/\*.jar
+FROM eclipse-temurin:25-jre
+WORKDIR /app
+ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","/app/app.jar"]

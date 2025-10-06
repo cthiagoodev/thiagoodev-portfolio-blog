@@ -1,0 +1,40 @@
+name: Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant Execute Permission
+        run: chmod +x gradlew
+
+      - name: Gradle Build JAR
+        run: ./gradlew clean build -x test
+
+      - name: Configure and Start Docker Compose
+        run: |
+          echo "DATABASE_USER=${{ secrets.DB_USER }}" >> .env.prod
+          echo "DATABASE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.prod
+          echo "DATABASE_NAME=${{ secrets.DB_NAME }}" >> .env.prod
+          echo "DATABASE_URL=${{ secrets.APP_DB_URL }}" >> .env.prod
+          echo "GITHUB_URI=${{ secrets.GITHUB_TOKEN_URI }}" >> .env.prod          
+          docker-compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+
+      - name: Clean up temporary .env file
+        if: always()
+        run: rm .env.prod
