@@ -16,15 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     public static final String[] PUBLIC_MATCHERS = {
-        "/",
         "/portfolio/**",
-    };
-
-    public static final String[] STATIC_MATCHERS = {
-        "/css/**",
-        "/js/**",
-        "/images/**",
-        "/favicon.ico"
     };
 
     @Bean
@@ -33,7 +25,6 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize ->
                 authorize
-                    .requestMatchers(STATIC_MATCHERS).permitAll()
                     .requestMatchers(PUBLIC_MATCHERS).permitAll()
                     .anyRequest().authenticated()
             );

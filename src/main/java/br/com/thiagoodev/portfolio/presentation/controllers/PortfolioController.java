@@ -4,14 +4,14 @@ import br.com.thiagoodev.portfolio.application.services.ProjectsService;
 import br.com.thiagoodev.portfolio.application.services.TechnologyService;
 import br.com.thiagoodev.portfolio.domain.entities.Project;
 import br.com.thiagoodev.portfolio.domain.entities.Technology;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/portfolio")
 public class PortfolioController {
     private final ProjectsService projectsService;
@@ -26,18 +26,14 @@ public class PortfolioController {
     }
 
     @GetMapping("/techs")
-    public String techs(Model model) {
+    public ResponseEntity<List<Technology>> techs() {
         List<Technology> techs = this.technologyService.getAll();
-        model.addAttribute("techs", techs);
-
-        return "fragments/tech-carousel :: tech-carousel";
+        return ResponseEntity.ok(techs);
     }
 
     @GetMapping("/projects")
-    public String projects(Model model) {
+    public ResponseEntity<List<Project>> projects() {
         List<Project> projects = this.projectsService.getAll();
-        model.addAttribute("projects", projects);
-
-        return "fragments/projects :: projects";
+        return ResponseEntity.ok(projects);
     }
 }
