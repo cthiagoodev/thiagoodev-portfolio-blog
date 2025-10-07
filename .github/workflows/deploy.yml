@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and Deploy on VPS
+    name: Build and Deploy
     runs-on: self-hosted
     environment: production
 
