@@ -12,6 +12,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  storage:
+    image: nginx:alpine
+    container_name: storage_nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - storage_data:/usr/share/nginx/html
+
   app:
     build: .
     container_name: portfolio
@@ -28,3 +36,4 @@ services:
 
 volumes:
   db_data:
+  storage_data:
