@@ -40,6 +40,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
 }
 
+tasks.named<Jar>("jar") {
+    enabled = false
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
