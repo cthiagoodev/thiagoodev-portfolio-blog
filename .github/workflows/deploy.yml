@@ -52,11 +52,11 @@ jobs:
         run: |
           echo "🧩 Deploying with Docker Compose..."
 
-          docker compose -f docker-compose.prod.yml down --remove-orphans || true
+          docker-compose -f docker-compose.prod.yml down --remove-orphans || true
           docker system prune -af --volumes || true
 
-          docker compose -f docker-compose.prod.yml build --no-cache
-          docker compose -f docker-compose.prod.yml up -d
+          docker-compose -f docker-compose.prod.yml build --no-cache
+          docker-compose -f docker-compose.prod.yml up -d
 
       - name: Verify Deployment
         run: |
