@@ -1,17 +1,28 @@
-name: Production Deploy
+name: Deploy Portfolio
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+
+concurrency:
+  group: portfolio-deploy
+  cancel-in-progress: true
+
 jobs:
   deploy:
+    name: Build and Deploy on VPS
     runs-on: self-hosted
+    environment: production
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java 25
         uses: actions/setup-java@v4
@@ -20,21 +31,34 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Grant Execute Permission
-        run: chmod +x gradlew
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Gradle Build JAR
+      - name: Build Application
         run: ./gradlew clean build -x test
 
-      - name: Configure and Start Docker Compose
+      - name: Deploy with Docker Compose
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          GITHUB_URI: ${{ secrets.GITHUB_URI }}
         run: |
-          echo "DATABASE_USER=${{ secrets.DB_USER }}" >> .env.prod
-          echo "DATABASE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.prod
-          echo "DATABASE_NAME=${{ secrets.DB_NAME }}" >> .env.prod
-          echo "DATABASE_URL=${{ secrets.APP_DB_URL }}" >> .env.prod
-          echo "GITHUB_URI=${{ secrets.REPOS_TOKEN_URI }}" >> .env.prod          
-          docker-compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+          echo "🧩 Deploying with Docker Compose..."
 
-      - name: Clean up temporary .env file
-        if: always()
-        run: rm .env.prod
+          docker compose -f docker-compose.prod.yml down --remove-orphans || true
+          docker system prune -af --volumes || true
+
+          docker compose -f docker-compose.prod.yml build --no-cache
+          docker compose -f docker-compose.prod.yml up -d
+
+      - name: Verify Deployment
+        run: |
+          echo "✅ Checking if container is running..."
+          docker ps --filter "name=portfolio" --format "table {{.Names}}\t{{.Status}}"
