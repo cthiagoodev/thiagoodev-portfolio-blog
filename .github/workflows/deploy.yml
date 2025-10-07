@@ -44,11 +44,11 @@ jobs:
 
       - name: Deploy with Docker Compose
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_USER: ${{ secrets.DATABASE_USER }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-          GITHUB_URI: ${{ secrets.GITHUB_URI }}
+          DATABASE_URL: ${{ secrets.APP_DB_URL }}
+          DATABASE_USER: ${{ secrets.DB_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DATABASE_NAME: ${{ secrets.DB_NAME }}
+          GITHUB_URI: ${{ secrets.REPOS_TOKEN_URI }}
         run: |
           echo "🧩 Deploying with Docker Compose..."
 
