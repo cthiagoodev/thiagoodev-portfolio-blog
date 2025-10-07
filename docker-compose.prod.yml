@@ -14,7 +14,7 @@ services:
 
   storage:
     image: nginx:alpine
-    container_name: storage_nginx
+    container_name: portfolio_storage
     ports:
       - "8081:80"
     volumes:
