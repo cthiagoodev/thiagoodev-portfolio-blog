@@ -12,13 +12,20 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  storage:
-    image: nginx:alpine
+  minio:
+    image: minio/minio:latest
     container_name: portfolio_storage
+
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_DEFAULT_BUCKETS: portfolio-storage-bucket
     ports:
-      - "8081:80"
+      - "9000:9000"
+      - "9001:9001"
     volumes:
-      - storage_data:/usr/share/nginx/html
+      - storage_data:/data
+    command: server /data --console-address ":9001"
 
   app:
     build: .
@@ -29,10 +36,15 @@ services:
       DATABASE_USERNAME: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       GITHUB_URI: ${GITHUB_URI}
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_DEFAULT_BUCKETS: portfolio-storage-bucket
     ports:
       - "8080:8080"
     depends_on:
       - db
+      - minio
 
 volumes:
   db_data:
