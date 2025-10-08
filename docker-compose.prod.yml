@@ -20,6 +20,7 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_DEFAULT_BUCKETS: portfolio-storage-bucket
+      MINIO_SERVER_URL: https://storage.thiagoodev.com.br
     ports:
       - "9000:9000"
       - "9001:9001"
