@@ -38,6 +38,8 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
+    implementation("org.apache.commons:commons-lang3:3.19.0")
+    implementation("io.minio:minio:8.6.0")
 }
 
 tasks.named<Jar>("jar") {
