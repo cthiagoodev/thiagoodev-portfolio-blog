@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
 public class StorageService {
     @Value("${minio.bucket.name}")
     private String bucketName;
+    @Value("${storage.uri}")
+    private String storageUri;
     private final MinioClient client;
 
     public StorageService(MinioClient client) {
@@ -65,5 +68,14 @@ public class StorageService {
         } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e) {
             throw new RuntimeException("Error during upload to MinIO: " + e.getMessage(), e);
         }
+    }
+
+    public String storageUrlResolver(String objectName) {
+        URI uri = URI.create(
+            this.storageUri + "/" +
+            this.bucketName + "/" +
+            objectName
+        );
+        return uri.normalize().toString();
     }
 }

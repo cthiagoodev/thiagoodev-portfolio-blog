@@ -11,7 +11,7 @@ import java.util.UUID;
 @Table(name = "technologies")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
