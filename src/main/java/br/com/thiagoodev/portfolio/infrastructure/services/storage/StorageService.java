@@ -29,7 +29,12 @@ public class StorageService {
     @PostConstruct
     private void init() {
         try {
-            boolean bucketExists = client.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            BucketExistsArgs bucketExistsArgs = BucketExistsArgs
+                    .builder()
+                    .bucket(bucketName)
+                    .build();
+            boolean bucketExists = client.bucketExists(bucketExistsArgs);
+
             if (!bucketExists) {
                 log.info("Bucket '{}' not found. Creating...", bucketName);
                 MakeBucketArgs bucketArgs = MakeBucketArgs
