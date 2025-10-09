@@ -26,15 +26,14 @@ services:
       - "9001:9001"
     volumes:
       - storage_data:/data
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        minio server /data --console-address ":9001" &        
-        sleep 5        
-        mc config host add myminio http://127.0.0.1:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD        
-        mc anonymous set download myminio/portfolio-storage-bucket        
-        wait $!
+    entrypoint: >
+      sh -c '
+        minio server /data --console-address ":9001" &
+        sleep 10
+        mc config host add myminio http://127.0.0.1:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD
+        mc anonymous set download myminio/portfolio-storage-bucket
+        wait $$!
+      '
 
   app:
     build: .
