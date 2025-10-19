@@ -12,11 +12,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 public class ProjectsSchedule {
     private final GithubService githubService;
     private final ProjectsService projectsService;
+
+    static final Logger logger = Logger.getLogger(ProjectsSchedule.class.getName());
 
     public ProjectsSchedule(
         GithubService githubService,
@@ -36,7 +39,7 @@ public class ProjectsSchedule {
                     .block();
 
             if(projects == null || projects.isEmpty()) {
-                System.err.println("No projects found.");
+                logger.info("No projects found.");
                 return;
             }
 
@@ -46,7 +49,7 @@ public class ProjectsSchedule {
 
             projectsService.saveAll(entities);
         } catch (Exception error) {
-
+            logger.severe("Error during projects schedule: " + error.getMessage());
         }
     }
 
