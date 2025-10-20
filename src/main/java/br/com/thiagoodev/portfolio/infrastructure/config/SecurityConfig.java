@@ -1,8 +1,11 @@
 package br.com.thiagoodev.portfolio.infrastructure.config;
 
+import br.com.thiagoodev.portfolio.domain.entities.Permission;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,8 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     public static final String[] PUBLIC_MATCHERS = {
+        "/",
+        "/error",
         "/portfolio/**",
     };
 
@@ -25,9 +29,11 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize ->
                 authorize
-                    .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                    .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
+                    .requestMatchers("/explorer/**").hasAuthority(Permission.ROLE_ADMIN)
                     .anyRequest().authenticated()
-            );
+            )
+            .formLogin(Customizer.withDefaults());
 
         return http.build();
     }

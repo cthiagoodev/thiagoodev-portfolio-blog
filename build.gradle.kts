@@ -40,6 +40,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
     implementation("org.apache.commons:commons-lang3:3.19.0")
     implementation("io.minio:minio:8.6.0")
+    implementation("org.springframework.data:spring-data-rest-hal-explorer")
 }
 
 tasks.named<Jar>("jar") {
