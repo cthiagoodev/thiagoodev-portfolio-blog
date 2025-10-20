@@ -19,9 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     public static final String[] PUBLIC_MATCHERS = {
         "/error",
-    };
-
-    public static final String[] PORTFOLIO_MATCHERS = {
         "/portfolio/**",
     };
 
@@ -33,8 +30,7 @@ public class SecurityConfig {
                 authorize
                     .requestMatchers("/explorer/**").hasAuthority(Permission.ROLE_ADMIN)
                     .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
-                    .requestMatchers(HttpMethod.GET, PORTFOLIO_MATCHERS).permitAll()
-                    .requestMatchers(PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
+                    .requestMatchers(PUBLIC_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
                     .anyRequest().authenticated()
             )
             .formLogin(Customizer.withDefaults());
