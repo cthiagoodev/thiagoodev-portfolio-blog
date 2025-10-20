@@ -34,10 +34,7 @@ public class SecurityConfig {
                     .requestMatchers("/explorer/**").hasAuthority(Permission.ROLE_ADMIN)
                     .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
                     .requestMatchers(HttpMethod.GET, PORTFOLIO_MATCHERS).permitAll()
-                    .requestMatchers(HttpMethod.POST, PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
-                    .requestMatchers(HttpMethod.PUT, PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
-                    .requestMatchers(HttpMethod.PATCH, PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
-                    .requestMatchers(HttpMethod.DELETE, PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
+                    .requestMatchers(PORTFOLIO_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
                     .anyRequest().authenticated()
             )
             .formLogin(Customizer.withDefaults());
