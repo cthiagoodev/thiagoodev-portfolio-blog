@@ -28,7 +28,6 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize ->
                 authorize
-                    .requestMatchers("/explorer/**").hasAuthority(Permission.ROLE_ADMIN)
                     .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
                     .requestMatchers(PUBLIC_MATCHERS).hasAuthority(Permission.ROLE_ADMIN)
                     .anyRequest().authenticated()

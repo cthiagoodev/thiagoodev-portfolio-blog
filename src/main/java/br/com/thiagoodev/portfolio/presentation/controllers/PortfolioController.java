@@ -7,13 +7,13 @@ import br.com.thiagoodev.portfolio.domain.entities.Experience;
 import br.com.thiagoodev.portfolio.domain.entities.Project;
 import br.com.thiagoodev.portfolio.domain.entities.Technology;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/portfolio")
 public class PortfolioController {
     private final ProjectsService projectsService;
