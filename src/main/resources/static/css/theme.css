@@ -1,0 +1,23 @@
+[data-theme="dark"], :root:not([data-theme="light"]) {
+    --color-background: #000000;
+    --color-foreground: #F9FAFA;
+    --color-primary: #5842C3;
+    --color-primary-dark: #251E40;
+    --color-primary-light: #E3B0FF;
+    --color-neutral: #BDBDBD;
+    --color-accent: #00D9FF;
+
+    --pico-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    --pico-background-color: var(--color-background);
+    --pico-color: var(--color-neutral);
+    --pico-primary: var(--color-primary);
+    --pico-primary-inverse: #000000;
+    --pico-border-color: #222222;
+    --pico-h1-color: var(--color-neutral);
+    --pico-h2-color: var(--color-neutral);
+    --pico-h3-color: var(--color-neutral);
+    --pico-h4-color: var(--color-neutral);
+    --pico-h5-color: var(--color-neutral);
+    --pico-h6-color: var(--color-neutral);
+    --pico-bold-color: var(--color-neutral);
+}
