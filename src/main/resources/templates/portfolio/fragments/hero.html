@@ -1,25 +1,30 @@
-<section th:fragment="hero" class="hero-section">
-    <div class="hero-grid">
+<section th:fragment="hero" class="hero">
+    <div class="hero__grid">
+        <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image-wrapper">
 
-        <div>
-            <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="profile-photo">
-        </div>
+        <div class="hero__content">
+            <h1 class="hero__title" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
 
-        <div class="hero-content">
-            <h1 class="hero-name" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
-
-            <p class="role-line">
-                <span th:text="#{hero.role.prefix}"></span>
-                <span class="highlight-brand" th:text="#{hero.role.highlight}"></span>
+            <p class="hero__subtitle">
+                <span th:text="#{hero.role.main}">Engenheiro de Software</span>
+                <span class="hero__separator" th:text="#{hero.role.separator}">.</span>
+                <span th:text="#{hero.role.connector}"> criador da </span>
+                <span class="highlight" th:text="#{hero.role.highlight}">Mobile Devs Ceará</span>
             </p>
 
-            <p class="description" th:text="#{hero.description}"></p>
+            <p class="hero__description">
+                <span th:text="#{hero.description.part1}"></span>
+                <strong class="hero__description-highlight" th:text="#{hero.description.part2}"></strong>
+                <span th:text="#{hero.description.part3}"></span>
+            </p>
 
-            <div class="button-group">
-                <a th:href="@{/contact}" role="button" th:text="#{hero.button.contact}"></a>
-                <a th:href="@{/blog}" role="button" class="secondary" th:text="#{hero.button.blog}"></a>
+            <div class="hero__actions">
+                <a th:href="@{/contact}" class="btn-cta" th:text="#{hero.button.contact}"></a>
+                <a th:href="@{/blog}" class="btn-text">
+                    <span th:text="#{hero.button.blog}"></span>
+                    <span class="arrow"> →</span>
+                </a>
             </div>
         </div>
-
     </div>
 </section>

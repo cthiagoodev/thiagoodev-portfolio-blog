@@ -1,12 +1,12 @@
 <header th:fragment="header" class="container">
-    <nav>
-        <h1 class="brand-logo" th:text="#{header.brand}">thiagoodev</h1>
-        <ul>
-            <li><a th:href="@{/}" th:text="#{nav.home}">Início</a></li>
-            <li><a th:href="@{/career}" th:text="#{nav.career}">Carreira</a></li>
-            <li><a th:href="@{/portfolio}" th:text="#{nav.portfolio}">Portfólio</a></li>
-            <li><a th:href="@{/about}" th:text="#{nav.about}">Sobre</a></li>
-            <li><a th:href="@{/contact}" th:text="#{nav.contact}">Contato</a></li>
+    <nav class="nav__container">
+        <h1 class="nav__brand" th:text="#{header.brand}">thiagoodev</h1>
+        <ul class="nav__list">
+            <li><a th:href="@{/}" class="nav__link" th:text="#{nav.home}">Início</a></li>
+            <li><a th:href="@{/}" class="nav__link" th:text="#{nav.career}">Carreira</a></li>
+            <li><a th:href="@{/}" class="nav__link" th:text="#{nav.portfolio}">Portfólio</a></li>
+            <li><a th:href="@{/}" class="nav__link" th:text="#{nav.about}">Sobre</a></li>
+            <li><a th:href="@{/}" class="nav__link" th:text="#{nav.contact}">Contato</a></li>
         </ul>
     </nav>
 </header>
