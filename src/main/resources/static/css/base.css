@@ -3,7 +3,34 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
+
+    position: relative;
+    overflow-x: hidden;
 }
+
+body::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+
+    top: 50px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 700px;
+    height: 600px;
+
+    background-image: radial-gradient(
+            circle,
+            rgba(88, 66, 195, 0.25),
+            rgba(0, 217, 255, 0.15) 60%,
+            transparent 80%
+    );
+
+    filter: blur(120px);
+}
+
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 800;
