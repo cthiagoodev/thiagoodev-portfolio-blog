@@ -18,8 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     public static final String[] PUBLIC_MATCHERS = {
+        "/",
         "/error",
-        "/portfolio/**",
+        "/css/**",
+        "/images/**",
     };
 
     @Bean

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <title th:text="#{header.brand}">thiagoodev</title>
+</head>
+<body data-theme="dark">
+
+<header th:replace="portfolio/fragments/header.html :: header"></header>
+
+<main class="container">
+    <section th:replace="portfolio/fragments/hero.html :: hero"></section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+</body>
+</html>

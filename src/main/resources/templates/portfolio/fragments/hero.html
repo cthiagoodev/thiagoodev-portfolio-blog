@@ -1,0 +1,25 @@
+<section th:fragment="hero" class="hero-section">
+    <div class="hero-grid">
+
+        <div>
+            <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="profile-photo">
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-name" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
+
+            <p class="role-line">
+                <span th:text="#{hero.role.prefix}"></span>
+                <span class="highlight-brand" th:text="#{hero.role.highlight}"></span>
+            </p>
+
+            <p class="description" th:text="#{hero.description}"></p>
+
+            <div class="button-group">
+                <a th:href="@{/contact}" role="button" th:text="#{hero.button.contact}"></a>
+                <a th:href="@{/blog}" role="button" class="secondary" th:text="#{hero.button.blog}"></a>
+            </div>
+        </div>
+
+    </div>
+</section>
