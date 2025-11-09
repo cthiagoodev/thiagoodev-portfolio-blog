@@ -44,7 +44,7 @@
 }
 
 .hero__separator {
-    color: var(--color-accent);
+    color: var(--color-primary);
     font-weight: 700;
 }
 
