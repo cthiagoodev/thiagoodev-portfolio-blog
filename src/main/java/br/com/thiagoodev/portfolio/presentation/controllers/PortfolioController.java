@@ -3,9 +3,13 @@ package br.com.thiagoodev.portfolio.presentation.controllers;
 import br.com.thiagoodev.portfolio.application.services.ExperienceService;
 import br.com.thiagoodev.portfolio.application.services.ProjectsService;
 import br.com.thiagoodev.portfolio.application.services.TechnologyService;
+import br.com.thiagoodev.portfolio.domain.entities.Technology;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -25,7 +29,11 @@ public class PortfolioController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        List<Technology> techs = technologyService.getAll();
+
+        model.addAttribute("techs", techs);
+
         return "portfolio/index";
     }
 }
