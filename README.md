@@ -1,4 +1,4 @@
-Este é o repositório do meu **Portfólio Pessoal e Blog de Tecnologia**, um projeto que decidi desenvolver do zero para ser meu laboratório de aprendizado e minha vitrine profissional. Meu principal objetivo é praticar e consolidar conhecimentos em **Desenvolvimento Full-Stack** e **Infraestrutura Própria (Self-Hosted)**, cobrindo o ciclo completo: do código à produção.
+Este é o repositório do meu **Portfólio Pessoal e Blog de Tecnologia**, um projeto que decidi desenvolver do zero para ser meu laboratório de aprendizado e minha vitrine profissional. Meu principal objetivo é praticar e consolidar conhecimentos em **Desenvolvimento Backend com Java** e **Infraestrutura Própria (Self-Hosted)**, cobrindo o ciclo completo: do código à produção.
 
 Estou animado em usar este projeto para expor meus trabalhos, compartilhar artigos técnicos e, claro, me desafiar com novas tecnologias.
 
