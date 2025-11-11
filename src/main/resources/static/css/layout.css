@@ -72,8 +72,16 @@
 }
 
 .hero__subtitle > span { white-space: nowrap; }
-.hero__separator, .highlight { white-space: nowrap; }
 
+.hero__separator  {
+    color: var(--color-primary);
+    white-space: nowrap;
+}
+
+.highlight {
+    color: var(--color-primary-light);
+    white-space: nowrap;
+}
 
 .hero__description {
     font-size: 0.9rem;
