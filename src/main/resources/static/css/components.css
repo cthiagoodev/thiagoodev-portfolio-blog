@@ -3,6 +3,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
+    min-height: var(--header-height);
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .nav__brand {
@@ -17,12 +20,14 @@
     margin: 0;
     padding: 0;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .nav__link {
     color: var(--color-neutral);
     font-weight: 400;
-    font-size: .8rem;
+    font-size: .9rem;
     text-decoration: none;
     padding: .7rem .8rem;
     border-radius: 10px;
@@ -39,6 +44,11 @@
     font-weight: 600;
 }
 
+.nav__link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
 .btn-cta {
     display: inline-flex;
     align-items: center;
@@ -47,7 +57,7 @@
     text-align: center;
     padding: .8rem 1.75rem;
     border-radius: 300px;
-    font-size: .7rem;
+    font-size: .875rem;
     font-weight: 700;
     text-decoration: none;
     transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
@@ -60,6 +70,11 @@
 .btn-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(227, 176, 255, 0.5);
+}
+
+.btn-cta:focus-visible {
+    outline: 2px solid var(--color-primary-light);
+    outline-offset: 2px;
 }
 
 .btn-cta.secondary {
@@ -80,7 +95,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: .7rem;
+    font-size: .875rem;
     font-weight: 700;
     text-decoration: none;
     color: var(--color-neutral);
@@ -98,6 +113,11 @@
 
 .btn-text:hover .arrow {
     transform: translateX(4px);
+}
+
+.btn-text:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 .pill {

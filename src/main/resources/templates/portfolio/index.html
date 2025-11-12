@@ -13,12 +13,40 @@
 </head>
 <body data-theme="dark">
 
-<header th:replace="portfolio/fragments/header.html :: header"></header>
+<header th:replace="~{portfolio/fragments/header.html :: header}"></header>
 
 <main class="container">
-    <section th:replace="portfolio/fragments/hero.html :: hero"></section>
+    <section th:replace="~{portfolio/fragments/hero.html :: hero}"></section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = Array.from(document.querySelectorAll('.nav__link[data-nav]'));
+
+        function setActive(key) {
+            navLinks.forEach(a => {
+                const isActive = a.dataset.nav === key;
+                a.classList.toggle('active', isActive);
+                if (isActive) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+            });
+        }
+
+        if (location && (location.pathname === '/' || location.pathname === '')) {
+            setActive('inicio');
+        }
+
+        const sections = Array.from(document.querySelectorAll('[data-section]'));
+        if (sections.length && 'IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                const visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                if (visible && visible.target && visible.target.id) {
+                    setActive(visible.target.id);
+                }
+            }, { rootMargin: '0px 0px -60% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+            sections.forEach(sec => io.observe(sec));
+        }
+    });
+</script>
 </body>
 </html>

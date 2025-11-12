@@ -1,4 +1,4 @@
-<section th:fragment="hero" class="hero">
+<section th:fragment="hero" class="hero" id="inicio" data-section>
     <div class="hero__grid">
         <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image-wrapper">
 
@@ -27,6 +27,6 @@
             </div>
         </div>
 
-        <div th:insert="portfolio/fragments/techs.html :: techs" class="hero__techs-wrapper"></div>
+        <div th:insert="~{portfolio/fragments/techs.html :: techs}" class="hero__techs-wrapper"></div>
     </div>
 </section>

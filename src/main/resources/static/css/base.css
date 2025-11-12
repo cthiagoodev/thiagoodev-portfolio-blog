@@ -31,9 +31,18 @@ body::before {
     filter: blur(120px);
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 800;
+}
+
+body, h1, h2, h3, h4, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
+    margin: 0;
 }
 
 .container {
