@@ -50,14 +50,15 @@
 }
 
 .btn-cta {
+    /* Mobile-first: slightly smaller buttons for compact look */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     text-align: center;
-    padding: .8rem 1.75rem;
+    padding: .7rem 1.5rem;
     border-radius: 300px;
-    font-size: .875rem;
+    font-size: .85rem;
     font-weight: 700;
     text-decoration: none;
     transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
@@ -94,8 +95,8 @@
 .btn-text {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: .875rem;
+    gap: 0.45rem;
+    font-size: .85rem; /* slightly smaller text on mobile */
     font-weight: 700;
     text-decoration: none;
     color: var(--color-neutral);
@@ -140,4 +141,90 @@
     line-height: 28px;
     text-align: center;
     font-weight: 700;
+}
+
+/* Responsive adjustments for buttons */
+@media (min-width: 768px) {
+    .btn-cta {
+        padding: .8rem 1.75rem;
+        font-size: .9rem;
+    }
+    .btn-text {
+        font-size: .9rem;
+    }
+}
+
+.experience-card {
+    position: relative;
+    border-radius: 12px;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    color: var(--color-foreground);
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--pico-border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    min-height: clamp(160px, 28vw, 220px);
+}
+
+.experience-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(88, 66, 195, 0.2);
+    border-color: rgba(88, 66, 195, 0.5);
+}
+
+.experience-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.experience-card__badge {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-color: var(--pico-border-color);
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--color-neutral);
+}
+
+.experience-card__period {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-foreground);
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+.experience-card__body {}
+
+.experience-card__title {
+    margin: 0 0 0.35rem 0;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+    color: var(--color-foreground);
+}
+
+.experience-card__company {
+    margin: 0 0 0.85rem 0;
+    color: var(--color-neutral);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+.experience-card__description {
+    margin: 0;
+    color: var(--color-neutral);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

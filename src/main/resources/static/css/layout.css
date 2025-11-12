@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem 0;
+    padding: 2rem 0; /* Mobile-first: slightly tighter spacing */
     margin: 0;
 }
 
@@ -33,6 +33,9 @@
     box-shadow: 0 0 50px 0px var(--color-primary);
     position: relative;
     z-index: 2;
+    aspect-ratio: 1 / 1; /* keep perfect circle */
+    overflow: hidden; /* ensure circle crop */
+    object-fit: cover;
 }
 
 .hero__content {
@@ -47,9 +50,9 @@
 .hero__title {
     color: var(--color-foreground);
     font-weight: 800;
-    font-size: 2.3rem;
+    font-size: clamp(1.8rem, 6vw, 2.6rem); /* Mobile-first fluid size */
     margin-bottom: 0.8rem;
-    line-height: 1.3;
+    line-height: 1.2;
     text-wrap: balance;
     overflow-wrap: break-word;
 }
@@ -269,8 +272,9 @@
     }
 
     .hero__title {
-        font-size: 3.6rem;
-        white-space: nowrap;
+        /* Desktop: large but allow wrapping to keep horizontal alignment */
+        font-size: 3.2rem;
+        white-space: normal;
     }
 
     .hero__subtitle {
@@ -327,5 +331,38 @@
         animation: none;
         transition: none;
         transform: none;
+    }
+}
+.experiences-section {
+    padding: clamp(1.5rem, 5vw, 3rem) 0;
+}
+
+.experiences-section__title {
+    text-align: center;
+    font-weight: 800;
+    font-size: clamp(1.25rem, 3.5vw, 2rem);
+    margin: 0 0 2rem 0;
+    color: var(--color-foreground);
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+    .experiences-section__title {
+        background: linear-gradient(to right, var(--color-foreground), var(--color-primary-light), var(--color-accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--color-foreground);
+    }
+}
+
+.experiences-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .experiences-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

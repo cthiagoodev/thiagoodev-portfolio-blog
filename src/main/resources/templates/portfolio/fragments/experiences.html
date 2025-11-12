@@ -1,0 +1,29 @@
+<section th:fragment="experiences" class="experiences-section container" aria-label="Experiências profissionais" id="experiencias" data-section th:if="${experiences != null and !#lists.isEmpty(experiences)}">
+    <h2 class="experiences-section__title">Experiências Profissionais</h2>
+
+    <div class="experiences-grid">
+        <article class="experience-card"
+                 th:each="exp : ${experiences}"
+                 th:aria-label="${exp.position + ' em ' + exp.company}">
+            <header class="experience-card__header">
+                <div class="experience-card__badge trademark" th:text="${#strings.substring(exp.company, 0, 1).toUpperCase()}">T</div>
+
+                <div class="experience-card__period">
+                    <time th:attr="datetime=${#temporals.format(exp.startDate, 'yyyy-MM')}"
+                          th:text="${#temporals.format(exp.startDate, 'MMM/yyyy')}">Jan/2023</time>
+                    <span> - </span>
+                    <span th:if="${exp.endDate == null}" class="pill">Atual</span>
+                    <time th:unless="${exp.endDate == null}"
+                          th:attr="datetime=${#temporals.format(exp.endDate, 'yyyy-MM')}"
+                          th:text="${#temporals.format(exp.endDate, 'MMM/yyyy')}">Dez/2024</time>
+                </div>
+            </header>
+
+            <div class="experience-card__body">
+                <h3 class="experience-card__title" th:text="${exp.position}">Cargo</h3>
+                <p class="experience-card__company" th:text="${exp.company}">Empresa</p>
+                <p class="experience-card__description" th:if="${exp.description != null}" th:text="${exp.description}"></p>
+            </div>
+        </article>
+    </div>
+</section>

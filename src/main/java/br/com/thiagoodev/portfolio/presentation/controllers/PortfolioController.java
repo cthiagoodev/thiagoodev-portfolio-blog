@@ -31,8 +31,10 @@ public class PortfolioController {
     @GetMapping("/")
     public String index(Model model) {
         List<Technology> techs = technologyService.getAll();
+        var experiences = experienceService.getAll();
 
         model.addAttribute("techs", techs);
+        model.addAttribute("experiences", experiences);
 
         return "portfolio/index";
     }
