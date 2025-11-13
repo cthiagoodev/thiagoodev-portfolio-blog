@@ -3,6 +3,7 @@ package br.com.thiagoodev.portfolio.presentation.controllers;
 import br.com.thiagoodev.portfolio.application.services.ExperienceService;
 import br.com.thiagoodev.portfolio.application.services.ProjectsService;
 import br.com.thiagoodev.portfolio.application.services.TechnologyService;
+import br.com.thiagoodev.portfolio.domain.entities.Experience;
 import br.com.thiagoodev.portfolio.domain.entities.Technology;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,7 @@ public class PortfolioController {
     @GetMapping("/")
     public String index(Model model) {
         List<Technology> techs = technologyService.getAll();
-        var experiences = experienceService.getAll();
+        List<Experience> experiences = experienceService.getAll();
 
         model.addAttribute("techs", techs);
         model.addAttribute("experiences", experiences);

@@ -1,6 +1,4 @@
 <section th:fragment="experiences" class="experiences-section container" aria-label="Experiências profissionais" id="experiencias" data-section th:if="${experiences != null and !#lists.isEmpty(experiences)}">
-    <h2 class="experiences-section__title">Experiências Profissionais</h2>
-
     <div class="experiences-grid">
         <article class="experience-card"
                  th:each="exp : ${experiences}"

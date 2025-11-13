@@ -50,7 +50,7 @@
 .hero__title {
     color: var(--color-foreground);
     font-weight: 800;
-    font-size: clamp(1.8rem, 6vw, 2.6rem); /* Mobile-first fluid size */
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
     margin-bottom: 0.8rem;
     line-height: 1.2;
     text-wrap: balance;
@@ -335,24 +335,6 @@
 }
 .experiences-section {
     padding: clamp(1.5rem, 5vw, 3rem) 0;
-}
-
-.experiences-section__title {
-    text-align: center;
-    font-weight: 800;
-    font-size: clamp(1.25rem, 3.5vw, 2rem);
-    margin: 0 0 2rem 0;
-    color: var(--color-foreground);
-}
-
-@supports (-webkit-background-clip: text) or (background-clip: text) {
-    .experiences-section__title {
-        background: linear-gradient(to right, var(--color-foreground), var(--color-primary-light), var(--color-accent));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: var(--color-foreground);
-    }
 }
 
 .experiences-grid {
