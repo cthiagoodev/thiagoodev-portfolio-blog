@@ -1,26 +1,37 @@
 <section th:fragment="experiences" class="experiences-section container" aria-label="Experiências profissionais" id="experiencias" data-section th:if="${experiences != null and !#lists.isEmpty(experiences)}">
-    <div class="experiences-grid">
-        <article class="experience-card"
-                 th:each="exp : ${experiences}"
-                 th:aria-label="${exp.position + ' em ' + exp.company}">
-            <header class="experience-card__header">
-                <div class="experience-card__badge trademark" th:text="${#strings.substring(exp.company, 0, 1).toUpperCase()}">T</div>
+    <header class="section-header">
+        <h2 class="section-title">Minha Carreira</h2>
+    </header>
 
-                <div class="experience-card__period">
+    <div class="bento-grid" role="list">
+        <article role="listitem"
+                 class="experience-card"
+                 th:each="exp, itStat : ${experiences}"
+                 th:aria-label="${exp.position + ' em ' + exp.company}">
+            <div class="card-header">
+                <span class="card-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6V7H4.5C3.12 7 2 8.12 2 9.5V18.5C2 19.88 3.12 21 4.5 21H19.5C20.88 21 22 19.88 22 18.5V9.5C22 8.12 20.88 7 19.5 7H14V6C14 4.9 13.1 4 12 4H12C10.9 4 10 4.9 10 6ZM12 6C12.55 6 13 6.45 13 7H11C11 6.45 11.45 6 12 6ZM20 10V12H4V10H20Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="card-period">
                     <time th:attr="datetime=${#temporals.format(exp.startDate, 'yyyy-MM')}"
                           th:text="${#temporals.format(exp.startDate, 'MMM/yyyy')}">Jan/2023</time>
                     <span> - </span>
-                    <span th:if="${exp.endDate == null}" class="pill">Atual</span>
+                    <span class="badge badge--now" th:if="${exp.endDate == null}">Atualmente</span>
                     <time th:unless="${exp.endDate == null}"
                           th:attr="datetime=${#temporals.format(exp.endDate, 'yyyy-MM')}"
                           th:text="${#temporals.format(exp.endDate, 'MMM/yyyy')}">Dez/2024</time>
-                </div>
+                </span>
+            </div>
+
+            <header class="card-title">
+                <h3 class="experience-title" th:text="${exp.position}">Cargo</h3>
+                <p class="experience-company" th:text="${exp.company}">Empresa</p>
             </header>
 
-            <div class="experience-card__body">
-                <h3 class="experience-card__title" th:text="${exp.position}">Cargo</h3>
-                <p class="experience-card__company" th:text="${exp.company}">Empresa</p>
-                <p class="experience-card__description" th:if="${exp.description != null}" th:text="${exp.description}"></p>
+            <div class="scrollable-content" th:if="${exp.description != null}">
+                <p class="experience-description" th:text="${exp.description}"></p>
             </div>
         </article>
     </div>

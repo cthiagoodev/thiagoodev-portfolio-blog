@@ -24,18 +24,16 @@
     overflow: visible;
 }
 
-.hero__image-wrapper {
+.hero__media { margin: 0; }
+
+.hero__image {
     width: 100%;
     max-width: clamp(180px, 60vw, 280px);
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
-    display: block;
-    border: none;
-    box-shadow: 0 0 50px 0px var(--color-primary);
-    position: relative;
-    z-index: 2;
-    aspect-ratio: 1 / 1; /* keep perfect circle */
-    overflow: hidden; /* ensure circle crop */
     object-fit: cover;
+    display: block;
+    box-shadow: 0 0 50px 0 var(--color-primary);
 }
 
 .hero__content {
@@ -50,11 +48,13 @@
 .hero__title {
     color: var(--color-foreground);
     font-weight: 800;
-    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    font-size: clamp(2rem, 6vw, 2.75rem);
     margin-bottom: 0.8rem;
-    line-height: 1.2;
+    line-height: 1.15;
     text-wrap: balance;
     overflow-wrap: break-word;
+    display: inline-block;
+    padding-bottom: 0.1em;
 }
 
 @supports (-webkit-background-clip: text) or (background-clip: text) {
@@ -63,7 +63,31 @@
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero__title {
+        background: none;
+        -webkit-text-fill-color: initial;
         color: var(--color-foreground);
+    }
+}
+
+/* Mobile and small tablets: ensure text remains visible and wraps correctly */
+@media (max-width: 768px) {
+    .hero__title {
+        background: none;
+        -webkit-text-fill-color: initial;
+        color: var(--color-foreground);
+    }
+    .hero__subtitle > span,
+    .hero__separator,
+    .highlight {
+        white-space: normal;
+    }
+    .hero__actions {
+        flex-wrap: wrap;
     }
 }
 
@@ -127,6 +151,16 @@
     grid-column: 1 / -1;
     position: relative;
     z-index: 1;
+}
+
+@media (min-width: 900px) {
+    .hero__grid {
+        grid-template-columns: minmax(260px, 320px) 1fr;
+        gap: 2rem;
+        justify-items: start;
+    }
+    .hero__content { text-align: left; margin: 0; }
+    .hero__actions { justify-content: flex-start; }
 }
 
 @keyframes infiniteScroll {

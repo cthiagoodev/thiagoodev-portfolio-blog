@@ -1,8 +1,10 @@
 <section th:fragment="hero" class="hero" id="inicio" data-section>
     <div class="hero__grid">
-        <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image-wrapper">
+        <figure class="hero__media">
+            <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image" loading="eager" decoding="async">
+        </figure>
 
-        <div class="hero__content">
+        <header class="hero__content">
             <h1 class="hero__title" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
 
             <p class="hero__subtitle">
@@ -18,14 +20,14 @@
                 <span th:text="#{hero.description.part3}"></span>
             </p>
 
-            <div class="hero__actions">
+            <nav class="hero__actions" aria-label="Ações principais">
                 <a th:href="@{/contact}" class="btn-cta" th:text="#{hero.button.contact}"></a>
                 <a th:href="@{/blog}" class="btn-text">
                     <span th:text="#{hero.button.blog}"></span>
                     <span class="arrow"> →</span>
                 </a>
-            </div>
-        </div>
+            </nav>
+        </header>
 
         <div th:insert="~{portfolio/fragments/techs.html :: techs}" class="hero__techs-wrapper"></div>
     </div>

@@ -112,6 +112,148 @@
     color: var(--color-primary-light);
 }
 
+/* Experiences Bento Grid - New structure */
+.experiences-section {
+    margin-top: clamp(.5rem, 2.5vw, 1.5rem); /* aproxima a seção do hero */
+}
+
+.section-header { margin-bottom: .75rem; }
+.section-title {
+    margin: 0;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    color: var(--color-neutral);
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* mobile */
+    gap: 1.25rem;
+    grid-auto-flow: dense; /* evita buracos no desktop */
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .bento-grid { grid-template-columns: repeat(6, 1fr); gap: 1.5rem; }
+}
+
+/* Desktop */
+@media (min-width: 1100px) {
+    .bento-grid { grid-template-columns: repeat(12, 1fr); }
+}
+
+.experience-card {
+    position: relative;
+    border-radius: 24px;
+    padding: 2rem;
+    min-height: 200px; /* base (small) */
+    /* Superfície sólida e escura usando apenas variáveis do tema */
+    background: color-mix(in oklab, var(--color-primary-dark) 30%, var(--pico-background-color));
+    border: 1px solid var(--pico-border-color);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    transition: all .3s ease-in-out;
+    overflow: hidden;
+}
+
+/* gradient glow on hover using ::before */
+.experience-card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(120deg, color-mix(in oklab, var(--color-primary) 30%, transparent), transparent 45%);
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--pico-primary);
+    /* Simula 0 0 30px -5px com a cor primária */
+    box-shadow: 0 0 30px -5px color-mix(in oklab, var(--color-primary) 35%, transparent);
+}
+.experience-card:hover::before { opacity: .7; }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .75rem;
+    margin-bottom: 2rem; /* grande espaço do topo até os títulos */
+}
+.card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-light);
+    background: color-mix(in oklab, var(--color-primary-dark) 65%, var(--pico-background-color));
+}
+.card-icon svg { width: 24px; height: 24px; }
+.card-period { font-size: .78rem; color: var(--color-neutral); display: inline-flex; align-items: center; gap: .25rem; }
+
+.card-title { margin-top: .15rem; }
+.experience-title { margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--color-foreground); margin-bottom: .5rem; }
+.experience-company { margin: 0 0 .35rem 0; font-size: .9rem; color: var(--color-neutral); opacity: .8; text-transform: uppercase; letter-spacing: 1px; }
+
+.scrollable-content { margin-top: auto; max-height: 80px; overflow-y: auto; padding-right: .25rem; }
+.experience-description { margin: 0; font-size: .9rem; color: var(--color-neutral); line-height: 1.4; }
+
+/* Custom thin scrollbar aligned with theme */
+.scrollable-content::-webkit-scrollbar { width: 2px; }
+.scrollable-content::-webkit-scrollbar-track { background: transparent; }
+.scrollable-content::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--color-primary) 25%, transparent); border-radius: 8px; }
+.scrollable-content { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--color-primary) 25%, transparent) transparent; }
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    border: 1px solid var(--card-border, var(--pico-border-color));
+    background: var(--card-bg, color-mix(in oklab, var(--color-primary-dark) 10%, transparent));
+    font-size: .7rem;
+    color: var(--color-neutral);
+}
+
+.badge--now {
+    background: var(--color-primary-light);
+    color: var(--pico-primary-inverse);
+    border-color: transparent;
+}
+
+/* Bento asymmetry via nth-child (tablet/desktop only) */
+@media (min-width: 768px) {
+    /* base: metade do grid (6 colunas) = 3 colunas */
+    .bento-grid > .experience-card { grid-column: span 3; min-height: 200px; }
+    /* alguns blocos grandes para criar ritmo */
+    .bento-grid > .experience-card:nth-child(1),
+    .bento-grid > .experience-card:nth-child(2),
+    .bento-grid > .experience-card:nth-child(5n) { grid-column: span 6; min-height: 260px; }
+}
+@media (min-width: 1100px) {
+    /* base: 1/4 do grid (12 colunas) = 3 colunas */
+    .bento-grid > .experience-card { grid-column: span 3; min-height: 200px; }
+    /* variações grandes, mantendo grid-auto-flow: dense para encaixe */
+    .bento-grid > .experience-card:nth-child(1),
+    .bento-grid > .experience-card:nth-child(2) { grid-column: span 6; min-height: 260px; }
+    .bento-grid > .experience-card:nth-child(4n+3) { grid-column: span 4; min-height: 260px; }
+    .bento-grid > .experience-card:nth-child(5n) { grid-column: span 8; min-height: 260px; }
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .btn-text:hover .arrow {
     transform: translateX(4px);
 }
@@ -154,77 +296,4 @@
     }
 }
 
-.experience-card {
-    position: relative;
-    border-radius: 12px;
-    padding: clamp(1.25rem, 4vw, 2rem);
-    color: var(--color-foreground);
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--pico-border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    min-height: clamp(160px, 28vw, 220px);
-}
-
-.experience-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(88, 66, 195, 0.2);
-    border-color: rgba(88, 66, 195, 0.5);
-}
-
-.experience-card__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.experience-card__badge {
-    flex: 0 0 auto;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border-color: var(--pico-border-color);
-    background-color: rgba(0, 0, 0, 0.2);
-    color: var(--color-neutral);
-}
-
-.experience-card__period {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: var(--color-foreground);
-    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-}
-
-.experience-card__body {}
-
-.experience-card__title {
-    margin: 0 0 0.35rem 0;
-    font-weight: 800;
-    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
-    color: var(--color-foreground);
-}
-
-.experience-card__company {
-    margin: 0 0 0.85rem 0;
-    color: var(--color-neutral);
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-}
-
-.experience-card__description {
-    margin: 0;
-    color: var(--color-neutral);
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+/* remove legacy experience-card block (replaced above) */
