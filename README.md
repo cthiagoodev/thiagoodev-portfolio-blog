@@ -1,61 +1,59 @@
-Este é o repositório do meu **Portfólio Pessoal e Blog de Tecnologia**, um projeto que decidi desenvolver do zero para ser meu laboratório de aprendizado e minha vitrine profissional. Meu principal objetivo é praticar e consolidar conhecimentos em **Desenvolvimento Backend com Java** e **Infraestrutura Própria (Self-Hosted)**, cobrindo o ciclo completo: do código à produção.
+## 🚀 Portfólio de Projetos - Foco em Backend Java e Infraestrutura Self-Hosted
 
-Estou animado em usar este projeto para expor meus trabalhos, compartilhar artigos técnicos e, claro, me desafiar com novas tecnologias.
-
----
-
-## 🎯 Funcionalidade Central: Sincronização Dinâmica com GitHub
-
-Um dos recursos mais importantes do projeto é a **sincronização automática** do meu portfólio com meus projetos no GitHub, garantindo que a seção de trabalho esteja sempre atualizada.
-
-* **API Pública do GitHub:** O backend utiliza a API pública do GitHub para buscar informações sobre meus repositórios.
-* **Processo de Sincronização:** Criei um **Schedule** (tarefa agendada) no Spring Boot que é executado periodicamente.
-* **Filtro Inteligente:** Esse processo filtra meus projetos pela *tag* **"portfolio"** e, em seguida, os sincroniza, expondo as informações (como nome, descrição e tecnologias utilizadas) diretamente na interface do meu portfólio.
+Este projeto atua como meu **laboratório prático** e **vitrine profissional**, com o objetivo principal de consolidar o conhecimento em **Desenvolvimento Backend com Java** e **Infraestrutura Própria (Self-Hosted)**. Ele foi desenvolvido do zero para demonstrar a capacidade de gerenciar o ciclo completo: do código à produção, incluindo a **sincronização dinâmica de projetos**.
 
 ---
 
-## 🛠️ Stack Tecnológica & Arquitetura Atual
+### 🎯 Funcionalidade Central: Sincronização Dinâmica com GitHub
 
-O projeto foi construído, inicialmente, em uma arquitetura **monolítica (Monorepo)** para simplificar o desenvolvimento e o *deployment*.
+Um recurso essencial é a **sincronização automática** para manter a seção de projetos sempre atualizada, espelhando meus repositórios no GitHub.
 
-### 💻 Desenvolvimento Full-Stack
+* **Fonte de Dados:** Utiliza a **API Pública do GitHub** para buscar informações sobre meus projetos.
+* **Processo de Sincronização:** Um `Schedule` (tarefa agendada) no **Spring Boot** é executado periodicamente para iniciar a busca.
+* **Filtro:** A rotina filtra os repositórios que contêm a *tag* **"portfolio"** e, em seguida, expõe as informações essenciais (como nome, descrição e tecnologias) na interface do portfólio.
+
+---
+
+### 🛠️ Stack Tecnológica & Arquitetura (Monolítica para Estudo)
+
+A arquitetura inicial é **monolítica (Monorepo)**, escolhida para simplificar a fase de desenvolvimento e focar no domínio das tecnologias principais.
+
+#### 💻 Desenvolvimento
 
 | Categoria | Tecnologia | Detalhe |
 | :--- | :--- | :--- |
-| **Backend** | **Java 25** | A versão mais recente do Java para garantir performance e recursos modernos. |
-| **Framework** | **Spring Boot** | Utilizado para criar serviços robustos e eficientes. |
-| **Frontend Rendering** | **Thymeleaf** | Escolhido para renderização de HTML no servidor (SSR), aproveitando a força do Spring. |
-| **Estilização (CSS)** | **Pico.css** | Um *framework* CSS minimalista e sem *boilerplate* para *design* simples e limpo ([https://picocss.com/](https://picocss.com/)). |
-| **Interatividade** | **HTMX** | Adiciona interatividade dinâmica sem a complexidade de *frameworks* JavaScript pesados, permitindo focar no backend. |
-| **Autenticação** | **JWT** | Usado na área de blog para gerenciar autenticação e permitir que usuários logados **favoritem artigos**. |
+| **Backend** | **Java 25** | Utilizado para serviços backend de alta performance. |
+| **Framework** | **Spring Boot** | Criação de serviços robustos e eficientes. |
+| **Frontend Rendering** | **Thymeleaf** | Escolhido para **Server-Side Rendering (SSR)**. |
+| **Interatividade** | **HTMX** | Adiciona dinamismo e interatividade com foco no backend, minimizando a dependência de JavaScript. |
+| **Autenticação (Estudo)** | **JWT** | Implementação de **JSON Web Tokens** para fins de estudo e prática de autenticação. |
 
-### 💾 Armazenamento Self-Hosted (Infraestrutura Própria)
+#### 💾 Armazenamento Self-Hosted (Infraestrutura Própria)
 
 | Serviço | Tecnologia | Modo de Uso em Produção |
 | :--- | :--- | :--- |
-| **Banco de Dados** | **PostgreSQL** | Utilizo um container Docker com **volumes persistentes** para garantir a durabilidade dos dados. |
-| **Storage de Objetos** | **MinIO** | O MinIO é usado como infraestrutura própria (**Self-Hosted**) para armazenamento de imagens e *assets* grandes. Rodando em container e persistido por volumes ([https://www.min.io/](https://www.min.io/)). |
+| **Banco de Dados** | **PostgreSQL** | Container Docker com **volumes persistentes** para garantir a durabilidade dos dados. |
+| **Storage de Objetos** | **MinIO** | Solução **Self-Hosted** para armazenamento de imagens e *assets* grandes, rodando em container com persistência via volumes. |
 
 ---
 
-## 🚀 Estratégia de Infraestrutura e Deployment
+### 🚀 Estratégia de Infraestrutura e Deployment
 
-A infraestrutura é um dos pontos focais do meu estudo neste projeto, onde estou fazendo o **deploy manual** e gerenciando a VM do zero para entender o passo a passo completo.
+Este é o ponto focal de estudo do projeto: o **deployment manual** e a gestão da infraestrutura do zero.
 
 | Componente | Tecnologia | Propósito |
 | :--- | :--- | :--- |
-| **Servidor** | **Contabo VM** | Minha máquina virtual rodando Linux para *hosting* de Produção ([https://contabo.com/](https://contabo.com/)). |
-| **Containerização** | **Docker** | Uso o Docker para empacotar o Spring Boot e todos os serviços de suporte (Postgres, MinIO), garantindo isolamento e portabilidade. |
-| **Proxy Reverso** | **Nginx** | Gerencia o tráfego HTTP/HTTPS na VM e roteia as requisições para o meu container Java. |
-| **CI/CD** | **GitHub Actions** | Automatiza os processos de *build*, testes e entrega contínua para a minha VM. |
+| **Servidor** | **Contabo VM** | Máquina virtual Linux dedicada ao *hosting* de Produção. |
+| **Containerização** | **Docker** | Empacota o Spring Boot e todos os serviços de suporte (Postgres, MinIO) para isolamento e portabilidade. |
+| **Proxy Reverso** | **Nginx** | Gerencia o tráfego e faz o roteamento das requisições para o container Java. |
+| **CI/CD** | **GitHub Actions** | Automatiza os processos de *build*, testes e entrega contínua (CD) para a VM. |
 
 ---
 
-## 🗺️ Visão de Futuro e Próximos Passos
+### 🗺️ Visão de Futuro e Próximos Passos
 
-Este projeto está apenas começando! Tenho grandes planos para evoluir a arquitetura e as funcionalidades:
+O plano de evolução visa aprimorar a arquitetura e otimizar a performance, aprofundando o aprendizado:
 
-1.  **Refatoração para Microserviços:** O plano imediato é evoluir o Monorepo para um modelo **Multirepo/Microservices**. Quero isolar o Portfólio e o Blog em serviços independentes para estudar e praticar a comunicação entre serviços.
-2.  **Otimização:** Implementação de estratégias de *caching* (provavelmente com Redis) para melhorar a performance e reduzir a latência de acesso aos artigos e portfólio.
-3.  **Funcionalidades do Blog:** Melhorar a área de autenticação e adicionar recursos como comentários e *likes* nos artigos.
-4.  **Admin CMS:** Desenvolver uma interface administrativa simples, mas poderosa, para gerenciar o conteúdo do Blog e Portfólio.
+1.  **Refatoração para Microserviços:** Evoluir a arquitetura monolítica para um modelo **Multirepo/Microservices** para praticar a comunicação e o isolamento de serviços.
+2.  **Otimização de Performance:** Implementação de estratégias de **caching (ex: Redis)** para melhorar a velocidade e reduzir a latência de acesso ao portfólio.
+3.  **Desenvolvimento Admin CMS:** Construir uma interface administrativa simples para gerenciar o conteúdo.
