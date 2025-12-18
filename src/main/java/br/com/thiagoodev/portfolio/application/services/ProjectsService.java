@@ -23,5 +23,9 @@ public class ProjectsService {
     public void saveAll(List<Project> projects) {
         this.repository.saveAllAndFlush(projects);
     }
+
+    public void deleteAll() {
+        this.repository.deleteAll();
+    }
 }
 

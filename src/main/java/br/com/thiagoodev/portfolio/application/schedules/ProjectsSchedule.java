@@ -44,9 +44,11 @@ public class ProjectsSchedule {
             }
 
             List<Project> entities = projects.stream()
+                .filter(project -> project.topics().contains("portfolio"))
                 .map(this::mapToEntity)
                 .toList();
 
+            projectsService.deleteAll();
             projectsService.saveAll(entities);
         } catch (Exception error) {
             logger.severe("Error during projects schedule: " + error.getMessage());
