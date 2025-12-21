@@ -1,11 +1,11 @@
-<section th:fragment="hero" class="hero" id="inicio" data-section>
+<section th:fragment="hero" class="hero" id="inicio" data-section aria-labelledby="hero-title">
     <div class="hero__grid">
         <figure class="hero__media scroll-hidden">
-            <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image" loading="eager" decoding="async">
+            <img th:src="@{/images/profile.jpg}" alt="Foto de perfil de Thiago Sousa" class="hero__image" loading="eager" decoding="async" width="280" height="280">
         </figure>
 
         <header class="hero__content scroll-hidden">
-            <h1 class="hero__title" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
+            <h1 id="hero-title" class="hero__title" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
 
             <p class="hero__subtitle">
                 <span th:text="#{hero.role.main}">Engenheiro de Software</span>
@@ -21,10 +21,10 @@
             </p>
 
             <nav class="hero__actions" aria-label="Ações principais">
-                <a th:href="@{/contact}" class="btn-cta" th:text="#{hero.button.contact}"></a>
+                <a th:href="@{/contact}" class="btn-cta" th:text="#{hero.button.contact}">Fale comigo</a>
                 <a th:href="@{/blog}" class="btn-text">
-                    <span th:text="#{hero.button.blog}"></span>
-                    <span class="arrow"> →</span>
+                    <span th:text="#{hero.button.blog}">Leia meu blog</span>
+                    <span class="arrow" aria-hidden="true">→</span>
                 </a>
             </nav>
         </header>

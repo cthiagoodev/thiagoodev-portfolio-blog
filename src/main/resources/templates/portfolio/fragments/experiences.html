@@ -1,13 +1,10 @@
-<section th:fragment="experiences" class="experiences-section" aria-label="Experiências profissionais" id="experiencias" data-section th:if="${experiences != null and !#lists.isEmpty(experiences)}">
+<section th:fragment="experiences" class="experiences-section" id="experiencias" data-section aria-labelledby="experiences-title" th:if="${experiences != null and !#lists.isEmpty(experiences)}">
     <header class="section-header">
-        <h2 class="section-title">Minha Carreira</h2>
+        <h2 id="experiences-title" class="section-title">Minha Carreira</h2>
     </header>
 
     <div class="bento-grid" role="list">
-        <article role="listitem"
-                 class="experience-card scroll-hidden"
-                 th:each="exp, itStat : ${experiences}"
-                 th:aria-label="${exp.position + ' em ' + exp.company}">
+        <article role="listitem" class="experience-card scroll-hidden" th:each="exp : ${experiences}" th:attr="aria-label=|${exp.position} na ${exp.company}|">
             <div class="card-top">
                 <div class="card-icon" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,20 +14,17 @@
                 <div class="card-meta">
                     <span class="experience-company" th:text="${exp.company}">Empresa</span>
                     <span class="card-period">
-                        <time th:attr="datetime=${#temporals.format(exp.startDate, 'yyyy-MM')}"
-                              th:text="${#temporals.format(exp.startDate, 'MMM/yyyy')}">Jan/2023</time>
+                        <time th:attr="datetime=${#temporals.format(exp.startDate, 'yyyy-MM')}" th:text="${#temporals.format(exp.startDate, 'MMM/yyyy')}">Jan/2023</time>
                         <span> - </span>
                         <span class="badge badge--now" th:if="${exp.endDate == null}">Atualmente</span>
-                        <time th:unless="${exp.endDate == null}"
-                              th:attr="datetime=${#temporals.format(exp.endDate, 'yyyy-MM')}"
-                              th:text="${#temporals.format(exp.endDate, 'MMM/yyyy')}">Dez/2024</time>
+                        <time th:unless="${exp.endDate == null}" th:attr="datetime=${#temporals.format(exp.endDate, 'yyyy-MM')}" th:text="${#temporals.format(exp.endDate, 'MMM/yyyy')}">Dez/2024</time>
                     </span>
                 </div>
             </div>
 
             <div class="card-main">
                 <h3 class="experience-title" th:text="${exp.position}">Cargo</h3>
-                <p class="experience-description" th:if="${exp.description != null}" th:text="${exp.description}"></p>
+                <p class="experience-description" th:if="${exp.description != null}" th:text="${exp.description}">Descrição da experiência profissional</p>
             </div>
         </article>
     </div>

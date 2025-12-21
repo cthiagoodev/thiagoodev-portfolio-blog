@@ -3,7 +3,6 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
-
     position: relative;
     overflow-x: hidden;
 }
@@ -12,16 +11,16 @@ body::before {
     content: '';
     position: absolute;
     z-index: var(--z-background);
-    top: 3.125rem;
+    top: var(--spacing-3xl);
     left: 50%;
     transform: translateX(-50%);
     width: 43.75rem;
     height: 37.5rem;
     background-image: radial-gradient(
-            circle,
-            rgba(88, 66, 195, 0.25),
-            rgba(0, 217, 255, 0.15) 60%,
-            transparent 80%
+        circle,
+        color-mix(in srgb, var(--color-primary) 25%, transparent),
+        color-mix(in srgb, var(--color-accent) 15%, transparent) 60%,
+        transparent 80%
     );
     filter: blur(7.5rem);
 }
@@ -54,7 +53,6 @@ main {
     padding-inline: var(--container-padding);
 }
 
-/* Container expandido para grids e carrosséis - aparência mais imersiva */
 .container-wide {
     max-width: var(--container-wide);
     width: 100%;
@@ -62,14 +60,12 @@ main {
     padding-inline: var(--container-padding);
 }
 
-/* Container estreito para textos longos - melhor legibilidade */
 .container-narrow {
     max-width: var(--container-sm);
     margin: 0 auto;
     padding-inline: var(--container-padding);
 }
 
-/* Mobile: reduz padding lateral para aproveitar melhor o espaço */
 @media (max-width: 768px) {
     .container,
     .container-wide,
@@ -78,7 +74,6 @@ main {
     }
 }
 
-/* Desktop: aumenta padding para mais espaço de respiração */
 @media (min-width: 1200px) {
     .container,
     .container-wide,
@@ -87,13 +82,27 @@ main {
     }
 }
 
+/* =================================================================
+   Scroll Animation Utilities
+   ================================================================= */
+
 .scroll-hidden {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(2rem); /* 32px */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
 }
 
 .scroll-visible {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Staggered delay for child elements if needed */
+.scroll-visible:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.scroll-visible:nth-child(3) {
+    transition-delay: 0.2s;
 }

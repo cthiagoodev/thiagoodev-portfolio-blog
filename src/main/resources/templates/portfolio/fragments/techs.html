@@ -1,43 +1,17 @@
-<div th:fragment="techs" class="tech-carousel" th:if="${techs != null && !techs.isEmpty()}">
+<div th:fragment="techs" class="tech-carousel" th:if="${techs != null and !#lists.isEmpty(techs)}" role="region" aria-label="Tecnologias utilizadas">
     <div class="tech-carousel__track">
-
-        <a th:each="tech : ${techs}"
-           th:href="${tech.url}"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="tech-carousel__item"
-           th:style="|--tech-color: ${tech.color}|">
-            <img th:src="${tech.icon}" th:alt="${tech.name}" class="tech-carousel__icon" />
+        <a th:each="tech : ${techs}" th:href="${tech.url}" target="_blank" rel="noopener noreferrer" class="tech-carousel__item"
+           th:style="${tech.color} ? '--tech-color:' + ${tech.color} : ''"
+           th:aria-label="|Tecnologia: ${tech.name}|">
+            <img th:src="${tech.icon}" th:alt="${tech.name}" class="tech-carousel__icon" loading="lazy" decoding="async" width="56" height="56">
         </a>
-
-        <a th:each="tech : ${techs}"
-           th:href="${tech.url}"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="tech-carousel__item"
-           aria-hidden="true"
-           th:style="|--tech-color: ${tech.color}|">
-            <img th:src="${tech.icon}" th:alt="${tech.name}" class="tech-carousel__icon" />
+        <a th:each="tech : ${techs}" th:href="${tech.url}" target="_blank" rel="noopener noreferrer" class="tech-carousel__item" aria-hidden="true" tabindex="-1"
+           th:style="${tech.color} ? '--tech-color:' + ${tech.color} : ''">
+            <img th:src="${tech.icon}" alt="" class="tech-carousel__icon" loading="lazy" decoding="async" width="56" height="56">
         </a>
-
-        <a th:each="tech : ${techs}"
-           th:href="${tech.url}"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="tech-carousel__item"
-           th:style="|--tech-color: ${tech.color}|"
-           aria-hidden="true">
-            <img th:src="${tech.icon}" th:alt="${tech.name}" class="tech-carousel__icon" />
-        </a>
-
-        <a th:each="tech : ${techs}"
-           th:href="${tech.url}"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="tech-carousel__item"
-           th:style="|--tech-color: ${tech.color}|"
-           aria-hidden="true">
-            <img th:src="${tech.icon}" th:alt="${tech.name}" class="tech-carousel__icon" />
+        <a th:each="tech : ${techs}" th:href="${tech.url}" target="_blank" rel="noopener noreferrer" class="tech-carousel__item" aria-hidden="true" tabindex="-1"
+           th:style="${tech.color} ? '--tech-color:' + ${tech.color} : ''">
+            <img th:src="${tech.icon}" alt="" class="tech-carousel__icon" loading="lazy" decoding="async" width="56" height="56">
         </a>
     </div>
 </div>
