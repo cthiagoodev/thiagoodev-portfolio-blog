@@ -1,10 +1,10 @@
 <section th:fragment="hero" class="hero" id="inicio" data-section>
     <div class="hero__grid">
-        <figure class="hero__media">
+        <figure class="hero__media scroll-hidden">
             <img th:src="@{/images/profile.jpg}" alt="Foto de Perfil Thiago Sousa" class="hero__image" loading="eager" decoding="async">
         </figure>
 
-        <header class="hero__content">
+        <header class="hero__content scroll-hidden">
             <h1 class="hero__title" th:text="#{hero.greeting}">Sou Thiago Sousa</h1>
 
             <p class="hero__subtitle">
@@ -29,6 +29,6 @@
             </nav>
         </header>
 
-        <div th:insert="~{portfolio/fragments/techs.html :: techs}" class="hero__techs-wrapper"></div>
+        <div th:insert="~{portfolio/fragments/techs.html :: techs}" class="hero__techs-wrapper scroll-hidden"></div>
     </div>
 </section>

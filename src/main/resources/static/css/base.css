@@ -50,3 +50,14 @@ body, h1, h2, h3, h4, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
     margin: 0 auto;
     padding: 0 1rem;
 }
+
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.scroll-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}

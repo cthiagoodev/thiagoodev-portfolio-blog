@@ -1,13 +1,14 @@
 :root {
-    --header-height: 5rem; /* 80px */
+    --header-height: 3.5rem; /* ~56px */
 }
 
 .hero {
-    min-height: calc(100vh - var(--header-height));
+    min-height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 0; /* Mobile-first: slightly tighter spacing */
+    padding-top: var(--header-height);
+    padding-bottom: 2rem;
     margin: 0;
 }
 
@@ -276,7 +277,9 @@
 
 @media (min-width: 768px) {
     .hero {
-        padding: 0;
+        /* Garante que o Hero nunca suba para trás do header */
+        padding-top: var(--header-height) !important; 
+        padding-bottom: 0;
     }
 
     .hero__grid {
@@ -341,6 +344,11 @@
         height: 52px;
         padding: 10px;
     }
+
+    /* Ajuste opcional para o grid */
+    .experiences-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -368,7 +376,17 @@
     }
 }
 .experiences-section {
-    padding: clamp(1.5rem, 5vw, 3rem) 0;
+    /* !important necessário para vencer a classe .container do Pico.css */
+    padding-top: calc(var(--header-height) + 4rem) !important;
+    padding-bottom: 4rem;
+    margin-top: 0;
+    
+    /* Garante que o scroll pare no lugar certo ao clicar no link */
+    scroll-margin-top: var(--header-height);
+}
+
+.experiences-section .section-header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .experiences-grid {
@@ -377,8 +395,3 @@
     gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
-    .experiences-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
