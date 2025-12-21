@@ -1,6 +1,6 @@
 <section th:fragment="projects" class="projects-section" id="projetos" data-section aria-labelledby="projects-title" th:if="${projects != null and !#lists.isEmpty(projects)}">
-    <header class="section-header">
-        <h2 id="projects-title" class="section-title">Meus Projetos</h2>
+    <header class="section-header scroll-hidden">
+        <h2 id="projects-title" class="section-title" th:text="#{projects.title}">Meus Projetos</h2>
     </header>
 
     <div class="projects-grid" role="list">
@@ -48,6 +48,10 @@
     </div>
 
     <div class="projects-actions">
-        <button id="loadMoreBtn" class="btn-cta secondary" type="button">Ver todos os projetos</button>
+        <button id="loadMoreBtn"
+                class="btn-cta secondary"
+                type="button"
+                th:attr="data-text-more=#{projects.button.viewAll},data-text-less=#{projects.button.viewLess}"
+                th:text="#{projects.button.viewAll}">Ver todos os projetos</button>
     </div>
 </section>

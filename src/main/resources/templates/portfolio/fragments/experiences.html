@@ -1,6 +1,6 @@
 <section th:fragment="experiences" class="experiences-section" id="experiencias" data-section aria-labelledby="experiences-title" th:if="${experiences != null and !#lists.isEmpty(experiences)}">
-    <header class="section-header">
-        <h2 id="experiences-title" class="section-title">Minha Carreira</h2>
+    <header class="section-header scroll-hidden">
+        <h2 id="experiences-title" class="section-title" th:text="#{experiences.title}">Minha Carreira</h2>
     </header>
 
     <div class="bento-grid" role="list">
@@ -16,7 +16,7 @@
                     <span class="card-period">
                         <time th:attr="datetime=${#temporals.format(exp.startDate, 'yyyy-MM')}" th:text="${#temporals.format(exp.startDate, 'MMM/yyyy')}">Jan/2023</time>
                         <span> - </span>
-                        <span class="badge badge--now" th:if="${exp.endDate == null}">Atualmente</span>
+                        <span class="badge badge--now" th:if="${exp.endDate == null}" th:text="#{experiences.badge.current}">Atualmente</span>
                         <time th:unless="${exp.endDate == null}" th:attr="datetime=${#temporals.format(exp.endDate, 'yyyy-MM')}" th:text="${#temporals.format(exp.endDate, 'MMM/yyyy')}">Dez/2024</time>
                     </span>
                 </div>

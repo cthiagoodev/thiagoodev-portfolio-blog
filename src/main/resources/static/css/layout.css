@@ -69,6 +69,51 @@ header.header--scrolled {
     outline-offset: 0.125rem;
 }
 
+/* =================================================================
+   Responsive Mobile Navigation (< 768px)
+   ================================================================= */
+
+@media (max-width: 767px) {
+    .nav__container {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .nav__container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav__list {
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-inline: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+
+    .nav__list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav__link {
+        flex-shrink: 0;
+        white-space: nowrap;
+        font-size: 0.875rem;
+        padding: 0.375rem 0.625rem;
+    }
+
+    .nav__brand {
+        flex-shrink: 0;
+        padding-right: var(--spacing-sm);
+    }
+}
+
 
 .hero {
     position: relative;

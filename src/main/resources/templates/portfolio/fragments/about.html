@@ -1,13 +1,14 @@
 <section th:fragment="about" class="about-section" id="sobre" data-section aria-labelledby="about-title">
     <header class="section-header scroll-hidden">
-        <h2 id="about-title" class="section-title">Sobre Mim</h2>
+        <h2 id="about-title" class="section-title" th:text="#{about.title}">Sobre Mim</h2>
     </header>
 
     <article class="about-card-unified scroll-hidden">
         <div class="card-body">
-            <p>Nascido no interior do Ceará, mudei-me para Fortaleza há 4 anos em busca de novas oportunidades no mercado de tecnologia. Desde então, tenho me especializado em desenvolvimento Mobile e Backend.</p>
-            <p>Como <strong>Engenheiro de Software</strong>, atuo com <strong>Kotlin, Java, Spring Boot, Flutter e Dart</strong>.</p>
-            <p>Sou o fundador da <strong class="highlight">Mobile Devs Ceará</strong>, promovendo conhecimento e networking.</p>
+            <p th:text="#{about.p1}">P1.</p>
+            <p th:text="#{about.p2}">P2</p>
+            <p th:text="#{about.p3}">P3</p>
+            <p th:text="#{about.p4}">P4</p>
         </div>
 
         <footer class="card-footer about-card-footer">

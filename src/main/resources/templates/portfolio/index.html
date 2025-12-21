@@ -104,15 +104,17 @@
             }
 
             loadMoreBtn.addEventListener('click', () => {
-                const isExpanded = loadMoreBtn.textContent.trim() === 'Ver menos';
+                const isExpanded = loadMoreBtn.classList.contains('is-expanded');
 
                 if (isExpanded) {
+                    // Collapse: Hide projects beyond initial count
                     projectCards.forEach((card, index) => {
                         if (index >= INITIAL_VISIBLE_COUNT) {
                             card.classList.add('hidden-project');
                         }
                     });
-                    loadMoreBtn.textContent = 'Ver todos os projetos';
+                    loadMoreBtn.classList.remove('is-expanded');
+                    loadMoreBtn.textContent = loadMoreBtn.dataset.textMore;
 
                     if (projectsSection) {
                         projectsSection.scrollIntoView({
@@ -121,10 +123,12 @@
                         });
                     }
                 } else {
+                    // Expand: Show all projects
                     projectCards.forEach(card => {
                         card.classList.remove('hidden-project');
                     });
-                    loadMoreBtn.textContent = 'Ver menos';
+                    loadMoreBtn.classList.add('is-expanded');
+                    loadMoreBtn.textContent = loadMoreBtn.dataset.textLess;
                 }
             });
         }
