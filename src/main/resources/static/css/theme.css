@@ -1,4 +1,5 @@
 [data-theme="dark"], :root:not([data-theme="light"]) {
+    /* Colors */
     --color-background: #000000;
     --color-foreground: #F9FAFA;
     --color-primary: #5842C3;
@@ -7,11 +8,47 @@
     --color-neutral: #BDBDBD;
     --color-accent: #00D9FF;
 
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 2.5rem;
+    --spacing-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2rem;
+    --radius-full: 50%;
+
+    /* Z-index layers */
+    --z-background: -1;
+    --z-base: 1;
+    --z-content: 10;
+    --z-dropdown: 100;
+    --z-header: 1000;
+    --z-modal: 2000;
+
+    /* Container widths */
+    --container-sm: 720px;
+    --container-md: 1200px;
+    --container-lg: 1400px;
+    --container-wide: min(1400px, 90vw);
+
+    /* Container padding */
+    --container-padding: 1.5rem;
+    --container-padding-mobile: 1rem;
+
+    /* Pico.css overrides */
     --pico-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
     --pico-background-color: var(--color-background);
     --pico-color: var(--color-neutral);
     --pico-primary: var(--color-primary);
-    --pico-primary-inverse: #000000;
+    --pico-primary-inverse: var(--color-background);
     --pico-border-color: #222222;
     --pico-h1-color: var(--color-neutral);
     --pico-h2-color: var(--color-neutral);

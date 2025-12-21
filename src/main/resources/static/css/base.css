@@ -11,24 +11,19 @@ body {
 body::before {
     content: '';
     position: absolute;
-    z-index: -1;
-
-    top: 50px;
+    z-index: var(--z-background);
+    top: 3.125rem;
     left: 50%;
-
     transform: translateX(-50%);
-
-    width: 700px;
-    height: 600px;
-
+    width: 43.75rem;
+    height: 37.5rem;
     background-image: radial-gradient(
             circle,
             rgba(88, 66, 195, 0.25),
             rgba(0, 217, 255, 0.15) 60%,
             transparent 80%
     );
-
-    filter: blur(120px);
+    filter: blur(7.5rem);
 }
 
 *,
@@ -45,10 +40,51 @@ body, h1, h2, h3, h4, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
     margin: 0;
 }
 
+main {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    z-index: var(--z-base);
+}
+
 .container {
-    max-width: 1200px;
+    max-width: var(--container-md);
     margin: 0 auto;
-    padding: 0 1rem;
+    padding-inline: var(--container-padding);
+}
+
+/* Container expandido para grids e carrosséis - aparência mais imersiva */
+.container-wide {
+    max-width: var(--container-wide);
+    width: 100%;
+    margin: 0 auto;
+    padding-inline: var(--container-padding);
+}
+
+/* Container estreito para textos longos - melhor legibilidade */
+.container-narrow {
+    max-width: var(--container-sm);
+    margin: 0 auto;
+    padding-inline: var(--container-padding);
+}
+
+/* Mobile: reduz padding lateral para aproveitar melhor o espaço */
+@media (max-width: 768px) {
+    .container,
+    .container-wide,
+    .container-narrow {
+        padding-inline: var(--container-padding-mobile);
+    }
+}
+
+/* Desktop: aumenta padding para mais espaço de respiração */
+@media (min-width: 1200px) {
+    .container,
+    .container-wide,
+    .container-narrow {
+        padding-inline: var(--spacing-xl);
+    }
 }
 
 .scroll-hidden {
