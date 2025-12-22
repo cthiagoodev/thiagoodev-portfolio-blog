@@ -1,57 +1,59 @@
-<section th:fragment="projects" class="projects-section" id="projetos" data-section aria-labelledby="projects-title" th:if="${projects != null and !#lists.isEmpty(projects)}">
-    <header class="section-header scroll-hidden">
-        <h2 id="projects-title" class="section-title" th:text="#{projects.title}">Meus Projetos</h2>
-    </header>
+<section th:fragment="projects" class="section" id="projetos" data-section aria-labelledby="projects-title" th:if="${projects != null and !#lists.isEmpty(projects)}">
+    <div class="container">
+        <header class="section__header scroll-hidden">
+            <h2 id="projects-title" class="text-h2" th:text="#{projects.title}">Meus Projetos</h2>
+        </header>
 
-    <div class="projects-grid" role="list">
-        <article role="listitem" class="project-card scroll-hidden" th:each="project, stat : ${projects}" th:attr="data-index=${stat.index},aria-label=${project.name}">
-            <div class="card-header">
-                <h3 class="project-title" th:text="${project.name}">Nome do Projeto</h3>
-                <div class="project-links">
-                    <a th:if="${project.htmlUrl != null and !#strings.isEmpty(project.htmlUrl)}" th:href="${project.htmlUrl}" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Ver código no GitHub">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/>
-                        </svg>
-                    </a>
-                    <a th:if="${project.homepage != null and !#strings.isEmpty(project.homepage)}" th:href="${project.homepage}" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Ver projeto ao vivo">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="card-body">
-                <p class="project-description line-clamp-5" th:if="${project.description != null}" th:text="${project.description}">Descrição do projeto</p>
-            </div>
-
-            <footer class="card-footer">
-                <div class="project-meta-row">
-                    <div class="project-language" th:if="${project.language != null and !#strings.isEmpty(project.language)}">
-                        <span class="lang-dot" aria-hidden="true"></span>
-                        <span class="lang-name" th:text="${project.language}">JavaScript</span>
-                    </div>
-
-                    <div class="project-date-wrapper" th:if="${project.updatedAt != null}">
-                        <svg class="calendar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <time class="project-date" th:attr="datetime=${#temporals.format(project.updatedAt, 'yyyy-MM-dd')}" th:text="${#temporals.format(project.updatedAt, 'dd MMM yyyy')}">21 Dez 2024</time>
+        <div class="grid grid--2 grid--3" role="list">
+            <article role="listitem" class="card card--project scroll-hidden" th:each="project, stat : ${projects}" th:attr="data-index=${stat.index},aria-label=${project.name}">
+                <div class="card__header">
+                    <h3 class="card__title--project" th:text="${project.name}">Nome do Projeto</h3>
+                    <div class="card__links">
+                        <a th:if="${project.htmlUrl != null and !#strings.isEmpty(project.htmlUrl)}" th:href="${project.htmlUrl}" class="card__link" target="_blank" rel="noopener noreferrer" aria-label="Ver código no GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a th:if="${project.homepage != null and !#strings.isEmpty(project.homepage)}" th:href="${project.homepage}" class="card__link" target="_blank" rel="noopener noreferrer" aria-label="Ver projeto ao vivo">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
-                <div class="project-topics" th:if="${project.topics != null and !#lists.isEmpty(project.topics)}">
-                    <span class="project-topic pill" th:each="topic : ${project.topics}" th:text="${topic}">Technology</span>
+                <div class="card__body">
+                    <p class="text-body line-clamp-5" th:if="${project.description != null}" th:text="${project.description}">Descrição do projeto</p>
                 </div>
-            </footer>
-        </article>
-    </div>
 
-    <div class="projects-actions">
-        <button id="loadMoreBtn"
-                class="btn-cta secondary"
-                type="button"
-                th:attr="data-text-more=#{projects.button.viewAll},data-text-less=#{projects.button.viewLess}"
-                th:text="#{projects.button.viewAll}">Ver todos os projetos</button>
+                <footer class="card__footer">
+                    <div class="card__meta-row">
+                        <div class="card__language" th:if="${project.language != null and !#strings.isEmpty(project.language)}">
+                            <span class="lang-dot" aria-hidden="true"></span>
+                            <span class="lang-name" th:text="${project.language}">JavaScript</span>
+                        </div>
+
+                        <div class="card__date-wrapper" th:if="${project.updatedAt != null}">
+                            <svg class="calendar-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <time class="card__date" th:attr="datetime=${#temporals.format(project.updatedAt, 'yyyy-MM-dd')}" th:text="${#temporals.format(project.updatedAt, 'dd MMM yyyy')}">21 Dez 2024</time>
+                        </div>
+                    </div>
+
+                    <div class="card__topics" th:if="${project.topics != null and !#lists.isEmpty(project.topics)}">
+                        <span class="card__topic pill" th:each="topic : ${project.topics}" th:text="${topic}">Technology</span>
+                    </div>
+                </footer>
+            </article>
+        </div>
+
+        <div class="section__actions">
+            <button id="loadMoreBtn"
+                    class="btn btn--outline"
+                    type="button"
+                    th:attr="data-text-more=#{projects.button.viewAll},data-text-less=#{projects.button.viewLess}"
+                    th:text="#{projects.button.viewAll}">Ver todos os projetos</button>
+        </div>
     </div>
 </section>

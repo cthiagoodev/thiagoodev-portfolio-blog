@@ -7,6 +7,7 @@
     --color-primary-light: #E3B0FF;
     --color-neutral: #BDBDBD;
     --color-accent: #00D9FF;
+    --color-community: #00E676;  /* Vibrant Android Green for Community section */
 
     /* Spacing */
     --spacing-xs: 0.25rem;

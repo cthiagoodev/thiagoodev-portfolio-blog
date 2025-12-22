@@ -1,0 +1,37 @@
+<section th:fragment="community" class="section" id="comunidade" data-section aria-labelledby="community-title">
+    <div class="container">
+        <header class="section__header scroll-hidden">
+            <h2 id="community-title" class="text-h2" th:text="#{community.title}">Comunidade</h2>
+        </header>
+
+        <article class="card card--community scroll-hidden" role="article" aria-labelledby="community-card-title">
+            <div class="card__top">
+                <div class="card__icon card__icon--community" aria-hidden="true">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 id="community-card-title" class="text-card-title" th:text="#{community.card.title}">Mobile Devs Ceará</h3>
+            </div>
+
+            <div class="card__main">
+                <p class="text-body" th:utext="#{community.text}">
+                    Uma comunidade vibrante dedicada ao desenvolvimento mobile no Ceará.
+
+                    Conectamos desenvolvedores, compartilhamos conhecimento e promovemos o crescimento do ecossistema mobile na região.
+
+                    Junte-se a nós e faça parte dessa jornada de inovação e aprendizado!
+                </p>
+
+                <div class="community-actions">
+                    <a href="#" class="btn btn--community" th:text="#{community.button}">
+                        Conheça a Comunidade
+                    </a>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
