@@ -1,9 +1,11 @@
 package br.com.thiagoodev.portfolio.presentation.controllers;
 
 import br.com.thiagoodev.portfolio.application.services.ExperienceService;
+import br.com.thiagoodev.portfolio.application.services.ProfileService;
 import br.com.thiagoodev.portfolio.application.services.ProjectsService;
 import br.com.thiagoodev.portfolio.application.services.TechnologyService;
 import br.com.thiagoodev.portfolio.domain.entities.Experience;
+import br.com.thiagoodev.portfolio.domain.entities.Profile;
 import br.com.thiagoodev.portfolio.domain.entities.Project;
 import br.com.thiagoodev.portfolio.domain.entities.Technology;
 import org.springframework.stereotype.Controller;
@@ -21,15 +23,18 @@ public class PortfolioController {
     private final ProjectsService projectsService;
     private final TechnologyService technologyService;
     private final ExperienceService experienceService;
+    private final ProfileService profileService;
 
     public PortfolioController(
-        ProjectsService projectsService,
-        TechnologyService technologyService,
-        ExperienceService experienceService
+            ProjectsService projectsService,
+            TechnologyService technologyService,
+            ExperienceService experienceService,
+            ProfileService profileService
     ) {
         this.projectsService = projectsService;
         this.technologyService = technologyService;
         this.experienceService = experienceService;
+        this.profileService = profileService;
     }
 
     @GetMapping("/")
@@ -37,12 +42,13 @@ public class PortfolioController {
         List<Technology> techs = technologyService.getAll();
         List<Experience> experiences = experienceService.getAll();
         List<Project> projects = projectsService.getAll();
-
+        Profile profile = profileService.get();
 
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("techs", techs);
         attributes.put("experiences", experiences);
         attributes.put("projects", projects);
+        attributes.put("profile", profile);
 
         model.addAllAttributes(attributes);
 

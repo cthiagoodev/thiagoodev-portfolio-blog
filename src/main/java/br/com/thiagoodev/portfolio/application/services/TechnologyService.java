@@ -13,8 +13,8 @@ public class TechnologyService {
     private final StorageService storageService;
 
     public TechnologyService(
-        TechnologiesRepository repository,
-        StorageService storageService
+            TechnologiesRepository repository,
+            StorageService storageService
     ) {
         this.repository = repository;
         this.storageService = storageService;
@@ -22,11 +22,11 @@ public class TechnologyService {
 
     public List<Technology> getAll() {
         return this.repository.findAll()
-            .stream()
-            .map(tech -> tech.toBuilder()
-                .icon(storageService.storageUrlResolver(tech.getIcon()))
-                .build()
-            )
-            .toList();
+                .stream()
+                .map(tech -> tech.toBuilder()
+                        .icon(storageService.storageUrlResolver(tech.getIcon()))
+                        .build()
+                )
+                .toList();
     }
 }
