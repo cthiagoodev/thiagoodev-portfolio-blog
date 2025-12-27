@@ -8,10 +8,12 @@ import io.minio.errors.MinioException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -65,11 +67,17 @@ public class StorageService {
     }
 
     public String storageUrlResolver(String objectName) {
-        URI uri = URI.create(
-            this.storageUri + "/" +
-            this.bucketName + "/" +
-            objectName
-        );
-        return uri.normalize().toString();
+        if (objectName == null || objectName.isEmpty()) return null;
+
+        try {
+            String fullUrl = this.storageUri + "/" + this.bucketName + "/" + objectName;
+            return UriComponentsBuilder
+                    .fromUriString(fullUrl)
+                    .build()
+                    .encode()
+                    .toUriString();
+        } catch (Exception exception) {
+            return null;
+        }
     }
 }

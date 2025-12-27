@@ -1,16 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Basic Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" th:content="#{seo.author}">
+    <meta name="description" th:content="#{seo.description}">
+    <meta name="keywords" th:content="#{seo.keywords}">
+
+    <!-- Theme and Branding -->
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+    <meta property="og:type" th:content="#{seo.og.type}">
+    <meta property="og:title" th:content="#{seo.title}">
+    <meta property="og:description" th:content="#{seo.description}">
+    <meta property="og:url" th:content="#{seo.og.url}">
+    <meta property="og:image" th:content="${profile != null ? profile.profileImage : '@{/images/profile.jpg}'}">
+    <meta property="og:image:alt" th:content="#{seo.author}">
+    <meta property="og:site_name" th:content="#{header.brand}">
+    <meta property="og:locale" th:content="${#locale.toString()}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" th:content="#{seo.twitter.card}">
+    <meta name="twitter:site" th:content="#{seo.twitter.site}">
+    <meta name="twitter:creator" th:content="#{seo.twitter.site}">
+    <meta name="twitter:title" th:content="#{seo.title}">
+    <meta name="twitter:description" th:content="#{seo.description}">
+    <meta name="twitter:image" th:content="${profile != null ? profile.profileImage : '@{/images/profile.jpg}'}">
+    <meta name="twitter:image:alt" th:content="#{seo.author}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" th:href="#{seo.og.url}">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/images/favicon-16x16.png}">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/images/apple-touch-icon.png}">
+    <link rel="manifest" th:href="@{/site.webmanifest}">
+
+    <!-- DNS Prefetch & Preconnect -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+          rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
-    <title th:text="#{header.brand}">thiagoodev</title>
+    <!-- Title -->
+    <title th:text="#{seo.title}">Thiago Sousa | Engenheiro de Software</title>
 </head>
 <body data-theme="dark">
 
@@ -19,10 +69,13 @@
 <main>
     <section id="inicio" data-section th:replace="~{portfolio/fragments/hero.html :: hero}"></section>
     <section id="sobre" data-section th:replace="~{portfolio/fragments/about.html :: about}"></section>
-    <section id="experiencias" data-section th:replace="~{portfolio/fragments/experiences.html :: experiences}"></section>
+    <section id="experiencias" data-section
+             th:replace="~{portfolio/fragments/experiences.html :: experiences}"></section>
     <section id="projetos" data-section th:replace="~{portfolio/fragments/projects.html :: projects}"></section>
     <section id="comunidade" data-section th:replace="~{portfolio/fragments/community.html :: community}"></section>
 </main>
+
+<footer th:replace="~{portfolio/fragments/footer.html :: footer}"></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
 <script>
@@ -44,10 +97,15 @@
 
         const smoothScrollTo = (target) => {
             const offsetTop = target.offsetTop - HEADER_HEIGHT;
-            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            window.scrollTo({top: offsetTop, behavior: 'smooth'});
         };
 
-        navLinks.forEach(link => {
+        const allInternalLinks = [
+            ...navLinks,
+            ...Array.from(document.querySelectorAll('.hero__actions a[href^="#"]'))
+        ];
+
+        allInternalLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
