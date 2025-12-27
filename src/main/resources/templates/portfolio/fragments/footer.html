@@ -1,69 +1,75 @@
 <footer th:fragment="footer" class="footer">
     <div class="container">
-        <!-- Main Footer Grid -->
-        <div class="footer__grid">
-            <!-- Column 1: Brand & Tagline -->
-            <div class="footer__column footer__column--brand">
-                <h3 class="footer__brand">thiagoodev</h3>
-                <p class="footer__tagline">Engenharia de Software & Comunidade</p>
+        <div class="footer__card">
+            <div class="footer__grid">
+                <div class="footer__column footer__column--brand">
+                    <div class="footer__brand-wrapper">
+                        <img th:if="${profile != null}" th:src="${profile.profileImage}" alt="AI Avatar" class="footer__avatar">
+                        <h3 class="footer__brand">thiagoodev</h3>
+                    </div>
+                    <p class="footer__tagline">
+                        Engenheiro de Software • criador da
+                        <a th:if="${profile != null}"
+                           th:href="${profile.communityUrl}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="footer__highlight-link">Mobile Devs Ceará</a>
+                    </p>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Menu</h4>
+                    <nav class="footer__nav" aria-label="Menu de navegação">
+                        <a href="#inicio" class="footer__link">Início</a>
+                        <a href="#sobre" class="footer__link">Sobre</a>
+                        <a href="#projetos" class="footer__link">Projetos</a>
+                        <a href="#comunidade" class="footer__link">Comunidade</a>
+                    </nav>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Conecte-se</h4>
+                    <nav class="footer__nav" aria-label="Redes sociais">
+                        <a th:if="${profile != null and not #strings.isEmpty(profile.linkedinUrl)}"
+                           th:href="${profile.linkedinUrl}"
+                           class="footer__link"
+                           target="_blank"
+                           rel="noopener noreferrer">LinkedIn</a>
+                        <a th:if="${profile != null and not #strings.isEmpty(profile.githubUrl)}"
+                           th:href="${profile.githubUrl}"
+                           class="footer__link"
+                           target="_blank"
+                           rel="noopener noreferrer">GitHub</a>
+                        <a th:if="${profile != null and not #strings.isEmpty(profile.xUrl)}"
+                           th:href="${profile.xUrl}"
+                           class="footer__link"
+                           target="_blank"
+                           rel="noopener noreferrer">X (Twitter)</a>
+                    </nav>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Recursos</h4>
+                    <nav class="footer__nav" aria-label="Recursos para download">
+                        <a th:if="${profile != null and not #strings.isEmpty(profile.curriculum)}"
+                           th:href="${profile.curriculum}"
+                           class="footer__link"
+                           download
+                           target="_blank">Baixar Currículo</a>
+                        <a th:if="${profile != null and not #strings.isEmpty(profile.communityUrl)}"
+                           th:href="${profile.communityUrl}"
+                           class="footer__link"
+                           target="_blank"
+                           rel="noopener noreferrer">Comunidade</a>
+                    </nav>
+                </div>
             </div>
 
-            <!-- Column 2: Menu Navigation -->
-            <div class="footer__column">
-                <h4 class="footer__title">Menu</h4>
-                <nav class="footer__nav" aria-label="Menu de navegação">
-                    <a href="#inicio" class="footer__link">Início</a>
-                    <a href="#sobre" class="footer__link">Sobre</a>
-                    <a href="#projetos" class="footer__link">Projetos</a>
-                    <a href="#comunidade" class="footer__link">Comunidade</a>
-                </nav>
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    Made with Java & Spring Boot by <strong>thiagoodev</strong>
+                </p>
             </div>
-
-            <!-- Column 3: Social Links -->
-            <div class="footer__column">
-                <h4 class="footer__title">Conecte-se</h4>
-                <nav class="footer__nav" aria-label="Redes sociais">
-                    <a th:if="${profile != null and not #strings.isEmpty(profile.linkedinUrl)}"
-                       th:href="${profile.linkedinUrl}"
-                       class="footer__link"
-                       target="_blank"
-                       rel="noopener noreferrer">LinkedIn</a>
-                    <a th:if="${profile != null and not #strings.isEmpty(profile.githubUrl)}"
-                       th:href="${profile.githubUrl}"
-                       class="footer__link"
-                       target="_blank"
-                       rel="noopener noreferrer">GitHub</a>
-                    <a th:if="${profile != null and not #strings.isEmpty(profile.xUrl)}"
-                       th:href="${profile.xUrl}"
-                       class="footer__link"
-                       target="_blank"
-                       rel="noopener noreferrer">X (Twitter)</a>
-                </nav>
-            </div>
-
-            <!-- Column 4: Resources -->
-            <div class="footer__column">
-                <h4 class="footer__title">Downloads</h4>
-                <nav class="footer__nav" aria-label="Recursos para download">
-                    <a th:if="${profile != null and not #strings.isEmpty(profile.curriculum)}"
-                       th:href="${profile.curriculum}"
-                       class="footer__link"
-                       download
-                       target="_blank">Baixar Currículo</a>
-                    <a th:if="${profile != null and not #strings.isEmpty(profile.communityUrl)}"
-                       th:href="${profile.communityUrl}"
-                       class="footer__link"
-                       target="_blank"
-                       rel="noopener noreferrer">Comunidade</a>
-                </nav>
-            </div>
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="footer__bottom">
-            <p class="footer__copyright">
-                Made with Java & Spring Boot in Ceará
-            </p>
         </div>
     </div>
 </footer>
