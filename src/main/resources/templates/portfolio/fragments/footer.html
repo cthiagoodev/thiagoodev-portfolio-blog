@@ -5,10 +5,12 @@
                 <div class="footer__column footer__column--brand">
                     <div class="footer__brand-wrapper">
                         <img th:if="${profile != null}" th:src="${profile.profileImage}" alt="AI Avatar" class="footer__avatar">
-                        <h3 class="footer__brand">thiagoodev</h3>
+                        <h3 class="footer__brand" th:text="#{header.brand}">thiagoodev</h3>
                     </div>
                     <p class="footer__tagline">
-                        Engenheiro de Software • criador da
+                        <span th:text="#{footer.tagline.role}">Engenheiro de Software</span>
+                        <span> • </span>
+                        <span th:text="#{footer.tagline.creator}">criador da</span>
                         <a th:if="${profile != null}"
                            th:href="${profile.communityUrl}"
                            target="_blank"
@@ -18,17 +20,17 @@
                 </div>
 
                 <div class="footer__column">
-                    <h4 class="footer__title">Menu</h4>
+                    <h4 class="footer__title" th:text="#{footer.menu}">Menu</h4>
                     <nav class="footer__nav" aria-label="Menu de navegação">
-                        <a href="#inicio" class="footer__link">Início</a>
-                        <a href="#sobre" class="footer__link">Sobre</a>
-                        <a href="#projetos" class="footer__link">Projetos</a>
-                        <a href="#comunidade" class="footer__link">Comunidade</a>
+                        <a href="#inicio" class="footer__link" th:text="#{nav.home}">Início</a>
+                        <a href="#sobre" class="footer__link" th:text="#{nav.about}">Sobre</a>
+                        <a href="#projetos" class="footer__link" th:text="#{nav.portfolio}">Projetos</a>
+                        <a href="#comunidade" class="footer__link" th:text="#{nav.community}">Comunidade</a>
                     </nav>
                 </div>
 
                 <div class="footer__column">
-                    <h4 class="footer__title">Conecte-se</h4>
+                    <h4 class="footer__title" th:text="#{footer.connect}">Conecte-se</h4>
                     <nav class="footer__nav" aria-label="Redes sociais">
                         <a th:if="${profile != null and not #strings.isEmpty(profile.linkedinUrl)}"
                            th:href="${profile.linkedinUrl}"
@@ -49,28 +51,30 @@
                 </div>
 
                 <div class="footer__column">
-                    <h4 class="footer__title">Recursos</h4>
+                    <h4 class="footer__title" th:text="#{footer.resources}">Recursos</h4>
                     <nav class="footer__nav" aria-label="Recursos para download">
                         <a th:if="${profile != null and not #strings.isEmpty(profile.curriculum)}"
                            th:href="${profile.curriculum}"
                            class="footer__link"
                            download
-                           target="_blank">Baixar Currículo</a>
+                           target="_blank"
+                           th:text="#{hero.button.resume}">Baixar Currículo</a>
                         <a th:if="${profile != null and not #strings.isEmpty(profile.communityUrl)}"
                            th:href="${profile.communityUrl}"
                            class="footer__link"
                            target="_blank"
-                           rel="noopener noreferrer">Comunidade</a>
+                           rel="noopener noreferrer"
+                           th:text="#{nav.community}">Comunidade</a>
                     </nav>
                 </div>
             </div>
 
             <div class="footer__bottom">
                 <p class="footer__copyright">
-                    Made with Java & Spring Boot by <strong>thiagoodev</strong>
+                    <span th:text="#{footer.copyright.pre}">Feito com Java & Spring Boot por</span>
+                    <strong th:text="#{header.brand}">thiagoodev</strong>
                 </p>
             </div>
         </div>
     </div>
 </footer>
-

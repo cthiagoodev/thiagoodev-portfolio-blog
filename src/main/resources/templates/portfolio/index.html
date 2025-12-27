@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Basic Meta Tags -->
     <meta charset="utf-8">
@@ -37,6 +37,11 @@
     <!-- Canonical URL -->
     <link rel="canonical" th:href="#{seo.og.url}">
 
+    <!-- Hreflang Tags for Multi-Language Support -->
+    <link rel="alternate" hreflang="pt-BR" href="https://thiagoodev.com.br">
+    <link rel="alternate" hreflang="en" href="https://thiagoodev.com.br?lang=en-US">
+    <link rel="alternate" hreflang="x-default" href="https://thiagoodev.com.br">
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
     <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/favicon-32x32.png}">
@@ -58,6 +63,30 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" th:inline="javascript">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": [[#{seo.author}]],
+      "alternateName": "thiagoodev",
+      "url": [[#{seo.og.url}]],
+      "image": [[${profile != null ? profile.profileImage : '/images/profile.jpg'}]],
+      "jobTitle": "Software Engineer & Mobile Developer",
+      "description": [[#{seo.description}]],
+      "homeLocation": {
+        "@type": "Place",
+        "name": "Fortaleza, Ceará, Brazil"
+      },
+      "sameAs": [
+        [[${profile != null ? profile.linkedinUrl : ''}]],
+        [[${profile != null ? profile.githubUrl : ''}]],
+        [[${profile != null ? profile.xUrl : ''}]]
+      ],
+      "knowsAbout": ["Mobile Development", "Flutter", "Dart", "Java", "Spring Boot", "Software Architecture", "Kotlin", "Backend Development", "thiagoodev", "Fortaleza"]
+    }
+    </script>
 
     <!-- Title -->
     <title th:text="#{seo.title}">Thiago Sousa | Engenheiro de Software</title>

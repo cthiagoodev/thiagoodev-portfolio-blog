@@ -85,26 +85,29 @@ header.header--scrolled {
 
 @media (max-width: 767px) {
     .nav__container {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
         gap: var(--spacing-sm);
-        justify-content: flex-start;
+        padding-block: 0.75rem;
+        height: auto;
         min-height: var(--header-height);
     }
 
     .nav__brand {
-        flex-shrink: 0;
         font-size: 0.9rem;
-        padding-right: var(--spacing-xs);
     }
 
     .lang-switch {
-        margin-left: auto;
+        margin-left: 0;
         order: 2;
-        flex-shrink: 0;
     }
 
     .nav__list {
-        flex: 1;
+        order: 3;
+        width: 100%;
+
+        display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
         overflow-y: hidden;
@@ -113,30 +116,36 @@ header.header--scrolled {
         scrollbar-width: none;
         -ms-overflow-style: none;
 
+        gap: var(--spacing-xs);
+        padding-bottom: 0.25rem;
+        margin-top: 0.25rem;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
 
-        gap: var(--spacing-xs);
-        padding-inline: var(--spacing-xs) var(--spacing-md);
-        margin: 0;
-        order: 3;
-        width: 100%;
+        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
     }
 
-    /* Hide scrollbar - WebKit browsers */
     .nav__list::-webkit-scrollbar {
         display: none;
     }
 
     .nav__list li {
         scroll-snap-align: start;
+        flex-shrink: 0;
     }
 
     .nav__link {
-        flex-shrink: 0;
-        white-space: nowrap;
         font-size: 0.8rem;
-        padding: 0.4rem 0.75rem;
+        padding: 0.4rem 0.85rem;
+        white-space: nowrap;
+        background-color: color-mix(in srgb, var(--pico-background-color) 50%, transparent);
+        border: 1px solid color-mix(in srgb, var(--pico-border-color) 30%, transparent);
+    }
+
+    .nav__link.active {
+        background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+        border-color: var(--color-primary);
     }
 }
 
