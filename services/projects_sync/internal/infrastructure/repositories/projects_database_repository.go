@@ -8,6 +8,15 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+var projectColumns = []string{
+	"external_id",
+	"name",
+	"description",
+	"url",
+	"languages",
+	"updated_at",
+}
+
 type ProjectsDatabaseRepository struct {
 	pool *pgxpool.Pool
 }
@@ -20,20 +29,45 @@ func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Pro
 
 	defer rows.Close()
 
-	projects, cErr := pgx.CollectRows(rows, pgx.RowToStructByName[entities.Project])
-	if cErr != nil {
-		return nil, cErr
+	projects, err := pgx.CollectRows(
+		rows,
+		pgx.RowToStructByName[entities.Project],
+	)
+	if err != nil {
+		return nil, err
 	}
 
 	return projects, nil
 }
 
-func (p *ProjectsDatabaseRepository) CreateAll(ctx context.Context, projects []entities.Project) error {
-	//TODO implement me
-	panic("implement me")
+func (p *ProjectsDatabaseRepository) CreateAll(
+	ctx context.Context,
+	projects []entities.Project,
+) error {
+	_, err := p.pool.CopyFrom(
+		ctx,
+		pgx.Identifier{"projects"},
+		projectColumns,
+		pgx.CopyFromSlice(len(projects), func(i int) ([]any, error) {
+			return p.projectToRow(projects[i]), nil
+		}),
+	)
+
+	return err
 }
 
 func (p *ProjectsDatabaseRepository) DeleteAll(ctx context.Context) error {
-	//TODO implement me
-	panic("implement me")
+	p.pool.QueryRow(ctx, "DELETE FROM projects")
+	return nil
+}
+
+func (p *ProjectsDatabaseRepository) projectToRow(project entities.Project) []any {
+	return []any{
+		project.ExternalId,
+		project.Name,
+		project.Description,
+		project.Url,
+		project.Languages,
+		project.UpdatedAt,
+	}
 }

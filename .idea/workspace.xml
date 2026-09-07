@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2247c154-bcb5-4574-8e9b-71403ccd1e8b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2247c154-bcb5-4574-8e9b-71403ccd1e8b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2247c154-bcb5-4574-8e9b-71403ccd1e8b/storage_v2/_src_/database/projects.ehh5xA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2247c154-bcb5-4574-8e9b-71403ccd1e8b/storage_v2/_src_/database/projects.ehh5xA/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/project.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
