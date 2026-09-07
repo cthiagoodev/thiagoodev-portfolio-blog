@@ -26,7 +26,10 @@ func NewProjectsDatabaseRepository(pool *pgxpool.Pool) *ProjectsDatabaseReposito
 }
 
 func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Project, error) {
-	rows, err := p.pool.Query(ctx, "SELECT * FROM projects")
+	rows, err := p.pool.Query(
+		ctx,
+		"SELECT uuid, external_id, name, description, url, languages, created_at, updated_at FROM projects",
+	)
 	if err != nil {
 		return nil, err
 	}
