@@ -21,6 +21,10 @@ type ProjectsDatabaseRepository struct {
 	pool *pgxpool.Pool
 }
 
+func NewProjectsDatabaseRepository(pool *pgxpool.Pool) *ProjectsDatabaseRepository {
+	return &ProjectsDatabaseRepository{pool: pool}
+}
+
 func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Project, error) {
 	rows, err := p.pool.Query(ctx, "SELECT * FROM projects")
 	if err != nil {
@@ -57,8 +61,8 @@ func (p *ProjectsDatabaseRepository) CreateAll(
 }
 
 func (p *ProjectsDatabaseRepository) DeleteAll(ctx context.Context) error {
-	p.pool.QueryRow(ctx, "DELETE FROM projects")
-	return nil
+	_, err := p.pool.Exec(ctx, "DELETE FROM projects")
+	return err
 }
 
 func (p *ProjectsDatabaseRepository) projectToRow(project entities.Project) []any {
