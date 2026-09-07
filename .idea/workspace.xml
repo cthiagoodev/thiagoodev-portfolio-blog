@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/github/github_service_mock.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/github/github_service_mock.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +108,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.go test internal">
+  <component name="RunManager" selected="Go Test.service_test.go">
     <configuration name="go build github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/cmd/api" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="portfolio" />
       <working_directory value="$PROJECT_DIR$/services/projects_sync" />
@@ -175,11 +179,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.go test internal" />
         <item itemvalue="Go Test.service_test.go" />
+        <item itemvalue="Go Test.sync_projects_usecase_impl_test.go" />
+        <item itemvalue="Go Test.go test internal" />
         <item itemvalue="Go Test.mapper_test.go" />
         <item itemvalue="Go Test.go test services" />
-        <item itemvalue="Go Test.sync_projects_usecase_impl_test.go" />
       </list>
     </recent_temporary>
   </component>

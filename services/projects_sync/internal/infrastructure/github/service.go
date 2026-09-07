@@ -1,6 +1,7 @@
 package github
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,7 +10,7 @@ import (
 )
 
 type GithubService interface {
-	FetchRepositories() ([]Project, error)
+	FetchRepositories(ctx context.Context) ([]Project, error)
 }
 
 type GithubServiceImpl struct {
@@ -24,14 +25,18 @@ func NewGithubServiceImpl(client *http.Client, baseURL *url.URL) *GithubServiceI
 	}
 }
 
-func (s *GithubServiceImpl) FetchRepositories() ([]Project, error) {
+func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]Project, error) {
 	path := s.baseURL.String() + "/users/cthiagoodev/repos"
-	response, err := s.client.Get(path)
 
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	response, err := s.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusOK {

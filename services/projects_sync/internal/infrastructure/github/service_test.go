@@ -1,6 +1,7 @@
 package github
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -35,12 +36,13 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		baseURL, err := url.Parse(server.URL)
 		require.NoError(t, err)
 
+		ctx := context.TODO()
 		service := NewGithubServiceImpl(
 			server.Client(),
 			baseURL,
 		)
 
-		result, err := service.FetchRepositories()
+		result, err := service.FetchRepositories(ctx)
 
 		require.NoError(t, err)
 		require.Len(t, result, 1)
@@ -65,12 +67,13 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		baseURL, err := url.Parse(server.URL)
 		require.NoError(t, err)
 
+		ctx := context.TODO()
 		service := NewGithubServiceImpl(
 			server.Client(),
 			baseURL,
 		)
 
-		result, err := service.FetchRepositories()
+		result, err := service.FetchRepositories(ctx)
 
 		require.Error(t, err)
 		assert.Nil(t, result)
@@ -94,12 +97,13 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		baseURL, err := url.Parse(server.URL)
 		require.NoError(t, err)
 
+		ctx := context.TODO()
 		service := NewGithubServiceImpl(
 			server.Client(),
 			baseURL,
 		)
 
-		result, err := service.FetchRepositories()
+		result, err := service.FetchRepositories(ctx)
 
 		require.Error(t, err)
 		assert.Nil(t, result)
@@ -117,12 +121,13 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 
 		server.Close()
 
+		ctx := context.TODO()
 		service := NewGithubServiceImpl(
 			client,
 			baseURL,
 		)
 
-		result, err := service.FetchRepositories()
+		result, err := service.FetchRepositories(ctx)
 
 		require.Error(t, err)
 		assert.Nil(t, result)

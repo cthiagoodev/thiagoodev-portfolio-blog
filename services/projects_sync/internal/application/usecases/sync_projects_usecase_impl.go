@@ -27,7 +27,7 @@ func NewSyncProjectsUseCaseImpl(
 }
 
 func (s *SyncProjectsUseCaseImpl) Execute(ctx context.Context) ([]entities.Project, error) {
-	repos, gErr := s.githubService.FetchRepositories()
+	repos, gErr := s.githubService.FetchRepositories(ctx)
 
 	if gErr != nil {
 		return nil, gErr

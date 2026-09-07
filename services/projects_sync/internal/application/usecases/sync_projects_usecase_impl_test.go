@@ -49,7 +49,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return(githubProjects, nil)
 
 		repository.
@@ -91,7 +91,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return([]github.Project{}, nil)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -120,7 +120,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return(nil, expectedErr)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -165,7 +165,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return(githubProjects, nil)
 
 		repository.
@@ -215,7 +215,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return(githubProjects, nil)
 
 		repository.
@@ -270,7 +270,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		service.
 			EXPECT().
-			FetchRepositories().
+			FetchRepositories(ctx).
 			Return(githubProjects, nil)
 
 		repository.
