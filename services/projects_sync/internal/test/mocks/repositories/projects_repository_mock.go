@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	"context"
+
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -37,16 +39,16 @@ func (_m *MockProjectsRepository) EXPECT() *MockProjectsRepository_Expecter {
 }
 
 // CreateAll provides a mock function for the type MockProjectsRepository
-func (_mock *MockProjectsRepository) CreateAll(projects []entities.Project) error {
-	ret := _mock.Called(projects)
+func (_mock *MockProjectsRepository) CreateAll(ctx context.Context, projects []entities.Project) error {
+	ret := _mock.Called(ctx, projects)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreateAll")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func([]entities.Project) error); ok {
-		r0 = returnFunc(projects)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, []entities.Project) error); ok {
+		r0 = returnFunc(ctx, projects)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -59,19 +61,25 @@ type MockProjectsRepository_CreateAll_Call struct {
 }
 
 // CreateAll is a helper method to define mock.On call
+//   - ctx context.Context
 //   - projects []entities.Project
-func (_e *MockProjectsRepository_Expecter) CreateAll(projects any) *MockProjectsRepository_CreateAll_Call {
-	return &MockProjectsRepository_CreateAll_Call{Call: _e.mock.On("CreateAll", projects)}
+func (_e *MockProjectsRepository_Expecter) CreateAll(ctx any, projects any) *MockProjectsRepository_CreateAll_Call {
+	return &MockProjectsRepository_CreateAll_Call{Call: _e.mock.On("CreateAll", ctx, projects)}
 }
 
-func (_c *MockProjectsRepository_CreateAll_Call) Run(run func(projects []entities.Project)) *MockProjectsRepository_CreateAll_Call {
+func (_c *MockProjectsRepository_CreateAll_Call) Run(run func(ctx context.Context, projects []entities.Project)) *MockProjectsRepository_CreateAll_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 []entities.Project
+		var arg0 context.Context
 		if args[0] != nil {
-			arg0 = args[0].([]entities.Project)
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 []entities.Project
+		if args[1] != nil {
+			arg1 = args[1].([]entities.Project)
 		}
 		run(
 			arg0,
+			arg1,
 		)
 	})
 	return _c
@@ -82,22 +90,22 @@ func (_c *MockProjectsRepository_CreateAll_Call) Return(err error) *MockProjects
 	return _c
 }
 
-func (_c *MockProjectsRepository_CreateAll_Call) RunAndReturn(run func(projects []entities.Project) error) *MockProjectsRepository_CreateAll_Call {
+func (_c *MockProjectsRepository_CreateAll_Call) RunAndReturn(run func(ctx context.Context, projects []entities.Project) error) *MockProjectsRepository_CreateAll_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // DeleteAll provides a mock function for the type MockProjectsRepository
-func (_mock *MockProjectsRepository) DeleteAll() error {
-	ret := _mock.Called()
+func (_mock *MockProjectsRepository) DeleteAll(ctx context.Context) error {
+	ret := _mock.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for DeleteAll")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func() error); ok {
-		r0 = returnFunc()
+	if returnFunc, ok := ret.Get(0).(func(context.Context) error); ok {
+		r0 = returnFunc(ctx)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -110,13 +118,20 @@ type MockProjectsRepository_DeleteAll_Call struct {
 }
 
 // DeleteAll is a helper method to define mock.On call
-func (_e *MockProjectsRepository_Expecter) DeleteAll() *MockProjectsRepository_DeleteAll_Call {
-	return &MockProjectsRepository_DeleteAll_Call{Call: _e.mock.On("DeleteAll")}
+//   - ctx context.Context
+func (_e *MockProjectsRepository_Expecter) DeleteAll(ctx any) *MockProjectsRepository_DeleteAll_Call {
+	return &MockProjectsRepository_DeleteAll_Call{Call: _e.mock.On("DeleteAll", ctx)}
 }
 
-func (_c *MockProjectsRepository_DeleteAll_Call) Run(run func()) *MockProjectsRepository_DeleteAll_Call {
+func (_c *MockProjectsRepository_DeleteAll_Call) Run(run func(ctx context.Context)) *MockProjectsRepository_DeleteAll_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		run(
+			arg0,
+		)
 	})
 	return _c
 }
@@ -126,14 +141,14 @@ func (_c *MockProjectsRepository_DeleteAll_Call) Return(err error) *MockProjects
 	return _c
 }
 
-func (_c *MockProjectsRepository_DeleteAll_Call) RunAndReturn(run func() error) *MockProjectsRepository_DeleteAll_Call {
+func (_c *MockProjectsRepository_DeleteAll_Call) RunAndReturn(run func(ctx context.Context) error) *MockProjectsRepository_DeleteAll_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // GetAll provides a mock function for the type MockProjectsRepository
-func (_mock *MockProjectsRepository) GetAll() ([]entities.Project, error) {
-	ret := _mock.Called()
+func (_mock *MockProjectsRepository) GetAll(ctx context.Context) ([]entities.Project, error) {
+	ret := _mock.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetAll")
@@ -141,18 +156,18 @@ func (_mock *MockProjectsRepository) GetAll() ([]entities.Project, error) {
 
 	var r0 []entities.Project
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func() ([]entities.Project, error)); ok {
-		return returnFunc()
+	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]entities.Project, error)); ok {
+		return returnFunc(ctx)
 	}
-	if returnFunc, ok := ret.Get(0).(func() []entities.Project); ok {
-		r0 = returnFunc()
+	if returnFunc, ok := ret.Get(0).(func(context.Context) []entities.Project); ok {
+		r0 = returnFunc(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]entities.Project)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func() error); ok {
-		r1 = returnFunc()
+	if returnFunc, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = returnFunc(ctx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -165,13 +180,20 @@ type MockProjectsRepository_GetAll_Call struct {
 }
 
 // GetAll is a helper method to define mock.On call
-func (_e *MockProjectsRepository_Expecter) GetAll() *MockProjectsRepository_GetAll_Call {
-	return &MockProjectsRepository_GetAll_Call{Call: _e.mock.On("GetAll")}
+//   - ctx context.Context
+func (_e *MockProjectsRepository_Expecter) GetAll(ctx any) *MockProjectsRepository_GetAll_Call {
+	return &MockProjectsRepository_GetAll_Call{Call: _e.mock.On("GetAll", ctx)}
 }
 
-func (_c *MockProjectsRepository_GetAll_Call) Run(run func()) *MockProjectsRepository_GetAll_Call {
+func (_c *MockProjectsRepository_GetAll_Call) Run(run func(ctx context.Context)) *MockProjectsRepository_GetAll_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		run(
+			arg0,
+		)
 	})
 	return _c
 }
@@ -181,7 +203,7 @@ func (_c *MockProjectsRepository_GetAll_Call) Return(projects []entities.Project
 	return _c
 }
 
-func (_c *MockProjectsRepository_GetAll_Call) RunAndReturn(run func() ([]entities.Project, error)) *MockProjectsRepository_GetAll_Call {
+func (_c *MockProjectsRepository_GetAll_Call) RunAndReturn(run func(ctx context.Context) ([]entities.Project, error)) *MockProjectsRepository_GetAll_Call {
 	_c.Call.Return(run)
 	return _c
 }

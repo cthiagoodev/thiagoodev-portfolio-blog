@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/repositories"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/github"
@@ -24,7 +26,7 @@ func NewSyncProjectsUseCaseImpl(
 	}
 }
 
-func (s *SyncProjectsUseCaseImpl) Execute() ([]entities.Project, error) {
+func (s *SyncProjectsUseCaseImpl) Execute(ctx context.Context) ([]entities.Project, error) {
 	repos, gErr := s.githubService.FetchRepositories()
 
 	if gErr != nil {
@@ -37,19 +39,19 @@ func (s *SyncProjectsUseCaseImpl) Execute() ([]entities.Project, error) {
 
 	newProjects := s.mapper(repos)
 
-	dErr := s.repository.DeleteAll()
+	dErr := s.repository.DeleteAll(ctx)
 
 	if dErr != nil {
 		return nil, dErr
 	}
 
-	cErr := s.repository.CreateAll(newProjects)
+	cErr := s.repository.CreateAll(ctx, newProjects)
 
 	if cErr != nil {
 		return nil, cErr
 	}
 
-	projects, pErr := s.repository.GetAll()
+	projects, pErr := s.repository.GetAll(ctx)
 
 	if pErr != nil {
 		return nil, pErr

@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	"context"
+
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -37,8 +39,8 @@ func (_m *MockSyncProjectsUseCase) EXPECT() *MockSyncProjectsUseCase_Expecter {
 }
 
 // Execute provides a mock function for the type MockSyncProjectsUseCase
-func (_mock *MockSyncProjectsUseCase) Execute() ([]entities.Project, error) {
-	ret := _mock.Called()
+func (_mock *MockSyncProjectsUseCase) Execute(ctx context.Context) ([]entities.Project, error) {
+	ret := _mock.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Execute")
@@ -46,18 +48,18 @@ func (_mock *MockSyncProjectsUseCase) Execute() ([]entities.Project, error) {
 
 	var r0 []entities.Project
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func() ([]entities.Project, error)); ok {
-		return returnFunc()
+	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]entities.Project, error)); ok {
+		return returnFunc(ctx)
 	}
-	if returnFunc, ok := ret.Get(0).(func() []entities.Project); ok {
-		r0 = returnFunc()
+	if returnFunc, ok := ret.Get(0).(func(context.Context) []entities.Project); ok {
+		r0 = returnFunc(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]entities.Project)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func() error); ok {
-		r1 = returnFunc()
+	if returnFunc, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = returnFunc(ctx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -70,13 +72,20 @@ type MockSyncProjectsUseCase_Execute_Call struct {
 }
 
 // Execute is a helper method to define mock.On call
-func (_e *MockSyncProjectsUseCase_Expecter) Execute() *MockSyncProjectsUseCase_Execute_Call {
-	return &MockSyncProjectsUseCase_Execute_Call{Call: _e.mock.On("Execute")}
+//   - ctx context.Context
+func (_e *MockSyncProjectsUseCase_Expecter) Execute(ctx any) *MockSyncProjectsUseCase_Execute_Call {
+	return &MockSyncProjectsUseCase_Execute_Call{Call: _e.mock.On("Execute", ctx)}
 }
 
-func (_c *MockSyncProjectsUseCase_Execute_Call) Run(run func()) *MockSyncProjectsUseCase_Execute_Call {
+func (_c *MockSyncProjectsUseCase_Execute_Call) Run(run func(ctx context.Context)) *MockSyncProjectsUseCase_Execute_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		run(
+			arg0,
+		)
 	})
 	return _c
 }
@@ -86,7 +95,7 @@ func (_c *MockSyncProjectsUseCase_Execute_Call) Return(projects []entities.Proje
 	return _c
 }
 
-func (_c *MockSyncProjectsUseCase_Execute_Call) RunAndReturn(run func() ([]entities.Project, error)) *MockSyncProjectsUseCase_Execute_Call {
+func (_c *MockSyncProjectsUseCase_Execute_Call) RunAndReturn(run func(ctx context.Context) ([]entities.Project, error)) *MockSyncProjectsUseCase_Execute_Call {
 	_c.Call.Return(run)
 	return _c
 }

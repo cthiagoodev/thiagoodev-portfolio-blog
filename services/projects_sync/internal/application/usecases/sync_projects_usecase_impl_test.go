@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"context"
 	"errors"
 	"testing"
 	"time"
@@ -15,6 +16,7 @@ import (
 
 func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 	t.Run("should fetch, map, save and return projects", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -52,17 +54,17 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		repository.
 			EXPECT().
-			DeleteAll().
+			DeleteAll(ctx).
 			Return(nil)
 
 		repository.
 			EXPECT().
-			CreateAll(expectedProjects).
+			CreateAll(ctx, expectedProjects).
 			Return(nil)
 
 		repository.
 			EXPECT().
-			GetAll().
+			GetAll(ctx).
 			Return(expectedProjects, nil)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -71,13 +73,14 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.NoError(t, err)
 		assert.Equal(t, expectedProjects, result)
 	})
 
 	t.Run("should return empty list when github returns no repositories", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -97,13 +100,14 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.NoError(t, err)
 		assert.Empty(t, result)
 	})
 
 	t.Run("should return error when github fetch fails", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -125,7 +129,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.Error(t, err)
 		assert.ErrorIs(t, err, expectedErr)
@@ -133,6 +137,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 	})
 
 	t.Run("should return error when delete all fails", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -165,7 +170,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		repository.
 			EXPECT().
-			DeleteAll().
+			DeleteAll(ctx).
 			Return(expectedErr)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -174,7 +179,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.Error(t, err)
 		assert.ErrorIs(t, err, expectedErr)
@@ -182,6 +187,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 	})
 
 	t.Run("should return error when create all fails", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -214,12 +220,12 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		repository.
 			EXPECT().
-			DeleteAll().
+			DeleteAll(ctx).
 			Return(nil)
 
 		repository.
 			EXPECT().
-			CreateAll(expectedProjects).
+			CreateAll(ctx, expectedProjects).
 			Return(expectedErr)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -228,7 +234,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.Error(t, err)
 		assert.ErrorIs(t, err, expectedErr)
@@ -236,6 +242,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 	})
 
 	t.Run("should return error when get all fails", func(t *testing.T) {
+		ctx := context.TODO()
 		repository := repositoriesmocks.NewMockProjectsRepository(t)
 		service := githubmocks.NewMockGithubService(t)
 
@@ -268,17 +275,17 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		repository.
 			EXPECT().
-			DeleteAll().
+			DeleteAll(ctx).
 			Return(nil)
 
 		repository.
 			EXPECT().
-			CreateAll(expectedProjects).
+			CreateAll(ctx, expectedProjects).
 			Return(nil)
 
 		repository.
 			EXPECT().
-			GetAll().
+			GetAll(ctx).
 			Return(nil, expectedErr)
 
 		useCase := NewSyncProjectsUseCaseImpl(
@@ -287,7 +294,7 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			mapper,
 		)
 
-		result, err := useCase.Execute()
+		result, err := useCase.Execute(ctx)
 
 		require.Error(t, err)
 		assert.ErrorIs(t, err, expectedErr)
