@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.55">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>765</IntrospectionStateNumber>
+      <IntrospectionStateNumber>770</IntrospectionStateNumber>
       <ServerVersion>18.6</ServerVersion>
       <StartupTime>1788790159</StartupTime>
       <TimeZones>true ACDT
@@ -712,7 +704,7 @@ true posixrules
 13293||10|C|G
 13293||-9223372036854775808|U|G
 13293||10|U|G</Grants>
-      <IntrospectionStateNumber>765</IntrospectionStateNumber>
+      <IntrospectionStateNumber>770</IntrospectionStateNumber>
       <ObjectId>16384</ObjectId>
       <OwnerName>admin</OwnerName>
     </database>
@@ -4179,21 +4171,39 @@ true posixrules
 13646
 13647</MemberIds>
     </extension>
-    <language id="266" parent="3" name="c">
+    <extension id="266" parent="3" name="uuid-ossp">
+      <Comment>generate universally unique identifiers (UUIDs)</Comment>
+      <ObjectId>16398</ObjectId>
+      <StateNumber>768</StateNumber>
+      <Version>1.1</Version>
+      <ExtSchemaId>2200</ExtSchemaId>
+      <ExtSchemaName>public</ExtSchemaName>
+      <MemberIds>16399
+16400
+16401
+16402
+16403
+16404
+16405
+16406
+16407
+16408</MemberIds>
+    </extension>
+    <language id="267" parent="3" name="c">
       <Comment>dynamically-loaded C functions</Comment>
       <ObjectId>13</ObjectId>
       <StateNumber>1</StateNumber>
       <ValidatorName>fmgr_c_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="267" parent="3" name="internal">
+    <language id="268" parent="3" name="internal">
       <Comment>built-in functions</Comment>
       <ObjectId>12</ObjectId>
       <StateNumber>1</StateNumber>
       <ValidatorName>fmgr_internal_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="268" parent="3" name="plpgsql">
+    <language id="269" parent="3" name="plpgsql">
       <Comment>PL/pgSQL procedural language</Comment>
       <HandlerName>plpgsql_call_handler</HandlerName>
       <HandlerSchema>pg_catalog</HandlerSchema>
@@ -4205,7 +4215,7 @@ true posixrules
       <ValidatorName>plpgsql_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <language id="269" parent="3" name="sql">
+    <language id="270" parent="3" name="sql">
       <Comment>SQL-language functions</Comment>
       <ObjectId>14</ObjectId>
       <StateNumber>1</StateNumber>
@@ -4213,30 +4223,315 @@ true posixrules
       <ValidatorName>fmgr_sql_validator</ValidatorName>
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
-    <schema id="270" parent="3" name="information_schema">
+    <schema id="271" parent="3" name="information_schema">
       <ObjectId>13293</ObjectId>
       <StateNumber>552</StateNumber>
       <OwnerName>admin</OwnerName>
     </schema>
-    <schema id="271" parent="3" name="pg_catalog">
+    <schema id="272" parent="3" name="pg_catalog">
       <Comment>system catalog schema</Comment>
       <ObjectId>11</ObjectId>
       <StateNumber>546</StateNumber>
       <OwnerName>admin</OwnerName>
     </schema>
-    <schema id="272" parent="3" name="public">
+    <schema id="273" parent="3" name="public">
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>765</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>765</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>765</LastIntrospectionL3Xid>
+      <LastIntrospectionL1Xid>770</LastIntrospectionL1Xid>
+      <LastIntrospectionL2Xid>770</LastIntrospectionL2Xid>
+      <LastIntrospectionL3Xid>770</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2026-09-07.14:12:23</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2026-09-07.14:42:36</LastIntrospectionLocalTimestamp>
       <LastIntrospectionVersion>260210</LastIntrospectionVersion>
       <ObjectId>2200</ObjectId>
       <StateNumber>546</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
+    <routine id="274" parent="273" name="uuid_generate_v1">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16404</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="275" parent="273" name="uuid_generate_v1mc">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16405</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="276" parent="273" name="uuid_generate_v3">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16406</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="277" parent="273" name="uuid_generate_v4">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16407</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="278" parent="273" name="uuid_generate_v5">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16408</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="279" parent="273" name="uuid_nil">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16399</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="280" parent="273" name="uuid_ns_dns">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16400</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="281" parent="273" name="uuid_ns_oid">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16402</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="282" parent="273" name="uuid_ns_url">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16401</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <routine id="283" parent="273" name="uuid_ns_x500">
+      <ConcurrencyKind>safe</ConcurrencyKind>
+      <Cost>1.0</Cost>
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16403</ObjectId>
+      <Rows>0.0</Rows>
+      <StateNumber>768</StateNumber>
+      <Strict>1</Strict>
+      <VolatilityKind>immutable</VolatilityKind>
+      <LanguageName>c</LanguageName>
+      <OwnerName>admin</OwnerName>
+    </routine>
+    <table id="284" parent="273" name="projects">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16409</ObjectId>
+      <StateNumber>768</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <table id="285" parent="273" name="schema_migrations">
+      <DetailsLevel>2</DetailsLevel>
+      <ObjectId>16389</ObjectId>
+      <StateNumber>769</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>admin</OwnerName>
+    </table>
+    <argument id="286" parent="274">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="287" parent="275">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="288" parent="276">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="289" parent="276" name="namespace">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="290" parent="276" name="name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </argument>
+    <argument id="291" parent="277">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="292" parent="278">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="293" parent="278" name="namespace">
+      <Position>1</Position>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="294" parent="278" name="name">
+      <Position>2</Position>
+      <StoredType>text|0s</StoredType>
+    </argument>
+    <argument id="295" parent="279">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="296" parent="280">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="297" parent="281">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="298" parent="282">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <argument id="299" parent="283">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>uuid|0s</StoredType>
+    </argument>
+    <column id="300" parent="284" name="uuid">
+      <DefaultExpression>uuid_generate_v4()</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>uuid|0s</StoredType>
+      <TypeId>2950</TypeId>
+    </column>
+    <column id="301" parent="284" name="external_id">
+      <Position>2</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="302" parent="284" name="name">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="303" parent="284" name="description">
+      <Position>4</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>text|0s</StoredType>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="304" parent="284" name="url">
+      <Position>5</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>text|0s</StoredType>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="305" parent="284" name="languages">
+      <Position>6</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>varchar(255) []|0s</StoredType>
+      <TypeId>1015</TypeId>
+    </column>
+    <column id="306" parent="284" name="created_at">
+      <DefaultExpression>now()</DefaultExpression>
+      <Position>7</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>timestamp with time zone|0s</StoredType>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="307" parent="284" name="updated_at">
+      <Position>8</Position>
+      <StateNumber>768</StateNumber>
+      <StoredType>timestamp with time zone|0s</StoredType>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="308" parent="284" name="projects_pkey">
+      <ColNames>uuid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16418</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>768</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="309" parent="284" name="projects_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16419</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>768</StateNumber>
+      <UnderlyingIndexId>16418</UnderlyingIndexId>
+    </key>
+    <column id="310" parent="285" name="version">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>766</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="311" parent="285" name="dirty">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>766</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="312" parent="285" name="schema_migrations_pkey">
+      <ColNames>version</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16394</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>769</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="313" parent="285" name="schema_migrations_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>16395</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>766</StateNumber>
+      <UnderlyingIndexId>16394</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>

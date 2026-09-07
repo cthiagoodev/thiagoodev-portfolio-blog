@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -12,8 +13,19 @@ type ProjectsDatabaseRepository struct {
 }
 
 func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Project, error) {
-	//TODO implement me
-	panic("implement me")
+	rows, err := p.pool.Query(ctx, "SELECT * FROM projects")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	projects, cErr := pgx.CollectRows(rows, pgx.RowToStructByName[entities.Project])
+	if cErr != nil {
+		return nil, cErr
+	}
+
+	return projects, nil
 }
 
 func (p *ProjectsDatabaseRepository) CreateAll(ctx context.Context, projects []entities.Project) error {
