@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/supabase/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/presentation/scheduler/sync_projects_scheduler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/github/github_service_mock.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/github/github_service_mock.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
